@@ -1,6 +1,5 @@
 import requests
 import time
-import json
 
 # Try to get a OAuth token for the user.
 # If unsuccessful, it will return None.
@@ -97,7 +96,3 @@ def request_user_token(client_id, device_response):
         # If we didn't get an error, return the token.
         else:
             return user_token_response['access_token']
-
-#for testing purposes
-#client_id = json.load(open('secret.json'))['client_id']
-#authenticate_user(client_id, 'public_repo')
