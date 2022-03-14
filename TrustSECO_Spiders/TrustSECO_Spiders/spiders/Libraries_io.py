@@ -1,3 +1,5 @@
+# This file is not necessary
+
 import scrapy
 
 class LibrariesItem(scrapy.Item):
