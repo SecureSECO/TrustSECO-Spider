@@ -28,6 +28,7 @@ def authenticate_user(client_id):
             print("Error: Could not get user token.")
         # If we did get an OAuth token, return it.
         else:
+            print("Successfully authenticated user.")
             return user_token
 
 # Request a device token from GitHub.

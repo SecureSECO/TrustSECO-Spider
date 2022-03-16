@@ -1,5 +1,5 @@
 import requests
-import json
+from datetime import datetime
 
 """doctsting"""
 class GitHubAPICall:
@@ -12,12 +12,28 @@ class GitHubAPICall:
     # Get the information of the owner, of the repository, and of the specific version.
     def get_all_data(self, owner, repo, version, year, user_token):
         # Get the individual data-points
+        print('Getting repository data...')
         repository_data = self.get_basic_repository_data(owner, repo, user_token)
+        print('Getting version data...')
         version_data = self.get_version_data(owner, repo, version, user_token)
+        print('Getting owner data...')
         owner_data = self.get_owner_data(owner, user_token)
+        print('Getting contributor count...')
         contributor_count = self.get_repository_contributor_count(owner, repo, user_token)
+        print('Getting GitStar ranking...')
         gitstar_ranking = self.get_gitstar_ranking(owner, repo, repository_data['language'], user_token, repository_data['stargazers_count'])
+        print('Getting yearly commit count...')
         yearly_commit_count = self.get_yearly_commit_count(owner, repo, user_token)
+        print('Getting commit count in year' + str(year) + '...')
+        commit_count_in_year = self.get_commit_count_in_year(owner, repo, year, user_token)
+        print('Getting total download count...')
+        total_download_count = self.get_total_download_count(owner, repo, user_token)
+        print('Getting download count of version ' + version + '...')
+        version_download_count = self.get_version_download_count(owner, repo, version, user_token)
+        print('Getting zero-response issues count...')
+        zero_response_issues_count = self.get_zero_responses_issue_count(owner, repo, user_token)
+        print('Getting average issue resolution time...')
+        average_issue_resolution_time = self.get_average_issue_resolution_time(owner, repo, user_token)
         
         # Return a JSON object containing all the data
         return {
@@ -26,7 +42,12 @@ class GitHubAPICall:
             'owner_data': owner_data,
             'contributor_count': contributor_count,
             'gitstar_ranking': gitstar_ranking,
-            'yearly_commit_count': yearly_commit_count
+            'yearly_commit_count': yearly_commit_count,
+            'commit_count_in_year': commit_count_in_year,
+            'total_download_count': total_download_count,
+            'version_download_count': version_download_count,
+            'zero_response_issues_count': zero_response_issues_count,
+            'average_issue_resolution_time': average_issue_resolution_time
         }
 
     # Get the basic information about the given repository
@@ -138,7 +159,7 @@ class GitHubAPICall:
             return None
 
     # Get the amount of commits in the given year
-    def get_specific_yearly_commit_count(self, owner, repo, year, user_token):
+    def get_commit_count_in_year(self, owner, repo, year, user_token):
         # Get the commits for the given year
         commits_url = self.base_url_repos + owner + '/' + repo + '/commits?per_page=100&since=' + str(year) + '-01-01T00:00:00Z&until=' + str(year) + '-12-31T23:59:59Z'
         commits_data = self.make_api_call(commits_url, user_token)
@@ -214,6 +235,71 @@ class GitHubAPICall:
         
         # Return the total download count
         return total_version_download_count
+
+    # Get the total amount of issues that have no responses
+    def get_zero_responses_issue_count(self, owner, repo, user_token):
+        issues_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=open&sort=comments&direction=asc'
+        issues_data = self.make_api_call(issues_url, user_token)
+        last_full_no_responses_page = 0
+
+        while True:
+            # See if there are more pages AND the last issue on this page has no responses
+            # As if that is the case, we need to take a look a the next page
+            if 'next' in issues_data.links and issues_data.json()[-1]['comments'] == 0:
+                last_full_no_responses_page += 1
+                issues_url = issues_data.links['next']['url'] + '&per_page=100&state=open&sort=comments&direction=asc'
+                issues_data = self.make_api_call(issues_url, user_token)
+            # Else if there are no more pages, and the last issue on this page has no responses
+            # Then this whole page must be full of 0-response issues, so return the total number of seen issues
+            # We do last_full_no_responses_page + 1 because it refers to the previous page, and we need to add the current page to it
+            elif issues_data.json()[-1]['comments'] == 0:
+                return (last_full_no_responses_page + 1) * 100
+            # Else, the final 0-responses issue must be somewhere within this page
+            # So we need to find the index of it, and return it summed up with the total number of seen issues
+            else:
+                # Find the index of the final 0-responses issue
+                last_no_response_index = 0
+                for i in range(len(issues_data.json())):
+                    if issues_data.json()[i]['comments'] == 0:
+                        last_no_response_index = i
+                    elif issues_data.json()[i]['comments'] > 0:
+                        break
+                
+                # Return the total number of seen issues + the index of the last 0-response issue
+                return (last_full_no_responses_page * 100) + last_no_response_index
+
+    # Get the average resolution time of the last 200 issues
+    # Returns the average resolution time in seconds
+    def get_average_issue_resolution_time(self, owner, repo, user_token):
+        # Get the first page of closed issues
+        issue_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=closed&sort=created&direction=desc'
+        issue_data = self.make_api_call(issue_url, user_token)
+
+        # Add the issues of the first page to the JSON object
+        all_issues = issue_data.json()
+
+        # If there are more pages, add the next 100 issues to the JSON object as well
+        # For now, we only use a maximum of 200 issues, as otherwise we would be making too many API calls
+        if 'next' in issue_data.links:
+            issue_url = issue_data.links['next']['url'] + '&per_page=100&state=closed&sort=created&direction=desc'
+            issue_data = self.make_api_call(issue_url, user_token)
+            all_issues += issue_data.json()
+
+        # Variable to store the total resolution time in seconds
+        total_resolution_time = 0
+
+        # Loop through all the issues, and add up the time between the issue creation and the issue resolution
+        for issue in all_issues:
+            # Calculate the resolution time
+            creation_date = datetime.strptime(issue['created_at'], '%Y-%m-%dT%H:%M:%SZ')
+            closure_date = datetime.strptime(issue['closed_at'], '%Y-%m-%dT%H:%M:%SZ')
+            issue_resolution_time = closure_date - creation_date
+            
+            # Add the resolution time to the total
+            total_resolution_time += issue_resolution_time.seconds
+
+        # Return the average resolution time
+        return total_resolution_time / len(all_issues)
 
     # Perform a simple GET request, based off the given URL
     def make_api_call(self, api_url, user_token, given_headers = None):
