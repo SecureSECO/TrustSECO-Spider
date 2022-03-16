@@ -3,10 +3,10 @@ import time
 
 # Try to get a OAuth token for the user.
 # If unsuccessful, it will return None.
-def authenticate_user(client_id, scope):
+def authenticate_user(client_id):
     # Request a device token from GitHub
     # This is used to request an OAuth token for the user.
-    device_response = request_device_token_info(client_id, scope)
+    device_response = request_device_token_info(client_id)
 
     # See if we succesfully got a device token.
     # If not, tell the user, and exit.
@@ -17,6 +17,7 @@ def authenticate_user(client_id, scope):
     else:
         # Print the device verification code so the user can use it to get the OAuth token.
         print('User code: ' + device_response['user_code'])
+        print('Verification URL: ' + device_response['verification_uri'])
 
         # Try to get the user's OAuth token.
         user_token = request_user_token(client_id, device_response)
@@ -25,15 +26,14 @@ def authenticate_user(client_id, scope):
         # If not, tell the user, and exit.
         if user_token == None:
             print("Error: Could not get user token.")
-            return None
         # If we did get an OAuth token, return it.
         else:
             return user_token
 
 # Request a device token from GitHub.
-def request_device_token_info(client_id, scope):
+def request_device_token_info(client_id):
     # Request the token using our client ID, with scope of public_repo to only target public repos.
-    response = requests.post('https://github.com/login/device/code', data={ 'scope' : scope, 'client_id' : client_id }, headers={ 'Accept' : 'application/json' })
+    response = requests.post('https://github.com/login/device/code', data={ 'client_id' : client_id }, headers={ 'Accept' : 'application/json' })
 
     # See if the post request was successful.
     # If not, tell the user, and exit.
@@ -66,7 +66,6 @@ def request_user_token(client_id, device_response):
         # If so, inform the user of whic error occured, and either sleep or exit.
         if 'error' in user_token_response:
             if user_token_response['error'] == 'authorization_pending':
-                print("Waiting for verification...")
                 time.sleep(interval)
                 continue
             elif user_token_response['error'] == 'slow_down':
