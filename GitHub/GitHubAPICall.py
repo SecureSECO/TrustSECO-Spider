@@ -24,7 +24,7 @@ class GitHubAPICall:
         gitstar_ranking = self.get_gitstar_ranking(owner, repo, repository_data['language'], user_token, repository_data['stargazers_count'])
         print('Getting yearly commit count...')
         yearly_commit_count = self.get_yearly_commit_count(owner, repo, user_token)
-        print('Getting commit count in year' + str(year) + '...')
+        print('Getting commit count in year ' + str(year) + '...')
         commit_count_in_year = self.get_commit_count_in_year(owner, repo, year, user_token)
         print('Getting total download count...')
         total_download_count = self.get_total_download_count(owner, repo, user_token)
@@ -80,6 +80,11 @@ class GitHubAPICall:
         # Get the contributors of the repository
         contributors_url = self.base_url_repos + owner + '/' + repo + '/contributors?per_page=100&anon=1'
         contributors_data = self.make_api_call(contributors_url, user_token)
+        
+        # Very simple error handling
+        if contributors_data is None:
+            print('Error occured while getting the contributor count.')
+            return None
 
         # See if this repository has multiple pages of contributors
         if 'last' in contributors_data.links:
@@ -102,17 +107,22 @@ class GitHubAPICall:
     # Else, return the ranking
     def get_gitstar_ranking(self, owner, repo, language, user_token, star_count):
         # Perform a basic search to list all the repositories in the given language, sorted by their stargazer count
-        api_url = self.base_url_search + 'stars:>0+language:' + language + '&sort=stars&order=desc&per_page=100'
-        data = self.make_api_call(api_url, user_token)
+        ranking_url = self.base_url_search + 'stars:>0+language:' + language + '&sort=stars&order=desc&per_page=100'
+        ranking_data = self.make_api_call(ranking_url, user_token)
+        
+        # Very simple error handling
+        if ranking_data is None:
+            print('Error occured while getting the GitStar ranking.')
+            return None
 
         # See if the result has multiple pages
         # If it does, perform a binary search to find the page with the given repository
-        if 'last' in data.links:
+        if 'last' in ranking_data.links:
             # Get the total amount of pages
-            page_count = data.links['last']['url'].split('=')[-1]
+            page_count = ranking_data.links['last']['url'].split('=')[-1]
 
             # Make sure that our repository's stargazer count is above the lowest query-able stargazer count
-            final_page_data = self.make_api_call(data.links['last']['url'], user_token)
+            final_page_data = self.make_api_call(ranking_data.links['last']['url'], user_token)
             final_repo_star_count = final_page_data.json()['items'][-1]['stargazers_count']
             # If the our count is lower, return none
             if final_repo_star_count > star_count:
@@ -121,12 +131,12 @@ class GitHubAPICall:
             # Perform binary searching to find the correct page
             lower_bound = 0
             upper_bound = int(page_count)
-            base_url = api_url + '&page='
+            base_url = ranking_url + '&page='
             while True:
                 # Calculate the index of the middle page, and get the data from that page
                 middle_page_number = int((upper_bound + lower_bound) / 2)
-                api_url = base_url + str(middle_page_number)
-                page_data = self.make_api_call(api_url, user_token).json()
+                ranking_url = base_url + str(middle_page_number)
+                page_data = self.make_api_call(ranking_url, user_token).json()
 
                 # Get the highest and lowest stargazer counts from the query
                 page_highest_star_count = page_data['items'][0]['stargazers_count']
@@ -151,7 +161,7 @@ class GitHubAPICall:
         # Else, the repository should be on the first page
         else:
             # Find the repository in the page
-            for repo in data.json()['items']:
+            for repo in ranking_data.json()['items']:
                 if repo['full_name'] == owner + '/' + repo:
                     return repo['stargazers_count']
             
@@ -163,6 +173,11 @@ class GitHubAPICall:
         # Get the commits for the given year
         commits_url = self.base_url_repos + owner + '/' + repo + '/commits?per_page=100&since=' + str(year) + '-01-01T00:00:00Z&until=' + str(year) + '-12-31T23:59:59Z'
         commits_data = self.make_api_call(commits_url, user_token)
+        
+        # Very simple error handling
+        if commits_data is None:
+            print('Error occured while getting the commit count in the year ' + str(year), '.')
+            return None
 
         # See if there are multiple pages of commits
         if 'last' in commits_data.links:
@@ -185,6 +200,11 @@ class GitHubAPICall:
         # Get all the commits for the past year
         commits_url = self.base_url_repos + owner + '/' + repo + '/stats/commit_activity'
         commits_data = self.make_api_call(commits_url, user_token)
+        
+        # Very simple error handling
+        if commits_data is None:
+            print('Error occured while getting the yearly commit count.')
+            return None
 
         # Sum all the weekly commit counts
         total_commits = 0
@@ -199,6 +219,11 @@ class GitHubAPICall:
         # Get the first page of releases
         releases_url = self.base_url_repos + owner + '/' + repo + '/releases?per_page=100'
         releases_data = self.make_api_call(releases_url, user_token)
+        
+        # Very simple error handling
+        if releases_data is None:
+            print('Error occured while getting the total download count.')
+            return None
         
         # Get the total download count
         total_download_count = 0
@@ -226,6 +251,11 @@ class GitHubAPICall:
         # Get the information for the given release
         version_url = self.base_url_repos + owner + '/' + repo + '/releases/tags/' + version
         version_data = self.make_api_call(version_url, user_token)
+        
+        # Very simple error handling
+        if version_data is None:
+            print('Error occured while getting the download count of release ' + version + '.')
+            return None
 
         # Get the download count per non-text released asset
         total_version_download_count = 0
@@ -241,6 +271,11 @@ class GitHubAPICall:
         issues_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=open&sort=comments&direction=asc'
         issues_data = self.make_api_call(issues_url, user_token)
         last_full_no_responses_page = 0
+        
+        # Very simple error handling
+        if issues_data is None:
+            print('Error occured while getting the 0-response-issues count.')
+            return None
 
         while True:
             # See if there are more pages AND the last issue on this page has no responses
@@ -274,6 +309,11 @@ class GitHubAPICall:
         # Get the first page of closed issues
         issue_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=closed&sort=created&direction=desc'
         issue_data = self.make_api_call(issue_url, user_token)
+        
+        # Very simple error handling
+        if issue_data is None:
+            print('Error occured while getting the average issue resolution time.')
+            return None
 
         # Add the issues of the first page to the JSON object
         all_issues = issue_data.json()
