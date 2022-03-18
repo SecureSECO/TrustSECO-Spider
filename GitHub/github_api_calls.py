@@ -13,6 +13,7 @@ class GitHubAPICall:
         self.base_url_repos  = "https://api.github.com/repos/"
         self.base_url_users  = "https://api.github.com/users/"
         self.base_url_search = "https://api.github.com/search/"
+        self.base_url_orgs   = "https://api.github.com/orgs/"
         self.base_url_rate   = "https://api.github.com/rate_limit"
 
         # Rate limit variables
@@ -38,9 +39,9 @@ class GitHubAPICall:
         self.rate_remaining   = int(rate_limit_data['rate']['remaining'])
 
         # Tell the user how many API calls they have left
-        print('Core rate-limit remaining: ' + str(self.core_remaining))
+        print('Core rate-limit remaining: '   + str(self.core_remaining))
         print('Search rate-limit remaining: ' + str(self.search_remaining))
-        print('Rate rate-limit remaining: ' + str(self.rate_remaining))
+        print('Rate rate-limit remaining: '   + str(self.rate_remaining))
 
     def get_all_data(self, owner, repo, version, year, user_token):
         """
@@ -478,6 +479,35 @@ class GitHubAPICall:
             # Else, there are no more pages, so return None for both dates
             else:
                 return (None, None)
+
+    def get_owner_stargazer_count(self, owner, user_token):
+        """
+        Get the stargazer count of the given owner
+
+        Can take a lot of API calls and time, as an owner can have a lot of repositories
+        """
+        print('Getting stargazer count for owner ' + owner + '...')
+
+        # Get the stargazer count
+        stargazer_url = self.base_url_orgs + owner + '/repos?per_page=100'
+        stargazer_data = self.make_api_call(stargazer_url, user_token, self.CORE)
+
+        total_stargazer_count = 0
+
+        while True:
+            # Loop through all the repositories of the owner
+            for repo in stargazer_data.json():
+                # Add the stargazer count of the current repository to the total
+                total_stargazer_count += repo['stargazers_count']
+
+            # If there is a next page, update stargazer_data
+            if 'next' in stargazer_data.links:
+                # Update stargazer_data by making a new API call to the given next page
+                stargazer_url = stargazer_data.links['next']['url'] + '&per_page=100'
+                stargazer_data = self.make_api_call(stargazer_url, user_token, self.CORE)
+            # Else, there are no more pages, so return the total stargazer count
+            else:
+                return total_stargazer_count
 
     def make_api_call(self, api_url, user_token, call_type, given_headers = None):
         """
