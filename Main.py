@@ -1,19 +1,23 @@
-from GitHub.GitHubAPICall import GitHubAPICall
-from GitHub.GitHubToken import authenticate_user
+"""
+Basic main file, purely for demonstration purposes.
+"""
+
 import json
+from GitHub.github_api_calls import GitHubAPICall
+from GitHub.github_get_token import authenticate_user
 
 # This file currently only contains a basic script in order to show off the current functionality
 g = GitHubAPICall()
 # Get the data
 all_data = g.get_all_data(
     # Owner
-    'numpy', 
+    'numpy',
     # Repository
-    'numpy', 
+    'numpy',
     # Version
-    'v1.22.3', 
+    'v1.22.3',
     # Commit year
-    2021, 
+    2021,
     # User gitHub token
     authenticate_user(
         # Temporary testing client-id

@@ -151,6 +151,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# File that contains the client_id, needed for OAuth
-# Gotta do this until we decide on how we can best store these secrets.
-/GitHub/secret.json
+.vscode

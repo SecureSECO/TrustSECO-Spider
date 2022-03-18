@@ -1,15 +1,23 @@
-import requests
+"""file for executing api calls to github"""
+
 from datetime import datetime
+import requests
+
 
 class GitHubAPICall:
+    """main class for doing stuff"""
+
     # Base URLs
     def __init__(self):
         self.base_url_repos  = "https://api.github.com/repos/"
         self.base_url_users  = "https://api.github.com/users/"
-        self.base_url_search = "https://api.github.com/search/repositories?q="
+        self.base_url_search = "https://api.github.com/search/"
 
-    # Get the information of the owner, of the repository, and of the specific version.
     def get_all_data(self, owner, repo, version, year, user_token):
+        """
+        Returns all the data that this program can get from GitHub
+        """
+
         # Get the individual data-points
         print('Getting repository data...')
         repository_data = self.get_basic_repository_data(owner, repo, user_token)
@@ -33,7 +41,9 @@ class GitHubAPICall:
         zero_response_issues_count = self.get_zero_responses_issue_count(owner, repo, user_token)
         print('Getting average issue resolution time...')
         average_issue_resolution_time = self.get_average_issue_resolution_time(owner, repo, user_token)
-        
+        print('Getting issue count for version ' + version + '...')
+        version_issue_count = self.issue_count_per_version(owner, repo, version, user_token)
+
         # Return a JSON object containing all the data
         return {
             'repository_data': repository_data,
@@ -46,40 +56,52 @@ class GitHubAPICall:
             'total_download_count': total_download_count,
             'version_download_count': version_download_count,
             'zero_response_issues_count': zero_response_issues_count,
-            'average_issue_resolution_time': average_issue_resolution_time
+            'average_issue_resolution_time': average_issue_resolution_time,
+            'version_issue_count': version_issue_count
         }
 
-    # Get the basic information about the given repository
-    # Contains the language, #open_issues, 
     def get_basic_repository_data(self, owner, repo, user_token):
+        """
+        Get the basic information about the given repository
+        """
+
         # Get the basic repository data
         repository_data = self.make_api_call(self.base_url_repos + owner + '/' + repo, user_token)
 
         # Return the data
         return repository_data.json()
 
-    # Get information about a specific version/release of a repository
     def get_version_data(self, owner, repo, version, user_token):
+        """
+        Get information about a specific version/release of a repository
+        """
+
         # Get the basic repository data
         version_data = self.make_api_call(self.base_url_repos + owner + '/' + repo + '/releases/tags/' + version, user_token)
 
         # Return the data
         return version_data.json()
 
-    # Get the basic information about the repository owner
     def get_owner_data(self, owner, user_token):
+        """
+        Get the basic information about the repository owner
+        """
+
         # Get the user data
         owner_data = self.make_api_call(self.base_url_users + owner, user_token)
 
         # Return the data
         return owner_data.json()
 
-    # Get the amount of contributors of the given repository
     def get_repository_contributor_count(self, owner, repo, user_token):
+        """
+        Get the amount of contributors of the given repository
+        """
+
         # Get the contributors of the repository
         contributors_url = self.base_url_repos + owner + '/' + repo + '/contributors?per_page=100&anon=1'
         contributors_data = self.make_api_call(contributors_url, user_token)
-        
+
         # Very simple error handling
         if contributors_data is None:
             print('Error occured while getting the contributor count.')
@@ -101,14 +123,16 @@ class GitHubAPICall:
         # Return the total contributor count
         return (page_count - 1) * 100 + final_page_contributor_count
 
-    # Get the GitStar ranking of the given repository
-    # If the repository is not ranked, return None
-    # Else, return the ranking
     def get_gitstar_ranking(self, owner, repo, language, user_token, star_count):
+        """
+        Get the GitStar ranking of the given repository
+        If the repository is not ranked, return None
+        Else, return the ranking
+        """
         # Perform a basic search to list all the repositories in the given language, sorted by their stargazer count
-        ranking_url = self.base_url_search + 'stars:>0+language:' + language + '&sort=stars&order=desc&per_page=100'
+        ranking_url = self.base_url_search + 'repositories?q=stars:>0+language:' + language + '&sort=stars&order=desc&per_page=100'
         ranking_data = self.make_api_call(ranking_url, user_token)
-        
+
         # Very simple error handling
         if ranking_data is None:
             print('Error occured while getting the GitStar ranking.')
@@ -160,19 +184,22 @@ class GitHubAPICall:
         # Else, the repository should be on the first page
         else:
             # Find the repository in the page
-            for repo in ranking_data.json()['items']:
-                if repo['full_name'] == owner + '/' + repo:
-                    return repo['stargazers_count']
-            
+            for current_repo in ranking_data.json()['items']:
+                if current_repo['full_name'] == owner + '/' + current_repo:
+                    return current_repo['stargazers_count']
+
             # If we didn't find the repository, return None
             return None
 
-    # Get the amount of commits in the given year
     def get_commit_count_in_year(self, owner, repo, year, user_token):
+        """
+        Get the amount of commits in the given year
+        """
+
         # Get the commits for the given year
         commits_url = self.base_url_repos + owner + '/' + repo + '/commits?per_page=100&since=' + str(year) + '-01-01T00:00:00Z&until=' + str(year) + '-12-31T23:59:59Z'
         commits_data = self.make_api_call(commits_url, user_token)
-        
+
         # Very simple error handling
         if commits_data is None:
             print('Error occured while getting the commit count in the year ' + str(year), '.')
@@ -193,13 +220,17 @@ class GitHubAPICall:
 
         # Return the amount of commits
         return (page_count - 1) * 100 + final_page_commit_count
-    
-    # Get the amount of commits in the last year
+
     def get_yearly_commit_count(self, owner, repo, user_token):
+        """
+        Get the amount of commits in the last year
+        This 'last year' is counted from the current date
+        """
+
         # Get all the commits for the past year
         commits_url = self.base_url_repos + owner + '/' + repo + '/stats/commit_activity'
         commits_data = self.make_api_call(commits_url, user_token)
-        
+
         # Very simple error handling
         if commits_data is None:
             print('Error occured while getting the yearly commit count.')
@@ -213,17 +244,20 @@ class GitHubAPICall:
         # Return the total commits
         return total_commits
 
-    # Get the total amount of downloads of this package
     def get_total_download_count(self, owner, repo, user_token):
+        """
+        Get the total amount of downloads of this repository
+        """
+
         # Get the first page of releases
         releases_url = self.base_url_repos + owner + '/' + repo + '/releases?per_page=100'
         releases_data = self.make_api_call(releases_url, user_token)
-        
+
         # Very simple error handling
         if releases_data is None:
             print('Error occured while getting the total download count.')
             return None
-        
+
         # Get the total download count
         total_download_count = 0
         while True:
@@ -232,7 +266,7 @@ class GitHubAPICall:
                 for asset in release['assets']:
                     if 'application' in asset['content_type']:
                         total_download_count += asset['download_count']
-            
+
             # See if we still have pages to go
             # If so, make an API call to the next page
             if 'next' in releases_data.links:
@@ -245,12 +279,15 @@ class GitHubAPICall:
         # Return the total download count
         return total_download_count
 
-    # Get the total amount of downloads of a specific version
     def get_version_download_count(self, owner, repo, version, user_token):
+        """
+        Get the total amount of downloads of a specific version
+        """
+
         # Get the information for the given release
         version_url = self.base_url_repos + owner + '/' + repo + '/releases/tags/' + version
         version_data = self.make_api_call(version_url, user_token)
-        
+
         # Very simple error handling
         if version_data is None:
             print('Error occured while getting the download count of release ' + version + '.')
@@ -261,16 +298,20 @@ class GitHubAPICall:
         for asset in version_data.json()['assets']:
             if 'application' in asset['content_type']:
                 total_version_download_count += asset['download_count']
-        
+
         # Return the total download count
         return total_version_download_count
 
-    # Get the total amount of issues that have no responses
     def get_zero_responses_issue_count(self, owner, repo, user_token):
+        """
+        Get the total amount of issues that have no responses
+        """
+
+        # Get the first page of issues
         issues_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=open&sort=comments&direction=asc'
         issues_data = self.make_api_call(issues_url, user_token)
         last_full_no_responses_page = 0
-        
+
         # Very simple error handling
         if issues_data is None:
             print('Error occured while getting the 0-response-issues count.')
@@ -298,17 +339,20 @@ class GitHubAPICall:
                         last_no_response_index = i
                     elif issues_data.json()[i]['comments'] > 0:
                         break
-                
+
                 # Return the total number of seen issues + the index of the last 0-response issue
                 return (last_full_no_responses_page * 100) + last_no_response_index
 
-    # Get the average resolution time of the last 200 issues
-    # Returns the average resolution time in seconds
     def get_average_issue_resolution_time(self, owner, repo, user_token):
+        """
+        Get the average resolution time of the last 200 issues
+        Returns the average resolution time in seconds
+        """
+
         # Get the first page of closed issues
         issue_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=closed&sort=created&direction=desc'
         issue_data = self.make_api_call(issue_url, user_token)
-        
+
         # Very simple error handling
         if issue_data is None:
             print('Error occured while getting the average issue resolution time.')
@@ -333,15 +377,83 @@ class GitHubAPICall:
             creation_date = datetime.strptime(issue['created_at'], '%Y-%m-%dT%H:%M:%SZ')
             closure_date = datetime.strptime(issue['closed_at'], '%Y-%m-%dT%H:%M:%SZ')
             issue_resolution_time = closure_date - creation_date
-            
+
             # Add the resolution time to the total
             total_resolution_time += issue_resolution_time.seconds
 
         # Return the average resolution time
         return total_resolution_time / len(all_issues)
 
-    # Perform a simple GET request, based off the given URL
+    def issue_count_per_version(self, owner, repo, version, user_token):
+        """
+        Get the publish date of the given version
+        and the version after it (if it exists)
+
+        Then perform a search API call to find all issues that were posted between those dates
+        """
+
+        # Get the publish dates of the given version and the version after it
+        (given_version_date, next_version_date) = self.get_version_dates(owner, repo, version, user_token)
+
+        if next_version_date is None:
+            # Get the total amount of issues that were posted between those dates
+            issues_url = self.base_url_search + 'issues?q=is:issue+created:' + given_version_date + '..*+repo:' + owner + '/' + repo + '&per_page=100&repo='
+            issues_data = self.make_api_call(issues_url, user_token)
+            issue_count = issues_data.json()['total_count']
+        else:
+            # Get the total amount of issues that were posted between those dates
+            issues_url = self.base_url_search + 'issues?q=is:issue+created:' + given_version_date + '..' + next_version_date +'+repo:' + owner + '/' + repo + '&per_page=100'
+            issues_data = self.make_api_call(issues_url, user_token)
+            issue_count = issues_data.json()['total_count']
+
+        # Return this count
+        return issue_count
+
+    def get_version_dates(self, owner, repo, version, user_token):
+        """
+        Get the publish date of the given version and the version after it (if it exists)
+        Presumes that the repository
+        """
+
+        # Get the information about the first releases
+        releases_url = self.base_url_repos + owner + '/' + repo + '/releases?per_page=100'
+        releases_data = self.make_api_call(releases_url, user_token)
+        previous_page = None
+
+        while True:
+            # See if the current version is within the current page
+            for i in range(len(releases_data.json())):
+                # If it is, and there is an entry before the current one (aka later in time)
+                # Return the publish dates of both
+                if releases_data.json()[i]['tag_name'] == version and i > 0:
+                    return (releases_data.json()[i]['published_at'], releases_data.json()[i - 1]['published_at'])
+
+                # If it is, and there is no entry before the current one, but we have a previous page
+                # Return the publish date of the current version and the publish date of the last version on the previous page
+                if releases_data.json()[i]['tag_name'] == version and i == 0 and previous_page is None:
+                    # If it is, return the publish date of the current version
+                    return (releases_data.json()[i]['published_at'], None)
+                # Else, there is no entry after the current one, so return the publish date of the given version and None
+                elif releases_data.json()[i]['tag_name'] == version and i == 0 and not previous_page is None:
+                    # If it is, return the publish date of the current version
+                    return (releases_data.json()[i]['published_at'], previous_page.json()[-1]['published_at'])
+
+            # If there is a next page, update previous_page and releases_data
+            if 'next' in releases_data.links:
+                # If the current version is not within the current page, check the next page
+                previous_page = releases_data
+                # Update releases_data by making a new API call to the given next page
+                releases_url = releases_data.links['next']['url'] + '&per_page=100'
+                releases_data = self.make_api_call(releases_url, user_token)
+            # Else, there are no more pages, so return None for both dates
+            else:
+                return (None, None)
+
     def make_api_call(self, api_url, user_token, given_headers = None):
+        """
+        Perform a simple GET request, based off the given URL
+        """
+
         # Define the header
         headers = {'Authorization': 'token ' + user_token,
                    'Accept': 'application/vnd.github.v3+json'}
@@ -360,5 +472,5 @@ class GitHubAPICall:
             print('Unable to get data from GitHub')
             print('Error: ' + data_response.text)
             data = None
-            
+
         return data
