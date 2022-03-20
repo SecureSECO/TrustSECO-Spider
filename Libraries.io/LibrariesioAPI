@@ -2,52 +2,73 @@ import requests
 import json
 
 class LibrariesioAPICall:
-    number_of_contributors = 0
-
     def __init__(self):
         self.api_key = input("Please enter your Libraries.io API key: ")
     
+    # Get the trust factors mentioned in the trust factor list
+    # https://docs.google.com/spreadsheets/d/1dQeqaBo0aEj4wGsBevtmf2EiVSg6un9q9wUDXS2ydkE/edit#gid=1218869701
+    def return_trust_factors(self, platform, owner, name, api_key):
+        trust_factors = {}
+        project_data = self.get_project_information(platform, name, api_key)
+        repository_data = self.get_repository_information(owner, name, api_key)
+        project_dependencies_data = self.get_project_dependencies(platform, name, 'latest', api_key)
+
+        trust_factors['number_of_github_contributors'] = repository_data['github_contributions_count']
+        trust_factors['number_of_releases'] = len(project_data['versions'])
+        trust_factors['time_of_latest_release'] = project_data['latest_release_published_at']
+        trust_factors['time_of_first_release'] = project_data['versions'][0]['published_at']
+        trust_factors['number_of_dependencies'] = len(project_dependencies_data['dependencies'])
+        trust_factors['number_of_dependent_packages'] = project_data['dependents_count']
+        trust_factors['sourcerank'] = project_data['rank']
+        trust_factors['number_of_dependent_repositors'] = project_data['dependent_repos_count']
+        trust_factors['stars'] = project_data['stars']
+        trust_factors['forks'] = project_data['forks']
+        json_trust_factors = json.dumps(trust_factors)
+        print(json_trust_factors)
+        return json_trust_factors
+
     # Project - Get information about a package and its versions
     # For example, platform: NPM, name: base62, api_key: API key of the user
-    def get_package_and_version_information(self, platform, name, api_key):
+    def get_project_information(self, platform, name, api_key):
         data_response = requests.get('https://libraries.io/api/' + str(platform) + '/' + str(name) + '?api_key=' + str(api_key)).json()
-        print(data_response)
+        return data_response
     
     # Project Dependencies - Get a list of dependencies for a version of a project, pass latest to get dependency info for the latest available version
     # For example, platform: NPM, name: base62, version: 2.0.1 (or latest), api_key: API key of the user
-    def get_dependencies_project(self, platform, name, version, api_key):
+    def get_project_dependencies(self, platform, name, version, api_key):
         data_response = requests.get('https://libraries.io/api/' + str(platform) + '/' + str(name) + '/' + str(version) + '/dependencies?api_key=' + str(api_key)).json()
-        print(data_response)
+        return data_response
     
     # Project Dependents - Get packages that have at least one version that depends on a given project.
     # For example, platform: NPM, name: base62, api_key: API key of the user
     def get_project_dependents(self, platform, name, api_key):
         data_response = requests.get('https://libraries.io/api/' + str(platform) + '/' + str(name) + '/dependents?api_key=' + str(api_key)).json()
-        print(data_response)
+        return data_response
 
     # Project Dependent Repositories - Get repositories that depend on a given project.
     # For example, platform: NPM, name: base62, api_key: API key of the user
     def get_project_dependent_repositories(self, platform, name, api_key):
         data_response = requests.get('https://libraries.io/api/' + str(platform) + '/' + str(name) + '/dependent_repositories?api_key=' + str(api_key)).json()
-        print(data_response)
+        return data_response
 
     # Project Contributors - Get users that have contributed to a given project
     # For example, platform: NPM, name: base62, api_key: API key of the user
     def get_project_contributers(self, platform, name, api_key):
         data_response = requests.get('https://libraries.io/api/' + str(platform) + '/' + str(name) + '/contributors?api_key=' + str(api_key)).json()
-        print(data_response)
+        return data_response
 
     # Project SourceRank - Get breakdown of SourceRank score for a given project
     # For example, platform: NPM, name: base62, api_key: API key of the user
     def get_project_sourcerank(self, platform, name, api_key):
         data_response = requests.get('https://libraries.io/api/' + str(platform) + '/' + str(name) + '/sourcerank?api_key=' + str(api_key)).json()
-        print(data_response)
+        return data_response
 
     # Repository - Get info for a repository. Currently only works for open source repositories.
     # For example, owner: gruntjs, name: grunt, api_key: API key of the user
     def get_repository_information(self, owner, name, api_key):
         data_response = requests.get('https://libraries.io/api/github/' + str(owner) + '/' + str(name) + '?api_key=' + str(api_key)).json()
-        print(data_response)
-        global number_of_contributors
-        print(data_response['github_contributions_count'])
-        number_of_contributors = int(data_response['github_contributions_count'])
+        return data_response
+
+# Example usage
+# l = LibrariesioAPICall()
+# l.return_trust_factors('npm', 'gruntjs', 'grunt', l.api_key)
