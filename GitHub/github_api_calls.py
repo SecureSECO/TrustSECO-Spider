@@ -5,7 +5,11 @@ File for executing api calls to github
 
 from datetime import datetime
 import requests
-import github_constants as gc
+
+try:
+    import github_constants as gc
+except NameError:
+    import GitHub.github_constants as gc
 
 class GitHubAPICall:
     """
