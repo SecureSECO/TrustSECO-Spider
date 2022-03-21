@@ -1,30 +1,23 @@
-"""file for executing api calls to github"""
+# pylint: disable=C0200,C0301
+"""
+File for executing api calls to github
+"""
 
 from datetime import datetime
 import requests
-
+import github_constants as gc
 
 """doctsting"""
 class GitHubAPICall:
-    """main class for doing stuff"""
+    """
+    Class methods for getting data from GitHub
+    """
 
     def __init__(self):
-        # Base URLs for the GitHub API
-        self.base_url_repos  = "https://api.github.com/repos/"
-        self.base_url_users  = "https://api.github.com/users/"
-        self.base_url_search = "https://api.github.com/search/"
-        self.base_url_orgs   = "https://api.github.com/orgs/"
-        self.base_url_rate   = "https://api.github.com/rate_limit"
-
         # Rate limit variables
         self.core_remaining   = 0
         self.search_remaining = 0
         self.rate_remaining   = 0
-
-        # Constants for API call types
-        self.CORE   = 'core'
-        self.SEARCH = 'search'
-        self.RATE   = 'rate'
 
     def set_rate_limit_data(self, user_token):
         """
@@ -32,16 +25,15 @@ class GitHubAPICall:
         """
 
         # Get the rate limit information
-        rate_limit_data = self.make_api_call(self.base_url_rate, user_token, self.RATE).json()
-        print(rate_limit_data)
+        rate_limit_data = self.make_api_call(gc.BASE_URL_RATE, user_token, gc.RATE).json()
         self.core_remaining   = int(rate_limit_data['resources']['core']['remaining'])
         self.search_remaining = int(rate_limit_data['resources']['search']['remaining'])
         self.rate_remaining   = int(rate_limit_data['rate']['remaining'])
 
         # Tell the user how many API calls they have left
-        print('Core rate-limit remaining: '   + str(self.core_remaining))
-        print('Search rate-limit remaining: ' + str(self.search_remaining))
-        print('Rate rate-limit remaining: '   + str(self.rate_remaining))
+        print(f'Core rate-limit remaining: {self.core_remaining}')
+        print(f'Search rate-limit remaining: {self.search_remaining}')
+        print(f'Rate rate-limit remaining: {self.rate_remaining}')
 
     def get_all_data(self, owner, repo, version, year, user_token):
         """
@@ -85,7 +77,8 @@ class GitHubAPICall:
         print('Getting repository data...')
 
         # Get the basic repository data
-        repository_data = self.make_api_call(self.base_url_repos + owner + '/' + repo, user_token, self.CORE)
+        repository_url = f'{gc.BASE_URL_REPOS}/{owner}/{repo}'
+        repository_data = self.make_api_call(repository_url, user_token, gc.CORE)
 
         # Return the data
         return repository_data.json()
@@ -97,7 +90,8 @@ class GitHubAPICall:
         print('Getting version data...')
 
         # Get the basic repository data
-        version_data = self.make_api_call(self.base_url_repos + owner + '/' + repo + '/releases/tags/' + version, user_token, self.CORE)
+        version_url = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/releases/tags/{version}'
+        version_data = self.make_api_call(version_url, user_token, gc.CORE)
 
         # Return the data
         return version_data.json()
@@ -108,8 +102,9 @@ class GitHubAPICall:
         """
         print('Getting owner data...')
 
-        # Get the user data
-        owner_data = self.make_api_call(self.base_url_users + owner, user_token, self.CORE)
+        # Get owner data
+        owner_url = f'{gc.BASE_URL_USERS}/{owner}'
+        owner_data = self.make_api_call(owner_url, user_token, gc.CORE)
 
         # Return the data
         return owner_data.json()
@@ -121,8 +116,8 @@ class GitHubAPICall:
         print('Getting contributor count...')
 
         # Get the contributors of the repository
-        contributors_url = self.base_url_repos + owner + '/' + repo + '/contributors?per_page=100&anon=1'
-        contributors_data = self.make_api_call(contributors_url, user_token, self.CORE)
+        contributors_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/contributors?per_page=100&anon=1'
+        contributors_data = self.make_api_call(contributors_url, user_token, gc.CORE)
 
         # Very simple error handling
         if contributors_data is None:
@@ -132,7 +127,7 @@ class GitHubAPICall:
         # See if this repository has multiple pages of contributors
         if 'last' in contributors_data.links:
             # Get the amount of contributors on the final page
-            final_page_data = self.make_api_call(contributors_data.links['last']['url'], user_token, self.CORE)
+            final_page_data = self.make_api_call(contributors_data.links['last']['url'], user_token, gc.CORE)
             final_page_contributor_count = len(final_page_data.json())
             # Get the total page count
             page_count = int(contributors_data.links['last']['url'].split('=')[-1])
@@ -154,8 +149,8 @@ class GitHubAPICall:
         print('Getting GitStar ranking...')
 
         # Perform a basic search to list all the repositories in the given language, sorted by their stargazer count
-        ranking_url = self.base_url_search + 'repositories?q=stars:>0+language:' + language + '&sort=stars&order=desc&per_page=100'
-        ranking_data = self.make_api_call(ranking_url, user_token, self.SEARCH)
+        ranking_url  = f'{gc.BASE_URL_SEARCH}/repositories?q=stars:>0+language:{language}&sort=stars&order=desc&per_page=100'
+        ranking_data = self.make_api_call(ranking_url, user_token, gc.SEARCH)
 
         # Very simple error handling
         if ranking_data is None:
@@ -169,7 +164,7 @@ class GitHubAPICall:
             page_count = ranking_data.links['last']['url'].split('=')[-1]
 
             # Make sure that our repository's stargazer count is above the lowest query-able stargazer count
-            final_page_data = self.make_api_call(ranking_data.links['last']['url'], user_token, self.SEARCH)
+            final_page_data = self.make_api_call(ranking_data.links['last']['url'], user_token, gc.SEARCH)
             final_repo_star_count = final_page_data.json()['items'][-1]['stargazers_count']
             # If the our count is lower, return none
             if final_repo_star_count > star_count:
@@ -183,13 +178,13 @@ class GitHubAPICall:
                 # Calculate the index of the middle page, and get the data from that page
                 middle_page_number = int((upper_bound + lower_bound) / 2)
                 ranking_url = base_url + str(middle_page_number)
-                page_data = self.make_api_call(ranking_url, user_token, self.SEARCH).json()
+                page_data = self.make_api_call(ranking_url, user_token, gc.SEARCH).json()
 
                 # Get the highest and lowest stargazer counts from the query
                 page_highest_star_count = page_data['items'][0]['stargazers_count']
                 page_lowest_star_count = page_data['items'][-1]['stargazers_count']
 
-                # See if the stargazer count of the wanted repository is within the bounds of the current page
+                # See if the wanted stargazer count is within the bounds of the current page
                 if page_highest_star_count >= star_count and page_lowest_star_count <= star_count:
                     # If so, find the repository in the page
                     for index in range(len(page_data['items'])):
@@ -209,7 +204,7 @@ class GitHubAPICall:
         else:
             # Find the repository in the page
             for current_repo in ranking_data.json()['items']:
-                if current_repo['full_name'] == owner + '/' + current_repo:
+                if current_repo['full_name'] == f'{owner}/{current_repo}':
                     return current_repo['stargazers_count']
 
             # If we didn't find the repository, return None
@@ -223,8 +218,8 @@ class GitHubAPICall:
         print('Getting yearly commit count...')
 
         # Get all the commits for the past year
-        commits_url = self.base_url_repos + owner + '/' + repo + '/stats/commit_activity'
-        commits_data = self.make_api_call(commits_url, user_token, self.CORE)
+        commits_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/stats/commit_activity'
+        commits_data = self.make_api_call(commits_url, user_token, gc.CORE)
 
         # Very simple error handling
         if commits_data is None:
@@ -243,21 +238,21 @@ class GitHubAPICall:
         """
         Get the amount of commits in the given year
         """
-        print('Getting commit count in year ' + str(year) + '...')
+        print(f'Getting commit count in year {year}...')
 
         # Get the commits for the given year
-        commits_url = self.base_url_repos + owner + '/' + repo + '/commits?per_page=100&since=' + str(year) + '-01-01T00:00:00Z&until=' + str(year) + '-12-31T23:59:59Z'
-        commits_data = self.make_api_call(commits_url, user_token, self.CORE)
+        commits_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/commits?per_page=100&since={year}-01-01T00:00:00Z&until={year}-12-31T23:59:59Z'
+        commits_data = self.make_api_call(commits_url, user_token, gc.CORE)
 
         # Very simple error handling
         if commits_data is None:
-            print('Error occured while getting the commit count in the year ' + str(year), '.')
+            print(f'Error occured while getting the commit count in the year {year}.')
             return None
 
         # See if there are multiple pages of commits
         if 'last' in commits_data.links:
             # Get the amount of commits on the final page
-            final_page_data = self.make_api_call(commits_data.links['last']['url'], user_token, self.CORE)
+            final_page_data = self.make_api_call(commits_data.links['last']['url'], user_token, gc.CORE)
             final_page_commit_count = len(final_page_data.json())
             # Get the total page count
             page_count = int(commits_data.links['last']['url'].split('=')[-1])
@@ -277,8 +272,8 @@ class GitHubAPICall:
         print('Getting total download count...')
 
         # Get the first page of releases
-        releases_url = self.base_url_repos + owner + '/' + repo + '/releases?per_page=100'
-        releases_data = self.make_api_call(releases_url, user_token, self.CORE)
+        releases_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/releases?per_page=100'
+        releases_data = self.make_api_call(releases_url, user_token, gc.CORE)
 
         # Very simple error handling
         if releases_data is None:
@@ -298,7 +293,7 @@ class GitHubAPICall:
             # If so, make an API call to the next page
             if 'next' in releases_data.links:
                 releases_url = releases_data.links['next']['url'] + '&per_page=100'
-                releases_data = self.make_api_call(releases_url, user_token, self.CORE)
+                releases_data = self.make_api_call(releases_url, user_token, gc.CORE)
             # Else stop the loop, as we are done
             else:
                 break
@@ -310,15 +305,15 @@ class GitHubAPICall:
         """
         Get the total amount of downloads of a specific version
         """
-        print('Getting download count of version ' + version + '...')
+        print(f'Getting download count of version {version}...')
 
         # Get the information for the given release
-        version_url = self.base_url_repos + owner + '/' + repo + '/releases/tags/' + version
-        version_data = self.make_api_call(version_url, user_token, self.CORE)
+        version_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/releases/tags/{version}'
+        version_data = self.make_api_call(version_url, user_token, gc.CORE)
 
         # Very simple error handling
         if version_data is None:
-            print('Error occured while getting the download count of release ' + version + '.')
+            print(f'Error occured while getting the download count of release {version}.')
             return None
 
         # Get the download count per non-text released asset
@@ -337,8 +332,8 @@ class GitHubAPICall:
         print('Getting zero-response issues count...')
 
         # Get the first page of issues
-        issues_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=open&sort=comments&direction=asc'
-        issues_data = self.make_api_call(issues_url, user_token, self.CORE)
+        issues_url = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/issues?per_page=100&state=open&sort=comments&direction=asc'
+        issues_data = self.make_api_call(issues_url, user_token, gc.CORE)
         last_full_no_responses_page = 0
 
         # Very simple error handling
@@ -352,7 +347,7 @@ class GitHubAPICall:
             if 'next' in issues_data.links and issues_data.json()[-1]['comments'] == 0:
                 last_full_no_responses_page += 1
                 issues_url = issues_data.links['next']['url'] + '&per_page=100&state=open&sort=comments&direction=asc'
-                issues_data = self.make_api_call(issues_url, user_token, self.CORE)
+                issues_data = self.make_api_call(issues_url, user_token, gc.CORE)
             # Else if there are no more pages, and the last issue on this page has no responses
             # Then this whole page must be full of 0-response issues, so return the total number of seen issues
             # We do last_full_no_responses_page + 1 because it refers to the previous page, and we need to add the current page to it
@@ -380,8 +375,8 @@ class GitHubAPICall:
         print('Getting average issue resolution time...')
 
         # Get the first page of closed issues
-        issue_url = self.base_url_repos + owner + '/' + repo + '/issues?per_page=100&state=closed&sort=created&direction=desc'
-        issue_data = self.make_api_call(issue_url, user_token, self.CORE)
+        issue_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/issues?per_page=100&state=closed&sort=created&direction=desc'
+        issue_data = self.make_api_call(issue_url, user_token, gc.CORE)
 
         # Very simple error handling
         if issue_data is None:
@@ -394,8 +389,8 @@ class GitHubAPICall:
         # If there are more pages, add the next 100 issues to the JSON object as well
         # For now, we only use a maximum of 200 issues, as otherwise we would be making too many API calls
         if 'next' in issue_data.links:
-            issue_url = issue_data.links['next']['url'] + '&per_page=100&state=closed&sort=created&direction=desc'
-            issue_data = self.make_api_call(issue_url, user_token, self.CORE)
+            issue_url  = issue_data.links['next']['url'] + '&per_page=100&state=closed&sort=created&direction=desc'
+            issue_data = self.make_api_call(issue_url, user_token, gc.CORE)
             all_issues += issue_data.json()
 
         # Variable to store the total resolution time in seconds
@@ -405,7 +400,7 @@ class GitHubAPICall:
         for issue in all_issues:
             # Calculate the resolution time
             creation_date = datetime.strptime(issue['created_at'], '%Y-%m-%dT%H:%M:%SZ')
-            closure_date = datetime.strptime(issue['closed_at'], '%Y-%m-%dT%H:%M:%SZ')
+            closure_date  = datetime.strptime(issue['closed_at'], '%Y-%m-%dT%H:%M:%SZ')
             issue_resolution_time = closure_date - creation_date
 
             # Add the resolution time to the total
@@ -421,20 +416,20 @@ class GitHubAPICall:
 
         Then perform a search API call to find all issues that were posted between those dates
         """
-        print('Getting issue count for version ' + version + '...')
+        print(f'Getting issue count for version {version}...')
 
         # Get the publish dates of the given version and the version after it
         (given_version_date, next_version_date) = self.get_version_dates(owner, repo, version, user_token)
 
         if next_version_date is None:
             # Get the total amount of issues that were posted between those dates
-            issues_url = self.base_url_search + 'issues?q=is:issue+created:' + given_version_date + '..*+repo:' + owner + '/' + repo + '&per_page=100&repo='
-            issues_data = self.make_api_call(issues_url, user_token, self.SEARCH)
+            issues_url  = f'{gc.BASE_URL_SEARCH}/issues?q=is:issue+created:{given_version_date}..*+repo:{owner}/{repo}&per_page=100'
+            issues_data = self.make_api_call(issues_url, user_token, gc.SEARCH)
             issue_count = issues_data.json()['total_count']
         else:
             # Get the total amount of issues that were posted between those dates
-            issues_url = self.base_url_search + 'issues?q=is:issue+created:' + given_version_date + '..' + next_version_date +'+repo:' + owner + '/' + repo + '&per_page=100'
-            issues_data = self.make_api_call(issues_url, user_token, self.SEARCH)
+            issues_url  = f'{gc.BASE_URL_SEARCH}/issues?q=is:issue+created:{given_version_date}..{next_version_date}+repo:{owner}/{repo}&per_page=100'
+            issues_data = self.make_api_call(issues_url, user_token, gc.SEARCH)
             issue_count = issues_data.json()['total_count']
 
         # Return this count
@@ -447,35 +442,38 @@ class GitHubAPICall:
         """
 
         # Get the information about the first releases
-        releases_url = self.base_url_repos + owner + '/' + repo + '/releases?per_page=100'
-        releases_data = self.make_api_call(releases_url, user_token, self.CORE)
+        releases_url  = f'{gc.BASE_URL_REPOS}/{owner}/{repo}/releases?per_page=100'
+        releases_data = self.make_api_call(releases_url, user_token, gc.CORE)
         previous_page = None
 
         while True:
+            # Get the json data for easy access
+            releases_json = releases_data.json()
+
             # See if the current version is within the current page
-            for i in range(len(releases_data.json())):
+            for i in range(len(releases_json)):
                 # If it is, and there is an entry before the current one (aka later in time)
                 # Return the publish dates of both
-                if releases_data.json()[i]['tag_name'] == version and i > 0:
-                    return (releases_data.json()[i]['published_at'], releases_data.json()[i - 1]['published_at'])
+                if releases_json[i]['tag_name'] == version and i > 0:
+                    return (releases_json[i]['published_at'], releases_json[i - 1]['published_at'])
 
-                # If it is, and there is no entry before the current one, but we have a previous page
-                # Return the publish date of the current version and the publish date of the last version on the previous page
-                if releases_data.json()[i]['tag_name'] == version and i == 0 and previous_page is None:
-                    # If it is, return the publish date of the current version
-                    return (releases_data.json()[i]['published_at'], None)
-                # Else, there is no entry after the current one, so return the publish date of the given version and None
-                if releases_data.json()[i]['tag_name'] == version and i == 0 and not previous_page is None:
-                    # If it is, return the publish date of the current version
-                    return (releases_data.json()[i]['published_at'], previous_page.json()[-1]['published_at'])
+                # If it is and there is no entry before the current one, but we have a previous page
+                # Return the publish date of the current previous version on the previous page
+                if releases_json[i]['tag_name'] == version and i == 0:
+                    # If there is no previous page, return None for the previous version
+                    if previous_page is None:
+                        return (releases_json[i]['published_at'], None)
+
+                    # Else return the publish date of the previous version
+                    return (releases_json[i]['published_at'], previous_page.json()[-1]['published_at'])
 
             # If there is a next page, update previous_page and releases_data
             if 'next' in releases_data.links:
                 # If the current version is not within the current page, check the next page
                 previous_page = releases_data
                 # Update releases_data by making a new API call to the given next page
-                releases_url = releases_data.links['next']['url'] + '&per_page=100'
-                releases_data = self.make_api_call(releases_url, user_token, self.CORE)
+                releases_url  = releases_data.links['next']['url'] + '&per_page=100'
+                releases_data = self.make_api_call(releases_url, user_token, gc.CORE)
             # Else, there are no more pages, so return None for both dates
             else:
                 return (None, None)
@@ -486,11 +484,11 @@ class GitHubAPICall:
 
         Can take a lot of API calls and time, as an owner can have a lot of repositories
         """
-        print('Getting stargazer count for owner ' + owner + '...')
+        print(f'Getting stargazer count for owner {owner}...')
 
         # Get the stargazer count
-        stargazer_url = self.base_url_orgs + owner + '/repos?per_page=100'
-        stargazer_data = self.make_api_call(stargazer_url, user_token, self.CORE)
+        stargazer_url  = f'{gc.BASE_URL_ORGS}/{owner}/repos?per_page=100'
+        stargazer_data = self.make_api_call(stargazer_url, user_token, gc.CORE)
 
         total_stargazer_count = 0
 
@@ -503,8 +501,8 @@ class GitHubAPICall:
             # If there is a next page, update stargazer_data
             if 'next' in stargazer_data.links:
                 # Update stargazer_data by making a new API call to the given next page
-                stargazer_url = stargazer_data.links['next']['url'] + '&per_page=100'
-                stargazer_data = self.make_api_call(stargazer_url, user_token, self.CORE)
+                stargazer_url  = stargazer_data.links['next']['url'] + '&per_page=100'
+                stargazer_data = self.make_api_call(stargazer_url, user_token, gc.CORE)
             # Else, there are no more pages, so return the total stargazer count
             else:
                 return total_stargazer_count
@@ -515,7 +513,7 @@ class GitHubAPICall:
         """
 
         # Ignore these checks if the call_type is RATE
-        if not call_type == self.RATE:
+        if not call_type == gc.RATE:
             if self.search_remaining == 0 or self.core_remaining == 0:
                 print('No API calls left.')
                 print('Fetching new rate limit data...')
@@ -557,7 +555,7 @@ class GitHubAPICall:
                 self.rate_remaining -= 1
         else:
             print('Unable to get data from GitHub')
-            print('Error: ' + data_response.text)
+            print(f'Error: {data_response.text}')
             data = None
             
         return data
