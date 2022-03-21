@@ -26,6 +26,8 @@ class GitHubAPICall:
         self.search_remaining = 0
         self.rate_remaining   = 0
 
+        self.set_rate_limit_data()
+
     def set_rate_limit_data(self):
         """
         Get the rate limit information from GitHub
