@@ -43,7 +43,7 @@ class GitHubAPICall:
         print(f'Search rate-limit remaining: {self.search_remaining}')
         print(f'Rate rate-limit remaining: {self.rate_remaining}')
 
-    def get_all_data(self, owner, repo, version, year):
+    def get_all_data(self, owner, repo, version, year, include_search=False):
         """
         Returns all the data that this program can get from GitHub
         """
@@ -53,14 +53,21 @@ class GitHubAPICall:
         version_data = self.get_version_data(owner, repo, version)
         owner_data = self.get_owner_data(owner)
         contributor_count = self.get_repository_contributor_count(owner, repo)
-        #gitstar_ranking = self.get_gitstar_ranking(owner, repo, repository_data['language'], repository_data['stargazers_count'])
         yearly_commit_count = self.get_yearly_commit_count(owner, repo)
         commit_count_in_year = self.get_commit_count_in_year(owner, repo, year)
         total_download_count = self.get_total_download_count(owner, repo)
         version_download_count = self.get_version_download_count(owner, repo, version)
         zero_response_issues_count = self.get_zero_responses_issue_count(owner, repo)
         average_issue_resolution_time = self.get_average_issue_resolution_time(owner, repo)
-        #version_issue_count = self.issue_count_per_version(owner, repo, version)
+
+        # Get the search data if requested
+        # Seperated because the rate limit for SEARCH is quite low
+        if include_search:
+            gitstar_ranking = self.get_gitstar_ranking(owner, repo, repository_data['language'], repository_data['stargazers_count'])
+            version_issue_count = self.issue_count_per_version(owner, repo, version)
+        else:
+            gitstar_ranking = None
+            version_issue_count = None
 
         # Return a JSON object containing all the data
         return {
@@ -68,14 +75,14 @@ class GitHubAPICall:
             'version_data': version_data,
             'owner_data': owner_data,
             'contributor_count': contributor_count,
-            #'gitstar_ranking': gitstar_ranking,
+            'gitstar_ranking': gitstar_ranking,
             'yearly_commit_count': yearly_commit_count,
             'commit_count_in_year': commit_count_in_year,
             'total_download_count': total_download_count,
             'version_download_count': version_download_count,
             'zero_response_issues_count': zero_response_issues_count,
             'average_issue_resolution_time': average_issue_resolution_time,
-            #'version_issue_count': version_issue_count
+            'version_issue_count': version_issue_count
         }
 
     def get_basic_repository_data(self, owner, repo):
