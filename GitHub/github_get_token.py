@@ -35,6 +35,11 @@ def authenticate_user(client_id):
 
     # If we did get an OAuth token, return it.
     print("Successfully authenticated user.")
+
+    # Write the token to the .env file
+    with open('.env', 'wt', encoding='utf-8') as env_file:
+        env_file.write('GITHUB_TOKEN=' + user_token)
+
     return user_token
 
 def request_device_token_info(client_id):
