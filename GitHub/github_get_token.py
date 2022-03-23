@@ -1,6 +1,11 @@
-"""get token"""
+"""
+Allow the program to use the GitHub Device Flow in order to authenticate the user,
+and get their OAuth token for API calls.
+"""
 
+# For request time-outs
 import time
+# For executing API calls
 import requests
 
 def authenticate_user(client_id):
