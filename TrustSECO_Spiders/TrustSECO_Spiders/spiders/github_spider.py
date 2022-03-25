@@ -57,8 +57,8 @@ class GitHubUsers(scrapy.Spider):
         # Update the items dictionary so we can use the result
         self.items.update({'user_count': user_count})
 
-        # Yield the items as per regular spider conventions
-        yield self.items
+        # Return the items
+        return self.items
 
 
 class GitHubIssueRatio(scrapy.Spider):
@@ -119,5 +119,5 @@ class GitHubIssueRatio(scrapy.Spider):
         else:
             self.items.update({'issue_ratio': open_issues / closed_issues})
 
-        # Yield the items as per regular spider conventions
-        yield self.items
+        # Return the items
+        return self.items
