@@ -40,10 +40,7 @@ def scrapy_demo():
     # Add the wanted spiders to the runner
     user_count = interface.get_repository_user_count('numpy', 'numpy')
     print('User count: ' + str(user_count))
-    issue_ratio = interface.get_repository_user_count('numpy', 'numpy')
-
-    # Print the results
-
+    issue_ratio = interface.get_repository_issue_ratio('numpy', 'numpy')
     print('Issue ratio: ' + str(issue_ratio))
 
 
