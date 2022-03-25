@@ -6,6 +6,7 @@ The implementation of the spider for crawling Github.
 import logging
 import scrapy
 
+
 class GitHubUsers(scrapy.Spider):
     """
     Gets the number of users of the repository
@@ -54,10 +55,11 @@ class GitHubUsers(scrapy.Spider):
                     break
 
         # Update the items dictionary so we can use the result
-        self.items.update({'users':user_count})
+        self.items.update({'user_count': user_count})
 
         # Yield the items as per regular spider conventions
         yield self.items
+
 
 class GitHubIssueRatio(scrapy.Spider):
     """
@@ -101,7 +103,8 @@ class GitHubIssueRatio(scrapy.Spider):
             # The string looks like '\n      x ___issues    \n'
             # So, we remove the newline chars and strip it to get rid of the whitespace
             # Then, we split on ' ' to get [x, '___issues'], of which we get the first element
-            actual_value = value.replace('\n', '').replace(',', '').strip().split(' ')[0]
+            actual_value = value.replace('\n', '').replace(
+                ',', '').strip().split(' ')[0]
 
             # Set the open/closed issues count
             if 'Open' in value:
@@ -111,10 +114,10 @@ class GitHubIssueRatio(scrapy.Spider):
 
         # If we weren't able to find both counts, then return None
         if open_issues is None or closed_issues is None:
-            self.items.update({'issue_ratio':None})
+            self.items.update({'issue_ratio': None})
         # Else, calculate the ratio and return it
         else:
-            self.items.update({'issue_ratio':open_issues/closed_issues})
+            self.items.update({'issue_ratio': open_issues / closed_issues})
 
         # Yield the items as per regular spider conventions
         yield self.items

@@ -8,6 +8,7 @@ import time
 # For executing API calls
 import requests
 
+
 def authenticate_user(client_id):
     """
     Try to get a OAuth token for the user.
@@ -22,7 +23,7 @@ def authenticate_user(client_id):
     # If not, tell the user, and exit.
     if device_response is None:
         print("Error: Could not get device token.")
-        return None
+        return False
 
     # If we did get a device token, try get the user's OAuth token.
     # Print the device verification code so the user can use it to get the OAuth token.
@@ -36,7 +37,7 @@ def authenticate_user(client_id):
     # If not, tell the user, and exit.
     if user_token is None:
         print("Error: Could not get user token.")
-        return None
+        return False
 
     # If we did get an OAuth token, return it.
     print("Successfully authenticated user.")
@@ -45,7 +46,8 @@ def authenticate_user(client_id):
     with open('.env', 'wt', encoding='utf-8') as env_file:
         env_file.write('GITHUB_TOKEN=' + user_token)
 
-    return user_token
+    return True
+
 
 def request_device_token_info(client_id):
     """
@@ -54,8 +56,8 @@ def request_device_token_info(client_id):
     # Request the token using our client ID, with scope of public_repo to only target public repos.
     response = requests.post(
         'https://github.com/login/device/code',
-        data={ 'client_id' : client_id },
-        headers={ 'Accept' : 'application/json' }
+        data={'client_id': client_id},
+        headers={'Accept': 'application/json'}
     )
 
     # See if the post request was successful.
@@ -65,6 +67,7 @@ def request_device_token_info(client_id):
         return None
     # If we did get a response, return it
     return response.json()
+
 
 def request_user_token(client_id, device_response):
     """Use the device token to get the user's OAuth token."""
@@ -84,12 +87,12 @@ def request_user_token(client_id, device_response):
         user_token_response_np = requests.post(
             'https://github.com/login/oauth/access_token',
             data={
-                'client_id' : client_id,
-                'device_code' : device_token,
-                'grant_type' : grant_type
+                'client_id': client_id,
+                'device_code': device_token,
+                'grant_type': grant_type
             },
             headers={
-                'Accept' : 'application/json'
+                'Accept': 'application/json'
             }
         )
 
@@ -111,25 +114,17 @@ def request_user_token(client_id, device_response):
 
             if user_token_response['error'] == 'expired_token':
                 print("Error: Token expired.")
-                return None
-
-            if user_token_response['error'] == 'unsupported_grant_type':
+            elif user_token_response['error'] == 'unsupported_grant_type':
                 print("Error: Unsupported grant type.")
-                return None
-
-            if user_token_response['error'] == 'incorrect_client_credentials':
+            elif user_token_response['error'] == 'incorrect_client_credentials':
                 print("Error: Incorrect client credentials.")
-                return None
-
-            if user_token_response['error'] == 'incorrect_client_credentials':
+            elif user_token_response['error'] == 'incorrect_client_credentials':
                 print("Error: Incorrect client credentials.")
-                return None
-
-            if user_token_response['error'] == 'access_denied':
+            elif user_token_response['error'] == 'access_denied':
                 print("Error: User denied access.")
-                return None
-            # Catch all for any other error.
-            print("Error: " + user_token_response['error'])
+            else:
+                print("Error: " + user_token_response['error'])
+
             return None
 
         # If we didn't get an error, return the token.
