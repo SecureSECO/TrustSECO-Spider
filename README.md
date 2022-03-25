@@ -16,7 +16,7 @@ It can currently get the following data-points from GitHub:
     - In the past year from the current date
     - In a specific year
   - Repository language
-  - GitStar score
+  - GitStar ranking
 - Issues information:
   - Number of open issues
   - Number of issues without a response
