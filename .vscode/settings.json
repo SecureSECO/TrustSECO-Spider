@@ -1,0 +1,35 @@
+{
+    // Custom docstring colour changes
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "string.quoted.docstring.multi.python",
+                ],
+                "settings": {
+                    "foreground": "#3be2ff"
+                }
+            },
+            {
+                "scope": [
+                    "string.quoted.docstring.multi.python punctuation.definition.string.begin.python",
+                    "string.quoted.docstring.multi.python punctuation.definition.string.end.python",
+                ],
+                "settings": {
+                    "foreground": "#69676c"
+                }
+            }
+        ]
+    },
+    // Linting settings
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    // Flake8 linting settings
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "autopep8",
+    "editor.formatOnSave": true,
+    "python.linting.flake8Args": [
+        "--ignore",
+        "E501"
+    ],
+}
