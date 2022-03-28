@@ -6,14 +6,21 @@ import os
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
-from github_get_token import authenticate_user
 
-load_dotenv()
+# Import exception handling
+# Needed as the execute path can change
+try:
+    from github_get_token import authenticate_user
+except ImportError:
+    from GitHub.github_get_token import authenticate_user
 
 try:
     import github_constants as gc
 except ImportError:
     import GitHub.github_constants as gc
+
+# Load the environmental variables
+load_dotenv()
 
 
 class GitHubAPICall:
@@ -48,52 +55,6 @@ class GitHubAPICall:
         print(f'Search rate-limit remaining: {self.search_remaining}')
         print(f'Rate rate-limit remaining: {self.rate_remaining}')
 
-    def get_all_data(self, owner, repo, release, year, include_search=False):
-        """
-        Returns all the data that this program can get from GitHub
-        """
-
-        # Get the individual data-points
-        repository_data = self.get_basic_repository_data(owner, repo)
-        release_data = self.get_release_data(owner, repo, release)
-        owner_data = self.get_owner_data(owner)
-        contributor_count = self.get_repository_contributor_count(owner, repo)
-        yearly_commit_count = self.get_yearly_commit_count(owner, repo)
-        commit_count_in_year = self.get_commit_count_in_year(owner, repo, year)
-        total_download_count = self.get_total_download_count(owner, repo)
-        release_download_count = self.get_release_download_count(
-            owner, repo, release)
-        zero_response_issues_count = self.get_zero_responses_issue_count(
-            owner, repo)
-        average_issue_resolution_time = self.get_average_issue_resolution_time(
-            owner, repo)
-
-        # Get the search data if requested
-        # Seperated because the rate limit for SEARCH is quite low
-        if include_search:
-            gitstar_ranking = self.get_gitstar_ranking(owner, repo)
-            release_issue_count = self.issue_count_per_release(
-                owner, repo, release)
-        else:
-            gitstar_ranking = None
-            release_issue_count = None
-
-        # Return a JSON object containing all the data
-        return {
-            'repository_data': repository_data,
-            'release_data': release_data,
-            'owner_data': owner_data,
-            'contributor_count': contributor_count,
-            'gitstar_ranking': gitstar_ranking,
-            'yearly_commit_count': yearly_commit_count,
-            'commit_count_in_year': commit_count_in_year,
-            'total_download_count': total_download_count,
-            'release_download_count': release_download_count,
-            'zero_response_issues_count': zero_response_issues_count,
-            'average_issue_resolution_time': average_issue_resolution_time,
-            'release_issue_count': release_issue_count
-        }
-
     def get_basic_repository_data(self, owner, repo):
         """
         Get the basic information about the given repository
@@ -106,19 +67,6 @@ class GitHubAPICall:
 
         # Return the data
         return repository_data.json()
-
-    def get_open_issue_count(self, owner, repo):
-        """
-        Get the number of open issues a repository has
-        """
-        print('Getting repository language...')
-
-        # Get the basic repository data
-        repository_url = f'{gc.BASE_URL_REPOS}/{owner}/{repo}'
-        repository_data = self.make_api_call(repository_url, gc.CORE)
-
-        # Return the data
-        return repository_data.json()['open_issues_count']
 
     def get_repository_language(self, owner, repo):
         """
@@ -615,7 +563,7 @@ class GitHubAPICall:
 
         # See if the user's GitHub token is known
         # If not, authenticate the user
-        if os.getenv('GITHUB_TOKEN') is None:
+        if os.getenv('GITHUB_TOKEN') is None or os.getenv('GITHUB_TOKEN') == '':
             print('No GitHub token found.')
             print('Starting authentication process')
 
@@ -623,6 +571,9 @@ class GitHubAPICall:
             # If so, continue with the API call
             if authenticate_user('1c3bf96ae6a2ec75435c'):
                 print('Continuing API call')
+                # Reload the environment variables
+                # As otherwise the GitHub token would not have been updated
+                load_dotenv()
             # If not, stop the program
             else:
                 print('Authentication failed, exiting')
