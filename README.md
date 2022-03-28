@@ -30,3 +30,5 @@ This project also contains a small demo file (demo.py) which can demo basic func
 - github -> will run a GitHub data-pull demo
 - spider -> will run a BeautifulSoup spidering demo
 - both   -> will run both demos
+
+The project also contains some of the unit tests too. These can be started from within '''/GitHub/''' using the '''pytest''' command.
