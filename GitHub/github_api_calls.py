@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
-from .github_get_token import authenticate_user
+from github_get_token import authenticate_user
 
 load_dotenv()
 
@@ -21,13 +21,14 @@ class GitHubAPICall:
     Class methods for getting data from GitHub
     """
 
-    def __init__(self):
+    def __init__(self, set_rate_limit=True):
         # Rate limit variables
         self.core_remaining = 0
         self.search_remaining = 0
         self.rate_remaining = 0
 
-        self.set_rate_limit_data()
+        if set_rate_limit:
+            self.set_rate_limit_data()
 
     def set_rate_limit_data(self):
         """

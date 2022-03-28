@@ -18,6 +18,10 @@ def get_repository_user_count(owner, repo):
     # Get the main page
     main_page = requests.get(main_page_url)
 
+    # Make sure the main page is valid
+    if main_page.status_code != 200:
+        return None
+
     # Create a BeautifulSoup object
     soup = BeautifulSoup(main_page.text, 'html.parser')
 
@@ -53,6 +57,10 @@ def get_repository_issue_ratio(owner, repo):
     # Get the issues page
     issues_page = requests.get(issues_page_url)
 
+    # Make sure the main page is valid
+    if issues_page.status_code != 200:
+        return None
+
     # Create a BeautifulSoup object
     soup = BeautifulSoup(issues_page.text, 'html.parser')
 
@@ -77,7 +85,7 @@ def get_repository_issue_ratio(owner, repo):
             break
 
     # If we found both numbers, return the ratio
-    if open_issues is not None or closed_issues is not None:
+    if open_issues is not None and closed_issues is not None and closed_issues != 0:
         return open_issues / closed_issues
     # Else return None
     return None
