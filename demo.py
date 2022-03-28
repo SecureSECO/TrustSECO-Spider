@@ -25,7 +25,7 @@ def github_demo():
     print(json.dumps(data, indent=4))
 
 
-def broken_scrapy_demo():
+def scrapy_demo():
     """
     Basic demo of scraping data from github.
 
@@ -44,35 +44,5 @@ def broken_scrapy_demo():
     print('Issue ratio: ' + str(issue_ratio))
 
 
-def working_scrapy_demo():
-    from scrapy.crawler import CrawlerRunner
-    from TrustSECO_Spiders.TrustSECO_Spiders.spiders.github_spider import GitHubUsers, GitHubIssueRatio
-    from twisted.internet import reactor
-
-    runner = CrawlerRunner()
-    # Dictionary in which the spiders will store the results
-    results = {}
-
-    # Create a crawler runner which helps running multiple spiders at once
-    runner = CrawlerRunner()
-    # Add the wanted spiders to the runner
-    runner.crawl(GitHubUsers,      'numpy', 'numpy', results)
-    runner.crawl(GitHubIssueRatio, 'numpy', 'numpy', results)
-    # Join the requests and make sure they stop the Twisted Reactor when they are done
-    temp = runner.join()
-    temp.addBoth(lambda _: reactor.stop())
-    # Start the spidering process
-    # This function will block untill all the spiders are done
-    reactor.run()
-
-    # Print the results
-    print(results)
-
-
-# ithub_demo()
-
-
-# scrapy_demo()
-
-
-working_scrapy_demo()
+github_demo()
+scrapy_demo()
