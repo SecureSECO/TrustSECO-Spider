@@ -5,6 +5,7 @@ in terms of what the API calls and spidering can do.
 
 # API calls
 import GitHub.github_api_calls as github_api_calls
+import GitHub.github_spider_bs as github_spider
 
 # API call object
 api_calls = github_api_calls.GitHubAPICall()
@@ -17,7 +18,11 @@ def get_contributor_count(owner, repo):
     return api_calls.get_repository_contributor_count(owner, repo)
 
 
-# user count
+def get_repository_user_count(owner, repo):
+    """
+    Gets amount of users of a given repository
+    """
+    return github_spider.get_repository_user_count(owner, repo)
 
 
 def get_total_download_count(owner, repo):
@@ -83,7 +88,11 @@ def get_release_issue_count(owner, repo, release):
     return api_calls.issue_count_per_release(owner, repo, release)
 
 
-# issue ratio
+def get_repository_issue_ratio(owner, repo):
+    """
+    Gets the issue ratio of a given repository
+    """
+    return github_spider.get_repository_issue_ratio(owner, repo)
 
 
 def get_average_issue_resolution_time(owner, repo):

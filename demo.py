@@ -5,6 +5,8 @@ Allows the user to test the Device Flow authentication process,
 GitHub API calls, and spidering.
 """
 
+# For defining which function to run
+import sys
 # For json converting
 import json
 # For accessing the GitHub data-points
@@ -25,7 +27,7 @@ def github_demo():
     print(json.dumps(data, indent=4))
 
 
-def scrapy_demo():
+def spider_demo():
     """
     Basic demo of scraping data from github.
 
@@ -44,5 +46,12 @@ def scrapy_demo():
     print('Issue ratio: ' + str(issue_ratio))
 
 
-github_demo()
-scrapy_demo()
+if 'github' in sys.argv:
+    github_demo()
+
+if 'spider' in sys.argv:
+    spider_demo()
+
+if 'both' in sys.argv:
+    github_demo()
+    spider_demo()
