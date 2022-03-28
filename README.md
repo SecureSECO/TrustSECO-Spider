@@ -1,5 +1,5 @@
 # TrustSECO-Spider
-This spider uses a combination of actual spidering (using scrapy) and API calls (using requests) in order to gather information from GitHub.
+This spider uses a combination of actual spidering (using BeautifulSoup) and API calls (using requests) in order to gather information from GitHub.
 
 It uses GitHub's Device Flow in order to obtain a personal token, which then gets used for the API calls.
 
@@ -25,3 +25,8 @@ It can currently get the following data-points from GitHub:
   - Average issue resolution time
 - Owner information:
   - Number of stargazers
+
+This project also contains a small demo file (demo.py) which can demo basic functionality. In order to use it, you have to specify which demo you would like to run by giving either of these command-line arguments:
+- github -> will run a GitHub data-pull demo
+- spider -> will run a BeautifulSoup spidering demo
+- both   -> will run both demos
