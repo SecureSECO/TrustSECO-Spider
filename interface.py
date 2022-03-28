@@ -71,7 +71,7 @@ def get_open_issue_count(owner, repo):
     """
     Gets the open issue count of the repository
     """
-    return api_calls.get_open_issue_count(owner, repo)
+    return github_spider.get_repository_open_issue_count(owner, repo)
 
 
 def get_zero_responses_issue_count(owner, repo):

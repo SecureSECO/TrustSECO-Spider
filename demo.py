@@ -5,53 +5,53 @@ Allows the user to test the Device Flow authentication process,
 GitHub API calls, and spidering.
 """
 
-# For defining which function to run
-import sys
 # For json converting
 import json
 # For accessing the GitHub data-points
 import interface
 
 
-def github_demo():
+def complete_demo(owner, repo, year=None, version=None, include_search=False):
     """
-    Basic retrieval method of github data.
-    This function currently gets every bit of data we can
-    But this can obviously be reduced to a specific data-point
+    Demo showing all of the currently available data-points
     """
 
-    # Get the data
-    data = interface.get_repository_language('numpy', 'numpy')
+    data = {
+        'contributor_count': interface.get_contributor_count(owner, repo),
+        'repository_user_count': interface.get_repository_user_count(owner, repo),
+        'total_download_count': interface.get_total_download_count(owner, repo),
+        'yearly_commit_count': interface.get_yearly_commit_count(owner, repo),
+        'repository_language': interface.get_repository_language(owner, repo),
+        'open_issue_count': interface.get_open_issue_count(owner, repo),
+        'zero_responses_issue_count': interface.get_zero_responses_issue_count(owner, repo),
+        'issue_ratio': interface.get_repository_issue_ratio(owner, repo),
+        'average_issue_resolution_time': interface.get_average_issue_resolution_time(owner, repo),
+        'owner_stargazer_count': interface.get_owner_stargazer_count(owner)
+    }
 
-    # Print the json data in a readable way
+    if year is not None:
+        data['commit_count_in_year'] = interface.get_commit_count_in_year(
+            owner, repo, year)
+
+    if version is not None:
+        data[
+            'release_download_count'] = interface.get_release_download_count(owner, repo, version)
+
+    if include_search:
+        data['gitstar_ranking'] = interface.get_gitstar_ranking(owner, repo)
+
+        if year is not None:
+            data['release_issue_count'] = interface.get_release_issue_count(
+                owner, repo, version)
+
+    print('---------------------------------------------------')
+    print(f'Data for {owner}/{repo}')
     print(json.dumps(data, indent=4))
+    print('---------------------------------------------------')
 
 
-def spider_demo():
-    """
-    Basic demo of scraping data from github.
+# Numpy
+complete_demo(owner='numpy', repo='numpy', year=2021, version='v1.22.1')
 
-    Due to the nature of a spider (it being able to only scrape a single page type),
-    we have to create a new spider for each trust fact.
-
-    At the moment we can request the following data:
-    - User count
-    - Issue Ratio
-    """
-
-    # Add the wanted spiders to the runner
-    user_count = interface.get_repository_user_count('numpy', 'numpy')
-    print('User count: ' + str(user_count))
-    issue_ratio = interface.get_repository_issue_ratio('numpy', 'numpy')
-    print('Issue ratio: ' + str(issue_ratio))
-
-
-if 'github' in sys.argv:
-    github_demo()
-
-if 'spider' in sys.argv:
-    spider_demo()
-
-if 'both' in sys.argv:
-    github_demo()
-    spider_demo()
+# Random repo
+complete_demo('TheAlgorithms', 'Python')

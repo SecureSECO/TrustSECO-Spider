@@ -5,6 +5,7 @@ and get their OAuth token for API calls.
 
 # For request time-outs
 import time
+import dotenv
 # For executing API calls
 import requests
 
@@ -43,8 +44,8 @@ def authenticate_user(client_id):
     print("Successfully authenticated user.")
 
     # Write the token to the .env file
-    with open('.env', 'wt', encoding='utf-8') as env_file:
-        env_file.write('GITHUB_TOKEN=' + user_token)
+    dotenv.set_key(dotenv_path='.env', key_to_set='GITHUB_TOKEN',
+                   value_to_set=user_token)
 
     return True
 
