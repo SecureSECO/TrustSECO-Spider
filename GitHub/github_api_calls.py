@@ -20,7 +20,7 @@ except ImportError:
     import GitHub.github_constants as gc
 
 # Load the environmental variables
-load_dotenv()
+load_dotenv(dotenv_path='.env')
 
 
 class GitHubAPICall:
@@ -573,7 +573,7 @@ class GitHubAPICall:
                 print('Continuing API call')
                 # Reload the environment variables
                 # As otherwise the GitHub token would not have been updated
-                load_dotenv()
+                load_dotenv(dotenv_path='.env', override=True)
             # If not, stop the program
             else:
                 print('Authentication failed, exiting')
