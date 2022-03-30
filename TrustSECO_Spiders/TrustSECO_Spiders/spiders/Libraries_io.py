@@ -1,5 +1,6 @@
 import scrapy
 
+
 class LibrariesIoSpider(scrapy.Spider):
     name = 'Libraries.io'
     allowed_domains = ['libraries.io']
