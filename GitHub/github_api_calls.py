@@ -6,18 +6,8 @@ import os
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
-
-# Import exception handling
-# Needed as the execute path can change
-try:
-    from github_get_token import authenticate_user
-except ImportError:
-    from GitHub.github_get_token import authenticate_user
-
-try:
-    import github_constants as gc
-except ImportError:
-    import GitHub.github_constants as gc
+from GitHub.github_get_token import authenticate_user
+import GitHub.github_constants as gc
 
 # Load the environmental variables
 load_dotenv(dotenv_path='.env')
@@ -546,7 +536,12 @@ class GitHubAPICall:
         # Ignore these checks if the call_type is RATE
         if not call_type == gc.RATE:
             if self.search_remaining == 0 or self.core_remaining == 0:
+                if self.rate_remaining == 0:
+                    print('Rate limit reached.')
+                    return None
+
                 print('Fetching new rate limit data...')
+                self.rate_remaining -= 1
                 self.set_rate_limit_data()
 
             # See if the user has search API calls left
@@ -560,6 +555,10 @@ class GitHubAPICall:
             if call_type == 'core' and self.core_remaining == 0:
                 print('Core limit reached.')
                 return None
+
+        if call_type == gc.RATE and self.rate_remaining == 0:
+            print('Rate limit reached.')
+            return None
 
         # See if the user's GitHub token is known
         # If not, authenticate the user
@@ -587,28 +586,28 @@ class GitHubAPICall:
         if given_headers is not None:
             headers.update(given_headers)
 
-        # Basic request to get the information.
-        data_response = requests.get(api_url, headers=headers)
+        # Catch any requests errors
+        try:
+            # Basic request to get the information.
+            data_response = requests.get(api_url, headers=headers)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return None
+
+        # Decrement the appropriate rate limit variable
+        if call_type == 'search':
+            self.search_remaining -= 1
+        elif call_type == 'core':
+            self.core_remaining -= 1
+        elif call_type == 'rate':
+            self.rate_remaining -= 1
 
         # See if we got a valid response
         if data_response.status_code == 200:
             data = data_response
-
-            # Decrement the appropriate rate limit variable
-            if call_type == 'search':
-                self.search_remaining -= 1
-            elif call_type == 'core':
-                self.core_remaining -= 1
-            elif call_type == 'rate':
-                self.rate_remaining -= 1
         else:
             print('Unable to get data from GitHub')
             print(f'Error: {data_response.status_code}')
             data = None
 
         return data
-
-
-# example test function for github actions
-def addOne(arg):
-    return arg + 1
