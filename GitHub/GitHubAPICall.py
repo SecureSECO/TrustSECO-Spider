@@ -1,6 +1,7 @@
 import requests
 import json
 
+"""doctsting"""
 class GitHubAPICall:
     # Base URLs
     def __init__(self):
@@ -31,3 +32,7 @@ class GitHubAPICall:
             data = None
             
         return data
+        
+#example test function for github actions
+def addOne(arg):
+  return arg+1
