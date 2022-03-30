@@ -605,10 +605,10 @@ class GitHubAPICall:
             print('Unable to get data from GitHub')
             print(f'Error: {data_response.status_code}')
             data = None
-            
+
         return data
 
 
-#example test function for github actions
+# example test function for github actions
 def addOne(arg):
     return arg+1
