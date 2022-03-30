@@ -611,4 +611,4 @@ class GitHubAPICall:
 
 # example test function for github actions
 def addOne(arg):
-    return arg+1
+    return arg + 1

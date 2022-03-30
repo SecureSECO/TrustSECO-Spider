@@ -7,7 +7,7 @@ import json
 # Unit testing imports
 import responses
 # Spider import
-import github_api_calls as api_caller
+import GitHub.github_api_calls as api_caller
 
 try:
     import github_constants as gc

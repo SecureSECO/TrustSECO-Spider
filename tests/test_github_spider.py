@@ -5,7 +5,7 @@ File containing the unit tests for the github_spider.py file.
 # Unit testing imports
 import responses
 # Spider import
-import github_spider_bs as spider
+import GitHub.github_spider_bs as spider
 
 
 class TestUserCount:
@@ -30,17 +30,17 @@ class TestUserCount:
     empty_body = ''
 
     def get_regular_body(self):
-        with open('GitHub/test_files/user_count/regular.txt', 'r') as regular:
+        with open('tests/test_files/user_count/regular.txt', 'r') as regular:
             regular_body = regular.read()
         return regular_body
 
     def get_no_tag_body(self):
-        with open('GitHub/test_files/user_count/no_a_tag.txt', 'r') as no_tag:
+        with open('tests/test_files/user_count/no_a_tag.txt', 'r') as no_tag:
             no_tag_body = no_tag.read()
         return no_tag_body
 
     def get_no_title_body(self):
-        with open('GitHub/test_files/user_count/no_title_attribute.txt', 'r') as no_title:
+        with open('tests/test_files/user_count/no_title_attribute.txt', 'r') as no_title:
             no_title_body = no_title.read()
         return no_title_body
 
@@ -118,27 +118,27 @@ class TestIssueRatio:
     empty_body = ''
 
     def get_regular_body(self):
-        with open('GitHub/test_files/issue_ratio/regular.txt', 'r', encoding='iso-8859-15') as regular:
+        with open('tests/test_files/issue_ratio/regular.txt', 'r', encoding='iso-8859-15') as regular:
             regular_body = regular.read()
         return regular_body
 
     def get_no_open_body(self):
-        with open('GitHub/test_files/issue_ratio/no_open_issues.txt', 'r', encoding='iso-8859-15') as no_open:
+        with open('tests/test_files/issue_ratio/no_open_issues.txt', 'r', encoding='iso-8859-15') as no_open:
             no_open_body = no_open.read()
         return no_open_body
 
     def get_zero_open_body(self):
-        with open('GitHub/test_files/issue_ratio/zero_open_issues.txt', 'r', encoding='iso-8859-15') as zero_open:
+        with open('tests/test_files/issue_ratio/zero_open_issues.txt', 'r', encoding='iso-8859-15') as zero_open:
             zero_open_body = zero_open.read()
         return zero_open_body
 
     def get_no_closed_body(self):
-        with open('GitHub/test_files/issue_ratio/no_closed_issues.txt', 'r', encoding='iso-8859-15') as no_closed:
+        with open('tests/test_files/issue_ratio/no_closed_issues.txt', 'r', encoding='iso-8859-15') as no_closed:
             no_closed_body = no_closed.read()
         return no_closed_body
 
     def get_zero_closed_body(self):
-        with open('GitHub/test_files/issue_ratio/zero_closed_issues.txt', 'r', encoding='iso-8859-15') as zero_closed:
+        with open('tests/test_files/issue_ratio/zero_closed_issues.txt', 'r', encoding='iso-8859-15') as zero_closed:
             zero_closed_body = zero_closed.read()
         return zero_closed_body
 
