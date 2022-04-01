@@ -18,7 +18,7 @@ class GitHubAPICall:
     Class methods for getting data from GitHub
     """
 
-    def __init__(self, set_rate_limit=True):
+    def __init__(self):
         # Rate limit variables
         self.core_remaining = 0
         self.search_remaining = 0
@@ -617,15 +617,11 @@ class GitHubAPICall:
         Else it will return false
         """
 
-        # Create the header for the API call
-        headers = {'Authorization': 'token ' + os.getenv('GITHUB_TOKEN'),
-                   'Accept': 'application/vnd.github.v3+json'}
-
         # Make the API call
-        rate_limit_response = requests.get(gc.BASE_URL_RATE, headers=headers)
+        rate_limit_response = self.make_api_call(gc.BASE_URL_RATE)
 
         # See if the response we got is valid
-        if rate_limit_response.status_code == 200:
+        if rate_limit_response is not None:
             rate_limit_data = rate_limit_response.json()
 
             self.core_remaining = int(
@@ -639,7 +635,4 @@ class GitHubAPICall:
 
             return True
         else:
-            # Inform the user about the error
-            print('Unable to get rate limit data')
-            print(f'Error: {rate_limit_response.status_code}')
             return False
