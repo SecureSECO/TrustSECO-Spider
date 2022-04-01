@@ -180,3 +180,9 @@ class TestAPICall:
         assert g.search_remaining == 100
         assert g.rate_remaining == 100
         assert result.json() == json.loads('{"name": "numpy"}')
+
+
+class TestRateLimit:
+    """
+    Testing class for the set_rate_limit_data function
+    """
