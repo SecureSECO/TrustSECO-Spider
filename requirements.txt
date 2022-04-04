@@ -4,3 +4,4 @@ responses
 requests
 bs4
 python-dotenv
+pytest
