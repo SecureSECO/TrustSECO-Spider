@@ -26,9 +26,7 @@ It can currently get the following data-points from GitHub:
 - Owner information:
   - Number of stargazers
 
-This project also contains a small demo file (demo.py) which can demo basic functionality. In order to use it, you have to specify which demo you would like to run by giving either of these command-line arguments:
-- github -> will run a GitHub data-pull demo
-- spider -> will run a BeautifulSoup spidering demo
-- both   -> will run both demos
+This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter ```python .\demo.py``` in the command line in order to run the demo. It will then query/find all of the GitHub data-points that do not use the SEARCH API. This is because the SEARCH API has a far lower rate limit than the CORE API.
+If desired, the SEARCH functions can also be demo'd. To do this, simply add ```search``` as the parameter like this: ```python .\demo.py search```.
 
-The project also contains some of the unit tests too. These can be started from within ```/GitHub/``` using the ```pytest``` command in the console.
+The project also contains some of the unit tests too. These can be started from within the main ```TrustSECO-Spider``` folder using the ```python -m pytest``` command in the console.

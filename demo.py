@@ -4,7 +4,8 @@ Basic demo file, purely for demonstration purposes.
 Allows the user to test the Device Flow authentication process,
 GitHub API calls, and spidering.
 """
-
+# For getting additional arguments from the command line
+import sys
 # For json converting
 import json
 # For accessing the GitHub data-points
@@ -50,8 +51,27 @@ def complete_demo(owner, repo, year=None, version=None, include_search=False):
     print('---------------------------------------------------')
 
 
-# Numpy
-complete_demo(owner='numpy', repo='numpy', year=2021, version='v1.22.1')
+def start_demo(include_search=False):
+    # Numpy
+    complete_demo(owner='numpy', repo='numpy', year=2021,
+                  version='v1.22.1', include_search=include_search)
 
-# Random repo
-complete_demo('TheAlgorithms', 'Python')
+    # Random repo
+    complete_demo('TheAlgorithms', 'Python', include_search=include_search)
+
+
+if __name__ == '__main__':
+    # See if the user passed arguments
+    if len(sys.argv) > 1:
+        # See if the passed argument contains 'search', as we have to include SEARCH API calls
+        if 'search' in sys.argv[1]:
+            print('Running the demo, including search API calls.')
+            start_demo(include_search=True)
+        else:
+            print(
+                'Did not recognise the argument, running the demo without search API calls.')
+            start_demo()
+    else:
+        print('No arguments passed, running demo without search.')
+        print('To run with search, pass "search" as an argument.')
+        start_demo()
