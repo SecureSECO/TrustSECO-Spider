@@ -210,3 +210,48 @@ class TestIssueRatio:
 
         # The result should be the issue ratio
         assert result == 0.24156432574222012
+
+
+class TestOpenIssues:
+    """
+    Test the get_repository_open_issues function.
+
+    We will test the following scenario's:
+    1. The get request failed
+        - The response code is not 200
+        - The response body is empty
+    2. The get request succeeded but the open issues are not found
+        - The response body is empty
+        - The open issue count is not found
+    3. The get request succeeded and the open issues are found
+    """
+
+    owner = 'numpy'
+    repo = 'numpy'
+    url = f'https://github.com/{owner}/{repo}/issues'
+    empty_body = ''
+
+    def get_regular_body(self):
+        with open('tests/test_files/issue_ratio/regular.txt', 'r', encoding='iso-8859-15') as regular:
+            regular_body = regular.read()
+        return regular_body
+
+    def get_no_open_body(self):
+        with open('tests/test_files/issue_ratio/no_open_issues.txt', 'r', encoding='iso-8859-15') as no_open:
+            no_open_body = no_open.read()
+        return no_open_body
+
+    def get_zero_open_body(self):
+        with open('tests/test_files/issue_ratio/zero_open_issues.txt', 'r', encoding='iso-8859-15') as zero_open:
+            zero_open_body = zero_open.read()
+        return zero_open_body
+
+    @ responses.activate
+    def test_invalid_response_code(self):
+        regular_body = self.get_regular_body()
+        responses.add(
+            responses.GET, self.url, body=regular_body, status=404)
+        result = spider.get_repository_open_issue_count(self.owner, self.repo)
+
+        # The result should be None as the get request failed
+        assert result is None
