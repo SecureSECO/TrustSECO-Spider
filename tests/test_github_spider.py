@@ -3,7 +3,7 @@ File containing the unit tests for the github_spider.py file.
 """
 
 # Unit testing imports
-import mock
+from unittest import mock
 import responses
 # Spider import
 import GitHub.github_spider_bs as spider
