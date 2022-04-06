@@ -233,7 +233,7 @@ class TestMakeAPICall:
         assert isinstance(actual_result, type(return_value))
 
     @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', None)])
-    @mock.patch('GitHub.github_get_token.GitHubToken.authenticate_user', new=mock.Mock(return_value=True))
+    @mock.patch('GitHub.github_get_token.GitHubToken.authenticate_user', new=mock.Mock(return_value=False))
     def test_no_key(self, api_url, return_value, given_headers):
         """
         Test the function making an API call, but there is no API key
