@@ -6,11 +6,8 @@ import os
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
-from GitHub.github_get_token import authenticate_user
+import GitHub.github_get_token as gt
 import GitHub.github_constants as gc
-
-# Load the environmental variables
-load_dotenv(dotenv_path='.env')
 
 
 class GitHubAPICall:
@@ -22,6 +19,14 @@ class GitHubAPICall:
         # Rate limit variables
         self.core_remaining = 0
         self.search_remaining = 0
+
+        if not os.path.exists('.env'):
+            print('Could not find .env file')
+            print('Creating new .env file')
+            with open('.env', 'w') as f:
+                f.write('GITHUB_TOKEN=')
+
+        load_dotenv(dotenv_path='.env')
 
     def get_basic_repository_data(self, owner, repo):
         """
@@ -631,7 +636,7 @@ class GitHubAPICall:
 
             # See if the authentication process succeeded
             # If so, continue with the API call
-            if authenticate_user('1c3bf96ae6a2ec75435c'):
+            if gt.GitHubToken.authenticate_user('1c3bf96ae6a2ec75435c'):
                 print('Continuing API call')
                 # Reload the environment variables
                 # As otherwise the GitHub token would not have been updated

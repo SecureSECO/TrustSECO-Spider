@@ -2,9 +2,12 @@
 File containing the unit tests for the github_api_calls.py file.
 """
 
-# Import for
+# Import for file io
+import os
+# Import for testing
 from requests.models import Response
 # Unit testing imports
+import responses
 import pytest
 from unittest import mock
 # Spider import
@@ -193,14 +196,18 @@ class TestMakeAPICall:
     - api_url and its return value
     - headers and no headers
     """
-    # @mock.patch.dict('os.environ', {'GITHUB_API_KEY': 'test_key'})
-    # @mock.patch('GitHub.github_get_token.authenticate_user', new=mock.Mock(return_value=True))
 
+    @responses.activate
     @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', Response())])
+    @mock.patch.dict('os.environ', {'GITHUB_TOKEN': 'test_key'})
     def test_valid_key(self, api_url, return_value, given_headers):
         """
         Test the function making an API call with a valid API key
         """
+        # Mock the API call for when the call is supposed to be successful
+        if return_value is not None:
+            responses.add(responses.GET, api_url, body='testing', status=200)
+
         # Create a GitHubAPICall object
         g = api_caller.GitHubAPICall()
 
@@ -224,6 +231,25 @@ class TestMakeAPICall:
 
         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
         assert isinstance(actual_result, type(return_value))
+
+    @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', None)])
+    @mock.patch('GitHub.github_get_token.GitHubToken.authenticate_user', new=mock.Mock(return_value=True))
+    def test_no_key(self, api_url, return_value, given_headers):
+        """
+        Test the function making an API call, but there is no API key
+        """
+        # Remove the .env file if it exists
+        if os.path.exists('.env'):
+            os.remove('.env')
+
+        # Create a GitHubAPICall object
+        g = api_caller.GitHubAPICall()
+
+        # Make the API call
+        actual_result = g.make_api_call(api_url, given_headers)
+
+        # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
+        assert isinstance(actual_result, type(None))
 
 
 @mock.patch('GitHub.github_api_calls.GitHubAPICall.make_api_call', new=mock.Mock(return_value=True))
