@@ -46,51 +46,6 @@ def get_repository_user_count(owner, repo):
     return user_count
 
 
-def get_repository_issue_ratio(owner, repo):
-    """
-    Gets the issue ratio of a given repository
-    """
-
-    # Create the URL for the repository
-    issues_page_url = f'https://github.com/{owner}/{repo}/issues'
-
-    # Get the issues page
-    issues_page = requests.get(issues_page_url)
-
-    # Make sure the main page is valid
-    if issues_page.status_code != 200:
-        return None
-
-    # Create a BeautifulSoup object
-    soup = BeautifulSoup(issues_page.text, 'html.parser')
-
-    # Get the <a> tags that might contain our numbers
-    possible_links = soup.find_all('a', class_='btn-link')
-
-    # Try to find the open/closed issues count
-    open_issues = None
-    closed_issues = None
-    # Go through all the <a> tags and find the ones containing "open" and "closed"
-    # as these are the ones containing the number of issues
-    for link in possible_links:
-        if 'open' in link.text.lower():
-            value = link.text.replace(',', '').replace('\n', '').strip()
-            open_issues = int(value.split(' ')[0])
-        elif 'closed' in link.text.lower():
-            value = link.text.replace(',', '').replace('\n', '').strip()
-            closed_issues = int(value.split(' ')[0])
-
-        # Break if we have found both numbers
-        if open_issues is not None and closed_issues is not None:
-            break
-
-    # If we found both numbers, return the ratio
-    if open_issues is not None and closed_issues is not None and closed_issues != 0:
-        return open_issues / closed_issues
-    # Else return None
-    return None
-
-
 def get_repository_open_issue_count(owner, repo):
     """
     Gets the amount of open issues of a given repository
@@ -112,21 +67,75 @@ def get_repository_open_issue_count(owner, repo):
     # Get the <a> tags that might contain our numbers
     possible_links = soup.find_all('a', class_='btn-link')
 
-    # Try to find the open/closed issues count
+    # Try to find the open issues count
     open_issues = None
-    # Go through all the <a> tags and find the ones containing "open" and "closed"
+    # Go through all the <a> tags and find the ones containing "open"
     # as these are the ones containing the number of issues
     for link in possible_links:
         if 'open' in link.text.lower():
             value = link.text.replace(',', '').replace('\n', '').strip()
             open_issues = int(value.split(' ')[0])
 
-        # Break if we have found both numbers
+        # If we have found the number, return it
         if open_issues is not None:
-            break
+            return open_issues
 
-    # If we found both numbers, return the ratio
-    if open_issues is not None:
-        return open_issues
     # Else return None
     return None
+
+
+def get_repository_closed_issue_count(owner, repo):
+    """
+    Gets the amount of closed issues of a given repository
+    """
+
+    # Create the URL for the repository
+    issues_page_url = f'https://github.com/{owner}/{repo}/issues'
+
+    # Get the issues page
+    issues_page = requests.get(issues_page_url)
+
+    # Make sure the main page is valid
+    if issues_page.status_code != 200:
+        return None
+
+    # Create a BeautifulSoup object
+    soup = BeautifulSoup(issues_page.text, 'html.parser')
+
+    # Get the <a> tags that might contain our numbers
+    possible_links = soup.find_all('a', class_='btn-link')
+
+    # Try to find the closed issues count
+    closed_issues = None
+    # Go through all the <a> tags and find the ones containing "closed"
+    # as these are the ones containing the number of issues
+    for link in possible_links:
+        if 'closed' in link.text.lower():
+            value = link.text.replace(',', '').replace('\n', '').strip()
+            closed_issues = int(value.split(' ')[0])
+
+        # If we have found the number, return it
+        if closed_issues is not None:
+            return closed_issues
+
+    # Else return None
+    return None
+
+
+def get_repository_issue_ratio(owner, repo):
+    """
+    Gets the issue ratio of a given repository
+    """
+
+    # Get the issue counts
+    open_issues = get_repository_open_issue_count(owner, repo)
+    closed_issues = get_repository_closed_issue_count(owner, repo)
+
+    # If we could not find both numbers,
+    # or if the closed issue count is 0,
+    # return None
+    if open_issues is None or closed_issues is None or closed_issues == 0:
+        return None
+    # Else return the ratio
+    else:
+        return open_issues / closed_issues

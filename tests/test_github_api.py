@@ -251,7 +251,7 @@ class TestTryAPICall:
         g.search_remaining = 5000
 
         # Execute the function
-        actual_result = g.try_api_call('', call_type)
+        actual_result = g.try_perform_api_call('', call_type)
 
         # Assert that the function returns the correct value
         assert actual_result is True
@@ -275,7 +275,7 @@ class TestTryAPICall:
         g.search_remaining = 5000
 
         # Execute the function
-        actual_result = g.try_api_call('', call_type)
+        actual_result = g.try_perform_api_call('', call_type)
 
         # Assert that the function returns the correct value
         assert actual_result is None
