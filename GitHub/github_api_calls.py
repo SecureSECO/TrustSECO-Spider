@@ -24,7 +24,7 @@ class GitHubAPICall:
             print('Could not find .env file')
             print('Creating new .env file')
             with open('.env', 'w') as f:
-                f.write('GITHUB_TOKEN=')
+                f.write('GITHUB_TOKEN=\nLIBRARIES_TOKEN=')
 
         load_dotenv(dotenv_path='.env')
 
