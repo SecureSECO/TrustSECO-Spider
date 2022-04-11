@@ -43,6 +43,7 @@ class LibrariesAPICall:
                 first_release_date[:-5], '%Y-%m-%dT%H:%M:%S')
             # Return the average time between releases
             return (latest - first).total_seconds() / release_count
+        # Else, return None
         else:
             print('Error occured while getting the average release frequency')
             return None
@@ -57,8 +58,10 @@ class LibrariesAPICall:
         # Get the repository data of this project
         data = self.get_project_repository(owner, name)
 
+        # If we got a valid response, return the contributor count
         if data is not None:
             return data['github_contributions_count']
+        # Else, return None
         else:
             print(
                 "Error occured while getting the project's repository contributor count")
@@ -74,6 +77,7 @@ class LibrariesAPICall:
         # Get the depenency data of this project
         data = self.get_project_dependencies(platform, name, version)
 
+        # If we got a valid response, get the dependency count
         if data is not None:
             # Filter out the development dependencies, as they are not relevant for the final product
             count = 0
@@ -83,6 +87,7 @@ class LibrariesAPICall:
 
             # Return the amount of dependencies
             return count
+        # Else, return None
         else:
             print('Error occured while getting the project dependency count')
             return None
@@ -94,10 +99,13 @@ class LibrariesAPICall:
 
         print('Getting the dependent count')
 
+        # Get the project data
         data = self.get_project_information(platform, name)
 
+        # If we got a valid response, return the dependent count
         if data is not None:
             return data['dependents_count']
+        # Else, return None
         else:
             print("Error occured while getting the project's dependent count")
             return None
@@ -109,10 +117,13 @@ class LibrariesAPICall:
 
         print('Getting the latest release date')
 
+        # Get the project data
         data = self.get_project_information(platform, name)
 
+        # If we got a valid response, return the latest release date
         if data is not None:
             return data['latest_release_published_at']
+        # Else, return None
         else:
             print("Error occured while getting the project's latest release date")
             return None
@@ -124,10 +135,13 @@ class LibrariesAPICall:
 
         print('Getting the first release date')
 
+        # Get the project data
         data = self.get_project_information(platform, name)
 
+        # If we got a valid response, return the first release date
         if data is not None:
             return data['versions'][0]['published_at']
+        # Else, return None
         else:
             print("Error occured while getting the project's first release date")
             return None
@@ -139,10 +153,13 @@ class LibrariesAPICall:
 
         print('Getting the release count')
 
+        # Get the project data
         data = self.get_project_information(platform, name)
 
+        # If we got a valid response, return the release count
         if data is not None:
             return len(data['versions'])
+        # Else, return None
         else:
             print("Error occured while getting the project's release count")
             return None
@@ -154,10 +171,13 @@ class LibrariesAPICall:
 
         print('Getting the project source rank')
 
+        # Get the project data
         data = self.get_project_information(platform, name)
 
+        # If we got a valid response, return the source rank
         if data is not None:
             return data['rank']
+        # Else, return None
         else:
             print("Error occured while getting the project's source rank")
             return None
@@ -188,8 +208,10 @@ class LibrariesAPICall:
         depen_url = f'https://libraries.io/api/{platform}/{name}/{version}/dependencies?api_key='
         data_response = self.make_api_call(depen_url)
 
+        # If the data_response is valid, return the json data
         if data_response is not None:
             return data_response.json()
+        # Else, inform the user that the request has failed, and return None
         else:
             print("Error occured while getting the project's dependency information")
             return None
