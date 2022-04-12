@@ -73,8 +73,10 @@ def lib_complete_demo(platform, owner, name, version):
     print('---------------------------------------------------')
 
 
-def start_demo(include_search=False):
-    # Numpy
+def numpy_demo(include_search=False):
+    """
+    A simple demo showing our information grabbing for the numpy library
+    """
     gh_complete_demo(owner='numpy', repo='numpy', year=2021,
                      version='v1.22.1', include_search=include_search)
 
@@ -82,18 +84,42 @@ def start_demo(include_search=False):
                       name='numpy', version='1.22.1')
 
 
+def afnetworking_demo(include_search=False):
+    """
+    A simple demo showing our information grabbing for the cocoapods library
+    """
+    gh_complete_demo(owner='AFNetworking', repo='AFNetworking', year=2019,
+                     version='4.0.0', include_search=include_search)
+
+    lib_complete_demo(platform='CocoaPods', owner='AFNetworking',
+                      name='AFNetworking', version='4.0.0')
+
+
 if __name__ == '__main__':
     # See if the user passed arguments
     if len(sys.argv) > 1:
         # See if the passed argument contains 'search', as we have to include SEARCH API calls
-        if 'gh_search' in sys.argv[1]:
-            print('Running the demo, including search API calls.')
-            start_demo(include_search=True)
-        else:
-            print(
-                'Did not recognise the argument, running the demo without search API calls.')
-            start_demo()
+        include_search = False
+        if 'gh_search' in sys.argv:
+            print('Enabling search API calls.')
+            include_search = True
+
+        # If numpy is specified, run the numpy demo
+        if 'numpy' in sys.argv:
+            numpy_demo(include_search)
+
+        # If cocoapods is specified, run the cocoapods demo
+        if 'afnetworking' in sys.argv:
+            afnetworking_demo(include_search)
+
+        # If all is specified, run both demos
+        if 'all' in sys.argv:
+            numpy_demo(include_search)
+            afnetworking_demo(include_search)
     else:
-        print('No arguments passed, running demo without search.')
-        print('To run with search, pass "search" as an argument.')
-        start_demo()
+        print('No arguments passed.')
+        print('Please specify which library you would like to gather data of:')
+        print('\t- numpy')
+        print('\t- afnetworking')
+        print('\t- all')
+        print('If you would like to include GitHub SEARCH API calls, add "gh_search" to the end of the command.')
