@@ -140,7 +140,22 @@ class LibrariesAPICall:
 
         # If we got a valid response, return the first release date
         if data is not None:
-            return data['versions'][0]['published_at']
+            # Search through all the given releases
+            # To find the first one, and return its date string
+            current_earliest = dt.now()
+            earliest_string = ''
+            for version in data['versions']:
+                # Get the publish date of the current version
+                version_date = dt.strptime(
+                    version['published_at'][:-5], '%Y-%m-%dT%H:%M:%S')
+                # See if it is earlier than the current earliest
+                if current_earliest > version_date:
+                    # If so, update the local variables to reflect this
+                    current_earliest = version_date
+                    earliest_string = version['published_at']
+
+            # Return the string representation of the earliest date
+            return earliest_string
         # Else, return None
         else:
             print("Error occured while getting the project's first release date")

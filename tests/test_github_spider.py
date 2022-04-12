@@ -6,7 +6,8 @@ File containing the unit tests for the github_spider.py file.
 from unittest import mock
 import responses
 # Spider import
-import GitHub.github_spider_bs as spider
+from GitHub.github_spider_bs import GitHubSpider
+spider = GitHubSpider()
 
 
 class FileIOForTests:
@@ -370,8 +371,8 @@ class TestIssueRatio:
     repo = 'numpy'
     url = f'https://github.com/{owner}/{repo}/issues'
 
-    @mock.patch('GitHub.github_spider_bs.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
-    @mock.patch('GitHub.github_spider_bs.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
     def test_both_successful(self):
         """
         Test for when both the open and closed issue counts are valid numbers
@@ -383,8 +384,8 @@ class TestIssueRatio:
         # The result should be the issue ratio
         assert result == 0.24156432574222012
 
-    @mock.patch('GitHub.github_spider_bs.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
-    @mock.patch('GitHub.github_spider_bs.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
     def test_open_successful_close_failed(self):
         """
         Test for when the closed issue count is not a valid number
@@ -395,8 +396,8 @@ class TestIssueRatio:
 
         assert result is None
 
-    @mock.patch('GitHub.github_spider_bs.get_repository_open_issue_count', new=mock.Mock(return_value=None))
-    @mock.patch('GitHub.github_spider_bs.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
     def test_open_failed_closed_successful(self):
         """
         Test for when the closed issue count is not a valid number
@@ -407,8 +408,8 @@ class TestIssueRatio:
 
         assert result is None
 
-    @mock.patch('GitHub.github_spider_bs.get_repository_open_issue_count', new=mock.Mock(return_value=None))
-    @mock.patch('GitHub.github_spider_bs.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('GitHub.github_spider_bs.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
     def test_both_failed(self):
         """
         Test for when both the open and closed issue counts are not valid numbers
