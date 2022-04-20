@@ -1,4 +1,4 @@
-// if this module can use trustfacts functions an external file sould also be able to(i think)
+// if this module can use trustfacts functions an external file sould also be able to(i)
 const trustfacts = require('./trustfacts')
 
-trustfacts.gh_get_gitstar_ranking('numpy', 'numpy', (err,result) => {console.log(result)})
+trustfacts.testFunc(4, (err,result) => {console.log(result)})
