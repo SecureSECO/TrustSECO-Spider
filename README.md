@@ -75,8 +75,12 @@ The standard path we use is ‘src/env/Lib/site-packages’. If you want to inst
 
 ### Demo
 
-This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to run the demo. It will then query/find all of the Libraries.io data-points, and the GitHub data-points that do not use the SEARCH API. This is because GitHub's SEARCH API has a far lower rate limit than its CORE API.
-If desired, the SEARCH functions can also be demo'd. To do this, simply add `gh_search` as the parameter like this: `python .\demo.py gh_search`.
+This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter ```python .\demo.py``` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run, and if you want to include GitHub SEARCH API calls. The SEARCH API calls are seperated on purpose, as it has a rather low rate limit, and we don't want to exceed that just due to running the demo a few times.
+
+Depending on the given arguments, the demo will grab all of the available GitHub and Libraries.io data-points, and print them to the console.
+Example commands:
+- ```python .\demo.py numpy```          -> Gets all the data-points for the numpy package/repository (besides the SEARCH API points)
+- ```python .\demo.py all gh_search```  -> Gets all the data-points for both numpy and AFNetworking, and includes the SEARCH API points
 
 ### Unit tests
 
