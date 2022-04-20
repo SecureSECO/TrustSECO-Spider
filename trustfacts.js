@@ -1,8 +1,8 @@
 const pynode = require('@fridgerator/pynode');
 pynode.startInterpreter();
 
-pynode.appendSysPath('src/env/Lib/site-packages');
-pynode.appendSysPath('src');
+pynode.appendSysPath('env/Lib/site-packages');
+pynode.appendSysPath('./');
 
 pynode.openFile('interface');
 
