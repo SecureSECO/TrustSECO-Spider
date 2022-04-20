@@ -3,7 +3,7 @@ File containing the unit tests for the github_api_calls.py file.
 """
 
 # Import for testing
-from requests.models import Response
+import responses
 # Unit testing imports
 import pytest
 from unittest import mock
@@ -21,16 +21,20 @@ class TestUpdateRateLimit:
     2. Invalid request response (by way of using an invalid response code)
     """
 
-    @mock.patch('api_calls.api_calls.make_api_call')
-    def test_valid_response(self, mock_make_api_call):
+    @responses.activate
+    def test_valid_response(self):
         """
         Test the function updating the rate limit counts with a valid response
         """
         expected_core_remaining = 4500
         expected_search_remaining = 4500
 
-        mock_make_api_call().json.return_value = {'resources': {'core': {
+        # A mock response
+        return_body = {'resources': {'core': {
             'remaining': expected_core_remaining}, 'search': {'remaining': expected_search_remaining}}}
+        # Add the get request to the watcher
+        responses.add(responses.GET, constants.BASE_URL_RATE,
+                      json=return_body, status=200)
 
         # Create a GitHubAPICall object, and make sure it is initialized correctly
         g = api_caller.GitHubAPICall()
@@ -43,11 +47,19 @@ class TestUpdateRateLimit:
         assert g.core_remaining == expected_core_remaining
         assert g.search_remaining == expected_search_remaining
 
-    @ mock.patch('api_calls.api_calls.make_api_call', new=mock.Mock(return_value=None))
+    @responses.activate
     def test_invalid_response(self):
         """
         Test the function updating the rate limit counts with an invalid status code
         """
+
+        # A mock response
+        return_body = {'resources': {'core': {
+            'remaining': 50}, 'search': {'remaining': 50}}}
+        # Add the get request to the watcher
+        responses.add(responses.GET, constants.BASE_URL_RATE,
+                      json=return_body, status=404)
+
         # Create a GitHubAPICall object, and make sure it is initialized correctly
         g = api_caller.GitHubAPICall()
         assert g.core_remaining == 0
@@ -263,6 +275,7 @@ class TestTryAPICall:
     """
 
     @mock.patch('GitHub.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=True))
+    @mock.patch('api_calls.api_calls.APICalling.make_api_call', new=mock.Mock(return_value=True))
     def test_valid_rate_limit(self, call_type):
         """
         Test the function making an API call with a valid rate limit
