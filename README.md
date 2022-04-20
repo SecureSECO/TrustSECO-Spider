@@ -53,17 +53,24 @@ The currently available data-points are:
 
 ### Requirements
 
-This package is initialized as an npm package so it can be easily imported in node projects. However the functionality is written in python. You can find all the python files in the src folder. When installing the python dependencies, it is important that the path in the: pynode.appendSysPath(<path to python dependencies>) this can be found in `index.js` line 4, is set to the place where these packages are installed.
+This package is initialized as an npm package so it can be easily imported in node projects. However the functionality is written in python. You can find all the python files in the src folder. When installing the python dependencies, it is important that the path in the: pynode.appendSysPath(<path to python dependencies>) this can be found in `trustfacts.js` line 4, is set to the place where these packages are installed.
 
 The standard path we use is ‘src/env/Lib/site-packages’. If you want to install python packages in an virtual environment on the same location follow these steps.
 
 0: make sure python3 installed on your machine
+  
 1: navigate to the `src` folderd within the TRUSTSECO-SPIDER directory in a command panel.
+  
 2:create a virtual environment by running the command: `py -m venv env`
+  
 3:navigate into the `env/Scripts` folder.
+  
 4:activate the venv by running the `activate.bat` exacutable.
+  
 5:you now should see something like: (env) C:\Users\<yourusername>\Documents\TrustSECO-Spider/src/env/Scripts>
+  
 6:navigate back to the `src` folder
+  
 7:install packages in env with pip running: `pip install -r requirements.txt`
 
 ### Demo
