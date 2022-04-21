@@ -14,10 +14,6 @@ gh_spider = GitHubSpider()
 lib_calls = LibrariesAPICall()
 
 
-def testfunc(imput):
-    return imput * 2
-
-
 # region GitHub
 def gh_get_contributor_count(owner, repo):
     """
