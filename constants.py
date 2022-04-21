@@ -15,3 +15,6 @@ BASE_URL_RATE = 'https://api.github.com/rate_limit'
 CORE = 'core'
 SEARCH = 'search'
 RATE = 'rate'
+
+"""Authentication Constants"""
+ENVIRON_FILE = '.env'
