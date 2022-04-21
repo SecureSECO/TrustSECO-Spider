@@ -1,0 +1,30 @@
+{
+  "name": "trustseco-spider",
+  "version": "1.0.0",
+  "description": "A NPM package that can be imported by other JS projects to use and run our python code, note for this to work python must be installed on the users machine",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fides-UU/TrustSECO-Spider.git"
+  },
+  "keywords": [
+    "TrustSECO",
+    "Spider",
+    "TrustFacts"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fides-UU/TrustSECO-Spider/issues"
+  },
+  "homepage": "https://github.com/Fides-UU/TrustSECO-Spider#readme",
+  "dependencies": {
+    "@fridgerator/pynode": "^0.5.2"
+  }
+}

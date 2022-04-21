@@ -1,0 +1,6 @@
+#####requirements without specifications####
+pytest
+responses
+requests
+bs4
+python-dotenv
