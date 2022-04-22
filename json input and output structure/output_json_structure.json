@@ -1,0 +1,28 @@
+{
+    "gh_data_points": {
+        "gh_contributor_count": null,
+        "gh_user_count": null,
+        "gh_total_download_count": null,
+        "gh_release_download_count": null,
+        "gh_yearly_commit_count": null,
+        "gh_given_year_commit_count": null,
+        "gh_repository_language": null,
+        "gh_gitstar_ranking": null,
+        "gh_open_issues_count": null,
+        "gh_zero_response_issues_count": null,
+        "gh_release_issues_count": null,
+        "gh_issue_ratio": null,
+        "gh_average_resolution_time": null,
+        "gh_owner_stargazer_count": null
+    },
+    "lib_data_points": {
+        "lib_release_frequency": null,
+        "lib_contributor_count": null,
+        "lib_dependency_count": null,
+        "lib_dependent_count": null,
+        "lib_latest_release_date": null,
+        "lib_first_release_date": null,
+        "lib_release_count": null,
+        "lib_sourcerank": null
+    }
+}
