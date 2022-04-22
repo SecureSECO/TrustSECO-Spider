@@ -1,5 +1,10 @@
-"""Constants"""
+"""Program wide constants"""
+API_GITHUB = 'GitHub'
+API_LIBRARIES = 'Libraries.io'
+GITHUB_TOKEN = 'GITHUB_TOKEN'
+LIBRARIES_TOKEN = 'LIBRARIES_TOKEN'
 
+"""GitHub Constants"""
 # Base URLs for the GitHub API
 BASE_URL_REPOS = 'https://api.github.com/repos'
 BASE_URL_USERS = 'https://api.github.com/users'
@@ -10,3 +15,7 @@ BASE_URL_RATE = 'https://api.github.com/rate_limit'
 CORE = 'core'
 SEARCH = 'search'
 RATE = 'rate'
+
+"""Authentication Constants"""
+ENVIRON_FILE = '.env'
+GITHUB_ORG_CODE = '1c3bf96ae6a2ec75435c'
