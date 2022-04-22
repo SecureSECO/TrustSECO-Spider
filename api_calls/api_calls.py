@@ -1,3 +1,7 @@
+"""
+File containing all of the logic pertaining to making actual API calls
+"""
+
 import os
 import time
 import requests
@@ -62,6 +66,9 @@ def make_api_call(api_url, api_type):
 
 
 def get_needed_headers(api_type):
+    """
+    Returns the needed headers for the given API type
+    """
     if api_type == constants.API_GITHUB:
         return {'Authorization': 'token ' + os.getenv(constants.GITHUB_TOKEN),
                 'Accept': 'application/vnd.github.v3+json'}
@@ -70,6 +77,7 @@ def get_needed_headers(api_type):
 
 
 def get_needed_params(api_type):
+    """Returns the needed parameters for the given API type"""
     if api_type == constants.API_GITHUB:
         return None
     elif api_type == constants.API_LIBRARIES:
