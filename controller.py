@@ -5,7 +5,10 @@ This file will be the file that is run by the Node.JS program.
 """
 
 # Import needed libraries
+import os
 import json
+from dotenv import set_key
+import constants
 # Import the data-getting modules
 from GitHub.github_api_calls import GitHubAPICall
 from GitHub.github_spider_bs import GitHubSpider
@@ -176,3 +179,18 @@ def get_data(input_json):
 
     # Start the controller
     controller.run(input_json)
+
+
+def update_tokens(github_token, libraries_token):
+    """
+    This function will update the environmental variable with the given GitHub and Libraries.io tokens
+    """
+
+    # Make sure the .env file exists
+    if not os.path.exists(constants.ENVIRON_FILE):
+        with open(constants.ENVIRON_FILE, 'w') as f:
+            f.write(f'{constants.GITHUB_TOKEN}=\n{constants.LIBRARIES_TOKEN}=')
+
+    # Update the .env file
+    set_key(constants.ENVIRON_FILE, constants.GITHUB_TOKEN, github_token)
+    set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)
