@@ -41,7 +41,7 @@ def gh_authenticate_user():
         while True:
             # See if the authentication process succeeded
             # If so, continue with the API call
-            if gh_get_token(constants.GITHUB_ORG_CODE):
+            if gh_get_token('1c3bf96ae6a2ec75435c'):
                 print('Successfully authenticated user')
                 # Reload the environment variables
                 # As otherwise the GitHub token would not have been updated
