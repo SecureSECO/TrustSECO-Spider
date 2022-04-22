@@ -5,7 +5,7 @@ in terms of what the API calls and spidering can do.
 
 # Import all the classes that gather data
 from GitHub.github_api_calls import GitHubAPICall
-from GitHub.github_spider import GitHubSpider
+from GitHub.github_spider_bs import GitHubSpider
 from LibrariesIO.libaries_io_api_calls import LibrariesAPICall
 
 # Data requesting objects
