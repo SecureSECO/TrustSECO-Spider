@@ -11,7 +11,7 @@ from dotenv import set_key
 import constants
 # Import the data-getting modules
 from GitHub.github_api_calls import GitHubAPICall
-from GitHub.github_spider_bs import GitHubSpider
+from GitHub.github_spider import GitHubSpider
 from LibrariesIO.libaries_io_api_calls import LibrariesAPICall
 
 
