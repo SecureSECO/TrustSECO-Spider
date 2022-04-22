@@ -1,9 +1,3 @@
-"""
-File containing all of the functions for the authentication process
-
-It allows the program to authenticate the user for the GitHub and Libraries.io APIs
-"""
-
 import os
 import time
 import requests
