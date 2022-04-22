@@ -7,10 +7,10 @@ import constants
 
 def setup_environment():
     # Make sure that the .env file exists, and has the proper key-values
-    if not os.path.exists(constants.ENVIRON_FILE):
+    if not os.path.exists('.env'):
         print('Could not find .env file')
         print('Creating new .env file')
-        with open(constants.ENVIRON_FILE, 'w') as f:
+        with open('.env', 'w') as f:
             f.write(f'{constants.GITHUB_TOKEN}=\n{constants.LIBRARIES_TOKEN}=')
 
     # Authenticate the user
@@ -23,10 +23,14 @@ def authenticate_user():
     """
     # (Re)load the environment variables before authenticating
     # To make sure that we can write tokens to the .env file
-    load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
+    load_dotenv(dotenv_path='.env', override=True)
 
     gh_authenticate_user()
     lib_authenticate_user()
+
+    # (Re)load the environment variables after authenticating
+    # To make sure the correct values are now present
+    load_dotenv(dotenv_path='.env', override=True)
 
 
 def gh_authenticate_user():
@@ -45,7 +49,7 @@ def gh_authenticate_user():
                 print('Successfully authenticated user')
                 # Reload the environment variables
                 # As otherwise the GitHub token would not have been updated
-                load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
+                load_dotenv(dotenv_path='.env', override=True)
 
                 break
             # If not, stop the program
@@ -147,8 +151,12 @@ def request_user_token(client_id, interval, device_token):
         print("Successfully authenticated user.")
 
         # Write the token to the .env file
-        set_key(dotenv_path=constants.ENVIRON_FILE, key_to_set='GITHUB_TOKEN',
+        set_key(dotenv_path='.env', key_to_set='GITHUB_TOKEN',
                 value_to_set=user_token_response['access_token'])
+
+        # Reload the environment variables
+        # As otherwise the environmental tokens would not have been updated
+        load_dotenv(dotenv_path='.env', override=True)
 
         return True
 
@@ -175,11 +183,11 @@ def lib_authenticate_user():
                 """We should probably test this token via some kind of quick api call"""
 
                 # Write the token to the .env file
-                set_key(constants.ENVIRON_FILE, 'LIBRARIES_TOKEN', token)
+                set_key('.env', 'LIBRARIES_TOKEN', token)
 
                 # Reload the environment variables
                 # As otherwise the environmental tokens would not have been updated
-                load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
+                load_dotenv(dotenv_path='.env', override=True)
 
                 break
             # If not, stop the program

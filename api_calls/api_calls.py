@@ -15,8 +15,6 @@ def make_api_call(api_url, api_type):
     # Make sure the user is authenticated, and the environment variables are loaded
     auth.setup_environment()
 
-    data_response = None
-
     # Catch any requests errors
     try:
         # Basic request to get the information.
@@ -63,10 +61,12 @@ def make_api_call(api_url, api_type):
 
 def get_needed_headers(api_type):
     if api_type == constants.API_GITHUB:
-        return {'Authorization': 'token ' + os.getenv(constants.GITHUB_TOKEN),
-                'Accept': 'application/vnd.github.v3+json'}
+        headers = {'Authorization': 'token ' + os.getenv(constants.GITHUB_TOKEN),
+                   'Accept': 'application/vnd.github.v3+json'}
     else:
-        return None
+        headers = None
+
+    return headers
 
 
 def get_needed_params(api_type):
@@ -74,5 +74,3 @@ def get_needed_params(api_type):
         return None
     elif api_type == constants.API_LIBRARIES:
         return {'api_key': os.getenv(constants.LIBRARIES_TOKEN)}
-    else:
-        return None
