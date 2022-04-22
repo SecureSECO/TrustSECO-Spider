@@ -12,8 +12,6 @@ import GitHub.github_api_calls as api_caller
 import constants
 
 
-@mock.patch('api_calls.authentication.setup_environment', new=mock.Mock(return_value=None))
-@mock.patch.dict('os.environ', {'GITHUB_TOKEN': ''})
 class TestUpdateRateLimit:
     """
     Class for testing the function updating the rate limit counts
@@ -194,7 +192,75 @@ class TestCheckRateLimit:
             assert mock_patch.call_count == expected_update_call_count
 
 
-@mock.patch('api_calls.authentication.setup_environment', new=mock.Mock(return_value=None))
+# @pytest.mark.parametrize('given_headers', [None, {'test': 'test'}])
+# class TestMakeAPICall:
+#     """
+#     Class for testing the actual API calls
+
+#     The following tests will be performed:
+#     1. Valid api key
+#     2. Invalid api key
+
+#     Both of these tests will get different permutations of input parameters like:
+#     - api_url and its return value
+#     - headers and no headers
+#     """
+
+#     @responses.activate
+#     @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', Response())])
+#     @mock.patch.dict('os.environ', {'GITHUB_TOKEN': 'test_key'})
+#     def test_valid_key(self, api_url, return_value, given_headers):
+#         """
+#         Test the function making an API call with a valid API key
+#         """
+#         # Mock the API call for when the call is supposed to be successful
+#         if return_value is not None:
+#             responses.add(responses.GET, api_url, body='testing', status=200)
+
+#         # Create a GitHubAPICall object
+#         g = api_caller.GitHubAPICall()
+
+#         # Make the API call
+#         actual_result = g.make_api_call(api_url, given_headers)
+
+#         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
+#         assert isinstance(actual_result, type(return_value))
+
+#     @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', None)])
+#     @mock.patch.dict('os.environ', {'GITHUB_TOKEN': 'asdfs'})
+#     def test_invalid_key(self, api_url, return_value, given_headers):
+#         """
+#         Test the function making an API call with an invalid API key
+#         """
+#         # Create a GitHubAPICall object
+#         g = api_caller.GitHubAPICall()
+
+#         # Make the API call
+#         actual_result = g.make_api_call(api_url, given_headers)
+
+#         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
+#         assert isinstance(actual_result, type(return_value))
+
+#     @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', None)])
+#     @mock.patch('GitHub.github_get_token.GitHubToken.authenticate_user', new=mock.Mock(return_value=False))
+#     def test_no_key(self, api_url, return_value, given_headers):
+#         """
+#         Test the function making an API call, but there is no API key
+#         """
+#         # Remove the .env file if it exists
+#         if os.path.exists('.env'):
+#             os.remove('.env')
+
+#         # Create a GitHubAPICall object
+#         g = api_caller.GitHubAPICall()
+
+#         # Make the API call
+#         actual_result = g.make_api_call(api_url, given_headers)
+
+#         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
+#         assert isinstance(actual_result, type(None))
+
+
 @mock.patch('api_calls.api_calls.make_api_call', new=mock.Mock(return_value=True))
 @pytest.mark.parametrize('call_type', [constants.CORE, constants.SEARCH])
 class TestTryAPICall:
@@ -208,8 +274,8 @@ class TestTryAPICall:
     The main thing to check here is that the rate limit counters are decremented correctly (if needed)
     """
 
-    @mock.patch.dict('os.environ', {'GITHUB_TOKEN': ''})
     @mock.patch('GitHub.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=True))
+    @mock.patch('api_calls.api_calls.APICalling.make_api_call', new=mock.Mock(return_value=True))
     def test_valid_rate_limit(self, call_type):
         """
         Test the function making an API call with a valid rate limit
@@ -221,11 +287,10 @@ class TestTryAPICall:
         g.search_remaining = 5000
 
         # Execute the function
-        actual_result = g.try_perform_api_call(
-            constants.BASE_URL_RATE, call_type)
+        actual_result = g.try_perform_api_call('', call_type)
 
         # Assert that the function returns the correct value
-        assert actual_result is None
+        assert actual_result is True
         # Assert that the correct rate limit variable was decremented
         if call_type == constants.CORE:
             assert g.core_remaining == 4999
