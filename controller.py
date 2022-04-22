@@ -30,47 +30,36 @@ class Controller:
         # Spider objects
         self.gh_spider = GitHubSpider()
 
-    def run(self):
+    def run(self, input_json):
         """
         This is the main looping function of the program.
 
         It will try to read the console to see if a new command has been recieved.
         """
 
-        while True:
-            # Read the console
-            input_string = input()
+        # Retrieve the project information
+        platform = input_json["project_info"]["project_platform"]
+        owner = input_json["project_info"]["project_owner"]
+        repo_name = input_json["project_info"]["project_name"]
+        release = input_json["project_info"]["project_release"]
+        year = input_json["project_info"]["project_year"]
 
-            # Try to convert the input string to a JSON object
-            try:
-                input_json = json.loads(input_string)
-            except json.decoder.JSONDecodeError:
-                print("Error: invalid JSON input")
-                continue
+        # Create an output JSON object
+        output_json = {}
 
-            # Retrieve the project information
-            platform = input_json["project_info"]["project_platform"]
-            owner = input_json["project_info"]["project_owner"]
-            repo_name = input_json["project_info"]["project_name"]
-            release = input_json["project_info"]["project_release"]
-            year = input_json["project_info"]["project_year"]
+        # Request the data from GitHub
+        output_json.update({'gh_data_points': self.get_github_data(
+            owner, repo_name, release, year, input_json["gh_data_points"])})
 
-            # Create an output JSON object
-            output_json = {}
+        # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
+        if release[0].lower() == 'v':
+            lib_release = release[1:]
+        # Request the data from Libraries.io
+        output_json.update({'lib_data_points': self.get_libraries_data(
+            platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
 
-            # Request the data from GitHub
-            output_json.update({'gh_data_points': self.get_github_data(
-                owner, repo_name, release, year, input_json["gh_data_points"])})
-
-            # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
-            if release[0].lower() == 'v':
-                lib_release = release[1:]
-            # Request the data from Libraries.io
-            output_json.update({'lib_data_points': self.get_libraries_data(
-                platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
-
-            # Print the output JSON object to the console
-            print(json.dumps(output_json))
+        # Print the output JSON object to the console
+        print(json.dumps(output_json))
 
     def get_github_data(self, owner, repo_name, release, year, wanted_data):
         """
@@ -175,3 +164,15 @@ class Controller:
 
         # Return the requested data-points
         return return_data
+
+
+def get_data(input_json):
+    """
+    This function will start the controller.
+    """
+
+    # Create a new controller
+    controller = Controller()
+
+    # Start the controller
+    controller.run(input_json)
