@@ -53,35 +53,30 @@ The currently available data-points are:
 
 ### Requirements
 
-This package is initialized as an npm package so it can be easily imported in node projects. However the functionality is written in python. You can find all the python files in the src folder. When installing the python dependencies, it is important that the path in the: pynode.appendSysPath(<path to python dependencies>) this can be found in `trustfacts.js` line 4, is set to the place where these packages are installed.
+This package is initialized as an npm package so it can be easily imported in node projects. However the functionality is written in python. You can find all the python files in the src folder. When installing the python depenencies, it is important that the path given to `pynode.appendSysPath()` in `trustfacts.js` line 4 is set to the place where the packages are actually installed.
 
-The standard path we use is ‘src/env/Lib/site-packages’. If you want to install python packages in an virtual environment on the same location follow these steps.
+The standard path we use is `src/env/Lib/site-packages`.
+If you want to install python packages in an virtual environment on the same location follow these steps:
 
-0: make sure python3 installed on your machine
-
-1: navigate to the `src` folder within the TRUSTSECO-SPIDER directory in a command panel.
-
-2:create a virtual environment by running the command: `py -m venv env`
-
-3:navigate into the `env/Scripts` folder.
-
-4:activate the venv by running the `activate.bat` exacutable.
-
-5:you now should see something like: (env) C:\Users\<yourusername>\Documents\TrustSECO-Spider/src/env/Scripts>
-
-6:navigate back to the `src` folder
-
-7:install packages in env with pip running: `pip install -r requirements.txt`
+0. Make sure python3 installed on your machine
+1. Navigate to the `src` folder within the TRUSTSECO-SPIDER directory in a command terminal.
+2. Create a virtual environment by running the command: `python -m venv env`
+3. Navigate into the `env/Scripts` folder.
+4. Activate the venv by running the `activate.bat` exacutable.
+5. You should now see this: `(env) C:/Users/<yourusername>/Documents/TrustSECO-Spider/src/env/Scripts>`
+6. Navigate back to the `src` folder
+7. Install packages in env with pip running: `pip install -r requirements.txt`
 
 ### Demo
 
-This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run, and if you want to include GitHub SEARCH API calls. The SEARCH API calls are seperated on purpose, as it has a rather low rate limit, and we don't want to exceed that just due to running the demo a few times.
+This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run.
 
 Depending on the given arguments, the demo will grab all of the available GitHub and Libraries.io data-points, and print them to the console.
-Example commands:
+Current commands:
 
-- `python .\demo.py numpy` -> Gets all the data-points for the numpy package/repository (besides the SEARCH API points)
-- `python .\demo.py all gh_search` -> Gets all the data-points for both numpy and AFNetworking, and includes the SEARCH API points
+- `python .\demo.py numpy` -> Gets all the data-points for the numpy package/repository
+- `python .\demo.py afnetworking` -> Gets all the data-points for the AFNetworking package/repository
+- `python .\demo.py all` -> Gets all the data-points for both numpy and AFNetworking
 
 ### Unit tests
 
