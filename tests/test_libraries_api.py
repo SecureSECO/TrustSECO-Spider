@@ -4,6 +4,7 @@ File containing the unit tests for the libraries_io_api_calls.py file.
 
 # Import for testing
 import responses
+import datetime
 # Unit testing imports
 import pytest
 from unittest import mock
@@ -12,7 +13,7 @@ from LibrariesIO.libaries_io_api_calls import LibrariesAPICall
 import constants
 
 
-# region functions with actual API calls
+# region API calling functions
 class TestProjectInformation:
     """
     Class for testing the API call for getting the project information.
@@ -193,6 +194,93 @@ class TestProjectRepository:
 # endregion
 
 
+# region calculation functions
+class TestReleaseFrequency:
+    """
+    Class for testing the get_release_frequency function.
+    This function depends on get_latest_release_date, get_first_release_date and get_release_count.
+
+    To test this function, we will test the following scenarios:
+    1. get_latest_release_date returns None
+    2. get_first_release_date returns None
+    3. get_release_count returns None
+    4. All return a valid result
+    """
+
+    @pytest.mark.parametrize('latest_release_date, first_release_date, release_count, expected_result', [
+        (None, None, None, None),
+        ('2016-04-21T04:09:15.000Z', None, None, None),
+        (None, '2016-04-20T04:09:15.000Z', None, None),
+        (None, None, 1, None),
+        ('2016-04-21T04:09:15.000Z', '2016-04-20T04:09:15.000Z', 1, 86400.0)
+    ])
+    def test_all(self, latest_release_date, first_release_date, release_count, expected_result):
+        """
+        Function for testing all of the possible scenarios
+        """
+
+        # Set the input variables
+        platform = 'Pypi'
+        name = 'numpy'
+
+        # Create a libraries.io API call object
+        lib_api_call = LibrariesAPICall()
+
+        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_latest_release_date', return_value=latest_release_date):
+            with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_first_release_date', return_value=first_release_date):
+                with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_release_count', return_value=release_count):
+                    # Execute the function
+                    result = lib_api_call.get_release_frequency(platform, name)
+
+                    # Check that the response is correct
+                    assert result == expected_result
+
+
+class TestDependencyCount:
+    """
+    Class for testing the get_dependency_count function.
+    This function depends on get_project_dependencies.
+
+    To test this function, we will test the following scenarios:
+    get_project_dependencies returns:
+    1. None
+    2. A dictionary without the wanted key
+    3. A dictionary with the wanted key but no dependencies
+    4. A dictionary with the wanted key and wrong dependencies
+    5. A dictionary with the wanted key and dependencies
+    """
+
+    @pytest.mark.parametrize('return_value, expected_result', [
+        (None, None),
+        ({}, None),
+        ({'dependencies': []}, 0),
+        ({'dependencies': [{'efef': ''}]}, 0),
+        ({'dependencies': [{'kind': 'Development'}, {'kind': ''}]}, 1)
+    ])
+    def test_all(self, return_value, expected_result):
+        """
+        Function for testing all of the possible scenarios
+        """
+
+        # Set the input variables
+        platform = 'Pypi'
+        name = 'numpy'
+        release = '1.22.3'
+
+        # Create a libraries.io API call object
+        lib_api_call = LibrariesAPICall()
+
+        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_dependencies', return_value=return_value):
+            # Execute the function
+            result = lib_api_call.get_dependency_count(platform, name, release)
+
+            # Check that the response is correct
+            assert result == expected_result
+
+
+# endregion
+
+
 # region look-up functions
 class TestLookUp:
     """
@@ -212,7 +300,7 @@ class TestLookUp:
     3. get_project_repository returns a dictionary with the wanted key
     """
 
-    @pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'github_contributions_count': 10}, 10)])
+    @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'github_contributions_count': 10}, 10)])
     def test_contributor_count(self, return_value, expected_value):
         """
         Test containing all of the possible scenarios
@@ -232,7 +320,7 @@ class TestLookUp:
             # Check that the response is correct
             assert response_data == expected_value
 
-    @pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'dependents_count': 10}, 10)])
+    @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'dependents_count': 10}, 10)])
     def test_dependents_count(self, return_value, expected_value):
         """
         Test containing all of the possible scenarios
@@ -252,7 +340,7 @@ class TestLookUp:
             # Check that the response is correct
             assert response_data == expected_value
 
-    @pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'latest_release_published_at': 10}, 10)])
+    @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'latest_release_published_at': 10}, 10)])
     def test_latest_release_date(self, return_value, expected_value):
         """
         Test containing all of the possible scenarios
@@ -273,7 +361,7 @@ class TestLookUp:
             # Check that the response is correct
             assert response_data == expected_value
 
-    @pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'versions': [1, 2, 3]}, 3)])
+    @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'versions': [1, 2, 3]}, 3)])
     def test_release_count(self, return_value, expected_value):
         """
         Test containing all of the possible scenarios
@@ -293,7 +381,7 @@ class TestLookUp:
             # Check that the response is correct
             assert response_data == expected_value
 
-    @pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'rank': 10}, 10)])
+    @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'rank': 10}, 10)])
     def test_sourcerank(self, return_value, expected_value):
         """
         Test containing all of the possible scenarios

@@ -68,11 +68,11 @@ class LibrariesAPICall:
         data = self.get_project_dependencies(platform, name, release)
 
         # If we got a valid response, get the dependency count
-        if data is not None:
+        if data is not None and 'dependencies' in data:
             # Filter out the development dependencies, as they are not relevant for the final product
             count = 0
             for release in data['dependencies']:
-                if release['kind'] != 'Development':
+                if 'kind' in release and release['kind'] != 'Development':
                     count += 1
 
             # Return the amount of dependencies
