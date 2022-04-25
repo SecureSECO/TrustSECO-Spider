@@ -13,7 +13,6 @@ from api_calls.api_calls import make_api_call, get_needed_headers, get_needed_pa
 import constants
 
 
-@mock.patch('api_calls.authentication.setup_environment', new=mock.Mock(return_value=None))
 class TestMakeAPICall_gh:
     """
     Class for testing the actual API calls
@@ -58,7 +57,6 @@ class TestMakeAPICall_gh:
         assert isinstance(actual_result, type(return_value))
 
 
-@mock.patch('api_calls.authentication.setup_environment', new=mock.Mock(return_value=None))
 class TestMakeAPICall_lib:
     """
     Class for testing the actual API calls

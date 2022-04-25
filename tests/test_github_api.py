@@ -12,7 +12,6 @@ import GitHub.github_api_calls as api_caller
 import constants
 
 
-@mock.patch('api_calls.authentication.setup_environment', new=mock.Mock(return_value=None))
 @mock.patch.dict('os.environ', {'GITHUB_TOKEN': ''})
 class TestUpdateRateLimit:
     """
