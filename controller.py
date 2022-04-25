@@ -57,6 +57,9 @@ class Controller:
         # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
         if release[0].lower() == 'v':
             lib_release = release[1:]
+        else:
+            lib_release = release
+
         # Request the data from Libraries.io
         output_json.update({'lib_data_points': self.get_libraries_data(
             platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
