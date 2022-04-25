@@ -6,7 +6,7 @@ import os
 import time
 import requests
 import constants
-import api_calls.authentication as auth
+from dotenv import load_dotenv
 
 
 def make_api_call(api_url, api_type):
@@ -16,8 +16,8 @@ def make_api_call(api_url, api_type):
     If successful, returns the response
     If not, returns None
     """
-    # Make sure the user is authenticated, and the environment variables are loaded
-    auth.setup_environment()
+    # Make sure the environment variables are loaded
+    load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
 
     data_response = None
 

@@ -4,13 +4,11 @@ File containing the unit tests for the libraries_io_api_calls.py file.
 
 # Import for testing
 import responses
-import datetime
 # Unit testing imports
 import pytest
 from unittest import mock
 # Spider import
 from LibrariesIO.libaries_io_api_calls import LibrariesAPICall
-import constants
 
 
 # region API calling functions
