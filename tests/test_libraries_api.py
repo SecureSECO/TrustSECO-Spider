@@ -278,6 +278,44 @@ class TestDependencyCount:
             assert result == expected_result
 
 
+class TestFirstReleaseDate:
+    """
+    Class for testing the get_first_release_date function.
+
+    get_project_information returns:
+    1. None
+    2. A dictionary but without the wanted key
+    3. A dictionary with the wanted key but no elements
+    4. A dictionary with the wanted key and elements
+    """
+
+    @pytest.mark.parametrize('return_value, expected_result', [
+        (None, None),
+        ({}, None),
+        ({'versions': []}, None),
+        ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'}]},
+         '2016-04-20T04:09:15.000Z'),
+        ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'},
+         {'published_at': '2016-04-21T04:09:15.000Z'}]}, '2016-04-20T04:09:15.000Z')
+    ])
+    def test_all(self, return_value, expected_result):
+        """
+        Function for testing all of the possible scenarios
+        """
+
+        # Set the input variables
+        platform = 'Pypi'
+        name = 'numpy'
+
+        # Create a libraries.io API call object
+        lib_api_call = LibrariesAPICall()
+
+        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_information', return_value=return_value):
+            # Execute the function
+            result = lib_api_call.get_first_release_date(platform, name)
+
+            # Check that the response is correct
+            assert result == expected_result
 # endregion
 
 

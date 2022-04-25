@@ -129,7 +129,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the first release date
-        if data is not None:
+        if data is not None and 'versions' in data:
             # Search through all the given releases
             # To find the first one, and return its date string
             current_earliest = dt.now()
@@ -144,12 +144,13 @@ class LibrariesAPICall:
                     current_earliest = version_date
                     earliest_string = version['published_at']
 
-            # Return the string representation of the earliest date
-            return earliest_string
-        # Else, return None
-        else:
-            print("Error occured while getting the project's first release date")
-            return None
+            if earliest_string != '':
+                # Return the string representation of the earliest date
+                return earliest_string
+
+        # Return None if we could not find the first release date
+        print("Error occured while getting the project's first release date")
+        return None
 
     def get_release_count(self, platform, name):
         """
