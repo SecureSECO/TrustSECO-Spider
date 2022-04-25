@@ -49,7 +49,7 @@ class LibrariesAPICall:
         data = self.get_project_repository(owner, name)
 
         # If we got a valid response, return the contributor count
-        if data is not None:
+        if data is not None and 'github_contributions_count' in data:
             return data['github_contributions_count']
         # Else, return None
         else:
@@ -57,7 +57,7 @@ class LibrariesAPICall:
                 "Error occured while getting the project's repository contributor count")
             return None
 
-    def get_dependency_count(self, platform, name, version):
+    def get_dependency_count(self, platform, name, release):
         """
         Tries to get the project's source rank
         """
@@ -65,7 +65,7 @@ class LibrariesAPICall:
         print('Getting the dependency count')
 
         # Get the depenency data of this project
-        data = self.get_project_dependencies(platform, name, version)
+        data = self.get_project_dependencies(platform, name, release)
 
         # If we got a valid response, get the dependency count
         if data is not None:
@@ -93,7 +93,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the dependent count
-        if data is not None:
+        if data is not None and 'dependents_count' in data:
             return data['dependents_count']
         # Else, return None
         else:
@@ -111,7 +111,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the latest release date
-        if data is not None:
+        if data is not None and 'latest_release_published_at' in data:
             return data['latest_release_published_at']
         # Else, return None
         else:
@@ -162,7 +162,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the release count
-        if data is not None:
+        if data is not None and 'versions' in data:
             return len(data['versions'])
         # Else, return None
         else:
@@ -180,7 +180,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the source rank
-        if data is not None:
+        if data is not None and 'rank' in data:
             return data['rank']
         # Else, return None
         else:
@@ -204,13 +204,13 @@ class LibrariesAPICall:
             print("Error occured while getting the project's repository information")
             return None
 
-    def get_project_dependencies(self, platform, name, version):
+    def get_project_dependencies(self, platform, name, release):
         """
         Tries to get the project's dependencies from Libraries.io
         """
 
         # Setup the url, and perform the request
-        depen_url = f'https://libraries.io/api/{platform}/{name}/{version}/dependencies'
+        depen_url = f'https://libraries.io/api/{platform}/{name}/{release}/dependencies'
         data_response = make_api_call(depen_url, constants.API_LIBRARIES)
 
         # If the data_response is valid, return the json data
