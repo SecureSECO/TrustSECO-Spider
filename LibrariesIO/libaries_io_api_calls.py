@@ -3,23 +3,13 @@ File containing the Libraries.io API class.
 This class is used to perform API calls to the Libraries.io API.
 """
 
-import os
-import time
 from datetime import datetime as dt
-import requests
-from dotenv import load_dotenv, set_key
+import constants
+from api_calls.api_calls import make_api_call
 
 
 class LibrariesAPICall:
-    def __init__(self):
-        # Make sure that the .env file exists, and has the proper key-values
-        if not os.path.exists('.env'):
-            print('Could not find .env file')
-            print('Creating new .env file')
-            with open('.env', 'w') as f:
-                f.write('GITHUB_TOKEN=\nLIBRARIES_TOKEN=')
-
-        load_dotenv(dotenv_path='.env')
+    """Class methods for getting data from Libraries.io"""
 
     def get_release_frequency(self, platform, name):
         """
@@ -59,7 +49,7 @@ class LibrariesAPICall:
         data = self.get_project_repository(owner, name)
 
         # If we got a valid response, return the contributor count
-        if data is not None:
+        if data is not None and 'github_contributions_count' in data:
             return data['github_contributions_count']
         # Else, return None
         else:
@@ -67,7 +57,7 @@ class LibrariesAPICall:
                 "Error occured while getting the project's repository contributor count")
             return None
 
-    def get_dependency_count(self, platform, name, version):
+    def get_dependency_count(self, platform, name, release):
         """
         Tries to get the project's source rank
         """
@@ -75,14 +65,14 @@ class LibrariesAPICall:
         print('Getting the dependency count')
 
         # Get the depenency data of this project
-        data = self.get_project_dependencies(platform, name, version)
+        data = self.get_project_dependencies(platform, name, release)
 
         # If we got a valid response, get the dependency count
-        if data is not None:
+        if data is not None and 'dependencies' in data:
             # Filter out the development dependencies, as they are not relevant for the final product
             count = 0
             for release in data['dependencies']:
-                if release['kind'] != 'Development':
+                if 'kind' in release and release['kind'] != 'Development':
                     count += 1
 
             # Return the amount of dependencies
@@ -103,7 +93,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the dependent count
-        if data is not None:
+        if data is not None and 'dependents_count' in data:
             return data['dependents_count']
         # Else, return None
         else:
@@ -121,7 +111,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the latest release date
-        if data is not None:
+        if data is not None and 'latest_release_published_at' in data:
             return data['latest_release_published_at']
         # Else, return None
         else:
@@ -139,7 +129,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the first release date
-        if data is not None:
+        if data is not None and 'versions' in data:
             # Search through all the given releases
             # To find the first one, and return its date string
             current_earliest = dt.now()
@@ -154,12 +144,13 @@ class LibrariesAPICall:
                     current_earliest = version_date
                     earliest_string = version['published_at']
 
-            # Return the string representation of the earliest date
-            return earliest_string
-        # Else, return None
-        else:
-            print("Error occured while getting the project's first release date")
-            return None
+            if earliest_string != '':
+                # Return the string representation of the earliest date
+                return earliest_string
+
+        # Return None if we could not find the first release date
+        print("Error occured while getting the project's first release date")
+        return None
 
     def get_release_count(self, platform, name):
         """
@@ -172,7 +163,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the release count
-        if data is not None:
+        if data is not None and 'versions' in data:
             return len(data['versions'])
         # Else, return None
         else:
@@ -190,7 +181,7 @@ class LibrariesAPICall:
         data = self.get_project_information(platform, name)
 
         # If we got a valid response, return the source rank
-        if data is not None:
+        if data is not None and 'rank' in data:
             return data['rank']
         # Else, return None
         else:
@@ -203,8 +194,8 @@ class LibrariesAPICall:
         """
 
         # Setup the url, and perform the request
-        repo_url = f'https://libraries.io/api/github/{owner}/{name}?api_key='
-        data_response = self.make_api_call(repo_url)
+        repo_url = f'https://libraries.io/api/github/{owner}/{name}'
+        data_response = make_api_call(repo_url, constants.API_LIBRARIES)
 
         # If the data_response is valid, return the json data
         if data_response is not None:
@@ -214,14 +205,14 @@ class LibrariesAPICall:
             print("Error occured while getting the project's repository information")
             return None
 
-    def get_project_dependencies(self, platform, name, version):
+    def get_project_dependencies(self, platform, name, release):
         """
         Tries to get the project's dependencies from Libraries.io
         """
 
         # Setup the url, and perform the request
-        depen_url = f'https://libraries.io/api/{platform}/{name}/{version}/dependencies?api_key='
-        data_response = self.make_api_call(depen_url)
+        depen_url = f'https://libraries.io/api/{platform}/{name}/{release}/dependencies'
+        data_response = make_api_call(depen_url, constants.API_LIBRARIES)
 
         # If the data_response is valid, return the json data
         if data_response is not None:
@@ -237,8 +228,8 @@ class LibrariesAPICall:
         """
 
         # Setup the url, and perform the request
-        repo_url = f'https://libraries.io/api/{platform}/{name}?api_key='
-        data_response = self.make_api_call(repo_url)
+        repo_url = f'https://libraries.io/api/{platform}/{name}'
+        data_response = make_api_call(repo_url, constants.API_LIBRARIES)
 
         # If the data_response is valid, return the json data
         if data_response is not None:
@@ -246,72 +237,4 @@ class LibrariesAPICall:
         # Else, inform the user that the request has failed, and return None
         else:
             print("Error occured while getting the project information")
-            return None
-
-    def make_api_call(self, api_url):
-        """
-        Perform a simple GET request, based off the given URL
-
-        If successful, returns the response
-        If not, returns None
-        """
-
-        # See if the user's Libraries.io token is known
-        # If not, authenticate the user
-        if os.getenv('LIBRARIES_TOKEN') is None or os.getenv('LIBRARIES_TOKEN') == '':
-            print('No Libraries.io token found.')
-            print('Please enter your token:')
-
-            token = input()
-
-            # See if the user entered a valid token
-            # by making sure text has been entered
-            # and that the entered text is alphanumeric
-            if len(token) > 0 and token.isalnum():
-                print('Received API token')
-                """We should probably test this token via some kind of quick api call"""
-
-                # Write the token to the .env file
-                set_key('.env', 'LIBRARIES_TOKEN', token)
-
-                # Reload the environment variables
-                # As otherwise the environmental tokens would not have been updated
-                load_dotenv(dotenv_path='.env', override=True)
-            # If not, stop the program
-            else:
-                print('Authentication failed.')
-                """Perhaps a retry would be better here?"""
-                return None
-
-        # Catch any requests errors
-        try:
-            # Basic request to get the information.
-            data_response = requests.get(
-                api_url + os.getenv('LIBRARIES_TOKEN'))
-        except requests.exceptions.RequestException as error:
-            print('Requests encountered an error:')
-            print(error)
-            return None
-
-        # See if we got a valid response
-        if data_response.status_code == 200:
-            return data_response
-        # See if we got a rate limit error
-        elif data_response.status_code == 429:
-            # See if the header includes the rate limit reset time
-            # If so, use it
-            if 'Retry-After' in data_response.headers:
-                retry_time = data_response.headers['Retry-After']
-                print(
-                    f'Too many requests. Trying again in {retry_time} seconds.')
-                time.sleep(retry_time)
-                return self.make_api_call(api_url)
-            # If not, use 30 seconds, as it is half the rate limit reset time
-            else:
-                print('Too many requests. Trying again in 30 seconds.')
-                time.sleep(30)
-                return self.make_api_call(api_url)
-        else:
-            print('Unable to get data from Libraries.io')
-            print(f'Error: {data_response.status_code}')
             return None
