@@ -3,7 +3,7 @@ Allow the program to use BeautifulSoup and Requests in order to
 scrape wanted data-points from the CVE website.
 """
 
-import datetime
+import json
 import requests
 from bs4 import BeautifulSoup
 
@@ -50,7 +50,9 @@ class CVESpider:
 
     def get_cve_codes(self, name):
         """
-        Returns a list of links that refer to known vulnerabilities for the given package
+        Searches through the CVE database for the given package name
+
+        Returns a list of CVE codes for vulnerabilities affecting the given package
         """
 
         # Create the URL for the package
@@ -66,23 +68,35 @@ class CVESpider:
         # Find the <a> tags that contain the CVE links
         tables = soup.find_all('table')
         # See if the wanted table exists
-        if len(tables) > 2:
-            table = tables[2]
-            links = table.find_all('a')
+        if tables is not None:
+            if len(tables) > 2:
+                table = tables[2]
+                links = table.find_all('a')
 
-            # Return the list of CVE codes
-            cve_codes = []
-            for link in links:
-                cve_codes.append(link.text)
+                # Return the list of CVE codes
+                cve_codes = []
+                for link in links:
+                    cve_codes.append(link.text)
 
-            # Return the list of CVE codes
-            return cve_codes
+                # Return the list of CVE codes
+                return cve_codes
+            else:
+                return None
         else:
             return None
 
     def extract_cve_data(self, cve_code):
         """
         Extracts the data from a given CVE link
+
+        The data we extract is:
+        - CVE code
+        - CVE score
+        - Affected versions:
+          - Start version type
+          - Start version
+          - End version type
+          - End version
         """
 
         # Create the full URL for the CVE link
@@ -96,20 +110,39 @@ class CVESpider:
             return None
 
         # get the vulnerability score
-        score_string = soup.find(id='Cvss3NistCalculatorAnchor').text
-        # Parse the score string
-        score = int(score_string.split(' ')[0])
+        score_element = soup.find(id='Cvss3NistCalculatorAnchor')
+        # Make sure we got a valid result
+        if score_element is not None:
+            # Parse the score string
+            score = float(score_element.text.split(' ')[0])
 
         # Get the affected versions
-        b_tags = soup.find_all('b')
-        # loop through b tags, find the one with 'Up to ' in it, and extract the version
-        # make sure to check whether or not it is inclusive
+        affected_version_start_type = None
+        affected_version_start = None
+        affected_version_end_type = None
+        affected_version_end = None
+        try:
+            json_data = json.loads(
+                soup.find(id='cveTreeJsonDataHidden')['value'])
+            # Go to the location of the data within the JSON object
+            data = json_data[0]['containers'][0]['cpes'][0]
+            # Get the information about the affected versions
+            affected_version_start_type = data['rangeStartType']
+            affected_version_start = data['rangeStartVersion']
+            affected_version_end_type = data['rangeEndType']
+            affected_version_end = data['rangeEndVersion']
+        except Exception as e:
+            print('Could not find affected versions.')
+            print(e)
 
-        # Extract the data from the CVE webpage
+        # Put the extracted data into a dictionary
         cve_data = {
             'CVE_ID': cve_code,
             'CVE_score': score,
-
+            'CVE_affected_version_start_type': affected_version_start_type,
+            'CVE_affected_version_start': affected_version_start,
+            'CVE_affected_version_end_type': affected_version_end_type,
+            'CVE_affected_version_end': affected_version_end,
         }
 
         # Return the CVE data
