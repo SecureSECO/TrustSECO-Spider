@@ -12,11 +12,13 @@ class StackOverflowCall:
         Gets popularity of a language each month since 2008
         """
 
+        # Take the url for Stack Overflow trends
         url = "https://insights.stackoverflow.com/trends/get-data"
-        response = requests.get(url)
-        years = response.json().get("Year")
-        months = response.json().get("Month")
-        popularity = response.json().get("TagPercents").get(language)
+        # Extract the data as json
+        response = requests.get(url).json()
+        #
+        years = response.get("Year")
+        months = response.get("Month")
+        popularity = response.get("TagPercents").get(language)
 
-        print("The language {0} was used by {1} percent of users in {2} {3}",
-              language, popularity[1], months[1], years[1])
+        return list(zip(months, years, popularity, strict=True))
