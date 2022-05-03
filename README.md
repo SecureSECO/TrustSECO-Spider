@@ -53,7 +53,7 @@ The currently available data-points are:
 
 ### Requirements
 
-This package is initialized as an npm package so it can be easily imported in node projects. However the functionality is written in python. You can find all the python files in the src folder. When installing the python depenencies, it is important that the path given to `pynode.appendSysPath()` in `trustfacts.js` line 4 is set to the place where the packages are actually installed.
+This package is initialized as an npm package so it can be easily imported in node projects. However the functionality is written in python. You can find all the python files in the src folder. When installing the python depenencies, it is important that the path given to `pynode.appendSysPath()` in `index.js` line 4 is set to the place where the packages are actually installed.
 
 The standard path we use is `src/env/Lib/site-packages`.
 If you want to install python packages in an virtual environment on the same location follow these steps:

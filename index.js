@@ -1,13 +1,18 @@
 const pynode = require('@fridgerator/pynode');
+const { execSync } = require("child_process");
+
+// Install Python dependencies
+execSync("pip install -r requirements.txt");
+
 pynode.startInterpreter();
 
 pynode.appendSysPath('env/Lib/site-packages');
 pynode.appendSysPath('./');
 
-pynode.openFile('interface');
+pynode.openFile('controller');
 
-function testFunc(imput, callback) {
-    pynode.call('testfunc', imput, callback)
+function get_data(json_input, callback) {
+    pynode.call('get_data', json_input, callback)
 }
 
 function update_tokens(github_token, libraries_token, callback) {
