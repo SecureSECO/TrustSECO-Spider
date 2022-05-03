@@ -1,0 +1,67 @@
+"""
+File containing the unit tests for the Stack_Overflow_calls.py file.
+"""
+
+# Import for testing
+import responses
+# Unit testing imports
+# import pytest <- functions which use I do not understand (ask Brett)
+# from unittest import mock
+# Stack import
+from StackOverflow.Stack_Overflow_calls import StackOverflowCall
+
+# functions with Stack Overflow Data calls
+
+
+class TestTrends:
+    """
+    Class for testing trend responces
+
+    To test this function, we shall test the following scenarios:
+    1. The input parameters are valid
+    2. The input parameters are invalid
+    """
+
+    @responses.activate
+    def test_valid_language(self):
+        """
+        Test for when the language is valid
+        """
+
+        # Create a Stack Overflow Call object
+        stack_call = StackOverflowCall()
+
+        # Set the input variables
+        name = 'numpy'
+
+        # Add to responses
+        responses.add(responses.GET, 'https://insights.stackoverflow.com/trends/get-data', json={
+            {"Year": 2022}, {"Month": 5}, {"TagPercents": {"numpy": 2.1022945}}})
+
+        # Execute the function
+        response_data = stack_call.get_Monthly_Trends(name)
+
+        # Check that the response is correct
+        assert response_data == (5, 2022, 2.1022945)
+
+    @responses.activate
+    def test_invalid_language(self):
+        """
+        Test for when the language is invalid
+        """
+
+        # Create a Stack Overflow Call object
+        stack_call = StackOverflowCall()
+
+        # Set the input variables
+        name = 'nump'
+
+        # Add to responses
+        responses.add(responses.GET, 'https://insights.stackoverflow.com/trends/get-data', json={
+            {"Year": 2022}, {"Month": 5}, {"TagPercents": {"numpy": 2.1022945}}})
+
+        # Execute the function
+        response_data = stack_call.get_Monthly_Trends(name)
+
+        # Check that the response is correct
+        assert response_data is None
