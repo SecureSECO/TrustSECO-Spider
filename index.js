@@ -6,7 +6,6 @@ execSync("pip install -r requirements.txt");
 
 pynode.startInterpreter();
 
-pynode.appendSysPath('env/Lib/site-packages');
 pynode.appendSysPath('./');
 
 pynode.openFile('controller');
