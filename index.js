@@ -6,7 +6,7 @@ execSync(`pip install -r ${__dirname}/requirements.txt`);
 
 pynode.startInterpreter();
 
-pynode.appendSysPath('./');
+pynode.appendSysPath(`${__dirname}/`);
 
 pynode.openFile('controller');
 
