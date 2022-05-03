@@ -2,7 +2,7 @@ const pynode = require('@fridgerator/pynode');
 const { execSync } = require("child_process");
 
 // Install Python dependencies
-execSync("pip install -r requirements.txt");
+execSync(`pip install -r ${__dirname}/requirements.txt`);
 
 pynode.startInterpreter();
 
