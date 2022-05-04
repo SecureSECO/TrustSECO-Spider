@@ -25,7 +25,7 @@ class CVESpider:
         if cve_codes is not None:
             return len(cve_codes)
         else:
-            return 0
+            return None
 
     def get_all_cve_data(self, name):
         """
@@ -41,7 +41,9 @@ class CVESpider:
             data = []
             # Go through all the links and extract the CVE data
             for cve_code in cve_codes:
-                data.append(self.extract_cve_data(cve_code))
+                cve_data = self.extract_cve_data(cve_code)
+                if cve_data is not None:
+                    data.append(cve_data)
 
             # Return the list of CVE data
             return data
@@ -69,7 +71,7 @@ class CVESpider:
         tables = soup.find_all('table')
         # See if the wanted table exists
         if tables is not None:
-            if len(tables) > 2:
+            if len(tables) == 5:
                 table = tables[2]
                 links = table.find_all('a')
 
@@ -112,6 +114,7 @@ class CVESpider:
         # get the vulnerability score
         score_element = soup.find(id='Cvss3NistCalculatorAnchor')
         # Make sure we got a valid result
+        score = None
         if score_element is not None:
             # Parse the score string
             score = float(score_element.text.split(' ')[0])
@@ -127,9 +130,15 @@ class CVESpider:
             # Go to the location of the data within the JSON object
             data = json_data[0]['containers'][0]['cpes'][0]
             # Get the information about the affected versions
-            affected_version_start_type = data['rangeStartType']
+            affected_version_start_type = None
+            if data['rangeStartType'] != 'none':
+                affected_version_start_type = data['rangeStartType']
+
+            affected_version_end_type = None
+            if data['rangeEndType'] != 'none':
+                affected_version_end_type = data['rangeEndType']
+
             affected_version_start = data['rangeStartVersion']
-            affected_version_end_type = data['rangeEndType']
             affected_version_end = data['rangeEndVersion']
         except Exception as e:
             print('Could not find affected versions.')
@@ -157,7 +166,8 @@ class CVESpider:
             # Make a GET request to the given URL
             html = requests.get(url)
             if html.status_code != 200:
-                raise Exception('Could not load the webpage')
+                raise requests.exceptions.RequestException(
+                    'Could not load the webpage')
         except requests.exceptions.RequestException as e:
             print('Error loading webpage.')
             print(e)
