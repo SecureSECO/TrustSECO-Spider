@@ -13,6 +13,7 @@ import constants
 from GitHub.github_api_calls import GitHubAPICall
 from GitHub.github_spider import GitHubSpider
 from LibrariesIO.libaries_io_api_calls import LibrariesAPICall
+from CVE.cve_spider import CVESpider
 
 
 class Controller:
@@ -32,6 +33,7 @@ class Controller:
 
         # Spider objects
         self.gh_spider = GitHubSpider()
+        self.cve_spider = CVESpider()
 
     def run(self, input_json):
         """
@@ -51,18 +53,26 @@ class Controller:
         output_json = {}
 
         # Request the data from GitHub
-        output_json.update({'gh_data_points': self.get_github_data(
-            owner, repo_name, release, year, input_json["gh_data_points"])})
+        if 'gh_data_points' in input_json:
+            output_json.update({'gh_data_points': self.get_github_data(
+                owner, repo_name, release, year, input_json["gh_data_points"])})
 
-        # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
-        if release[0].lower() == 'v':
-            lib_release = release[1:]
-        else:
-            lib_release = release
+        # Request the data from Libraries.IO
+        if 'lib_data_points' in input_json:
+            # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
+            if release[0].lower() == 'v':
+                lib_release = release[1:]
+            else:
+                lib_release = release
 
-        # Request the data from Libraries.io
-        output_json.update({'lib_data_points': self.get_libraries_data(
-            platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+            # Actually request the data
+            output_json.update({'lib_data_points': self.get_libraries_data(
+                platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+
+        # Request the data from the CVE website
+        if 'cve_data_points' in input_json:
+            output_json.update({'cve_data_points': self.get_cve_data(
+                repo_name, input_json["cve_data_points"])})
 
         # Print the output JSON object to the console
         print(json.dumps(output_json))
@@ -164,6 +174,33 @@ class Controller:
             elif data_point == "lib_sourcerank":
                 return_data.update(
                     {data_point: self.lib_api.get_sourcerank(platform, repo_name)})
+            else:
+                print(f"Error: invalid data point {data_point}")
+                return_data.update({data_point: None})
+
+        # Return the requested data-points
+        return return_data
+
+    def get_cve_data(self, repo_name, wanted_data):
+        """
+        This function will get the data from the CVE website.
+
+        It will then return a JSON string containing the data.
+        """
+
+        # Create a JSON object to store the data
+        return_data = {}
+
+        for data_point in wanted_data:
+            if data_point == "cve_count":
+                return_data.update(
+                    {data_point: self.cve_spider.get_cve_vulnerability_count(repo_name)})
+            elif data_point == "cve_vulnerabilities":
+                return_data.update(
+                    {data_point: self.cve_spider.get_all_cve_data(repo_name)})
+            elif data_point == "cve_codes":
+                return_data.update(
+                    {data_point: self.cve_spider.get_cve_codes(repo_name)})
             else:
                 print(f"Error: invalid data point {data_point}")
                 return_data.update({data_point: None})

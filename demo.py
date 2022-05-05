@@ -50,6 +50,11 @@ def numpy_demo():
             "lib_first_release_date",
             "lib_release_count",
             "lib_sourcerank"
+        ],
+        "cve_data_points": [
+            "cve_count",
+            "cve_vulnerabilities",
+            "cve_codes"
         ]
     }
 
@@ -97,6 +102,11 @@ def afnetworking_demo():
             "lib_first_release_date",
             "lib_release_count",
             "lib_sourcerank"
+        ],
+        "cve_data_points": [
+            "cve_count",
+            "cve_vulnerabilities",
+            "cve_codes"
         ]
     }
 

@@ -4,9 +4,7 @@ This spider uses a combination of actual spidering (using BeautifulSoup) and API
  
 ## GitHub
  
-Our program uses GitHub's Device Flow in order to obtain a personal token, which then gets used for the API calls.
- 
-It retrieves most data-points using GitHub's REST API. Sadly, not all of the wanted data-points were accessible this way. In order to still gather this data, spidering had to be used.
+Our program retrieves most data-points using GitHub's REST API. Sadly, not all of the wanted data-points were accessible this way. In order to still gather this data, spidering had to be used.
  
 It can currently get the following data-points from GitHub:
  
@@ -31,13 +29,11 @@ It can currently get the following data-points from GitHub:
   - Number of stargazers
  
 ## Libraries.io
- 
-As Libraries.io does not have a 'Device Flow' like way to obtain a personal token, the user will have to enter this manually when starting the program.
- 
+
 All of the data-points are gathered using various Libraries.io's APIs.
- 
+
 The currently available data-points are:
- 
+
 - Project:
   - Release frequency
   - Number of dependencies
@@ -48,7 +44,20 @@ The currently available data-points are:
   - Sourcerank
 - Repository:
   - Contributor count
- 
+
+## CVE
+
+The spider can currently query the CVE service, and get all the known CVE codes of vulnerabilities of the given package.
+
+For each of these codes, it can get the following information:
+
+- CVE ID
+- Vulnerability score
+- Affected versions:
+  - Start version
+  - End version
+  - The type thereof (inclusive or exclusive)
+
 ## How to use
  
 ### Requirements
