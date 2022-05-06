@@ -8,7 +8,7 @@ import responses
 import pytest
 from unittest import mock
 # Spider import
-from LibrariesIO.libaries_io_api_calls import LibrariesAPICall
+from api_calls.libaries_io_api_calls import LibrariesAPICall
 
 
 # region API calling functions
@@ -224,9 +224,9 @@ class TestReleaseFrequency:
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_latest_release_date', return_value=latest_release_date):
-            with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_first_release_date', return_value=first_release_date):
-                with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_release_count', return_value=release_count):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_latest_release_date', return_value=latest_release_date):
+            with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_first_release_date', return_value=first_release_date):
+                with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_release_count', return_value=release_count):
                     # Execute the function
                     result = lib_api_call.get_release_frequency(platform, name)
 
@@ -268,7 +268,7 @@ class TestDependencyCount:
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_dependencies', return_value=return_value):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_dependencies', return_value=return_value):
             # Execute the function
             result = lib_api_call.get_dependency_count(platform, name, release)
 
@@ -308,7 +308,7 @@ class TestFirstReleaseDate:
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_information', return_value=return_value):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_information', return_value=return_value):
             # Execute the function
             result = lib_api_call.get_first_release_date(platform, name)
 
@@ -349,7 +349,7 @@ class TestLookUp:
         owner = 'numpy'
         name = 'numpy'
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_repository', new=mock.Mock(return_value=return_value)):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_repository', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_contributors_count(owner, name)
 
@@ -369,7 +369,7 @@ class TestLookUp:
         owner = 'numpy'
         name = 'numpy'
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_dependent_count(owner, name)
 
@@ -389,7 +389,7 @@ class TestLookUp:
         platform = 'numpy'
         name = 'numpy'
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_latest_release_date(
                 platform, name)
@@ -410,7 +410,7 @@ class TestLookUp:
         platform = 'numpy'
         name = 'numpy'
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_release_count(platform, name)
 
@@ -430,7 +430,7 @@ class TestLookUp:
         platform = 'numpy'
         name = 'numpy'
 
-        with mock.patch('LibrariesIO.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('api_calls.libaries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_sourcerank(platform, name)
 
