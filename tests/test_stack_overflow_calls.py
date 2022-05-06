@@ -7,7 +7,7 @@ import responses
 # Unit testing imports
 import pytest
 # Import the Stackoverflow spider
-from StackOverflow.stack_overflow_calls import StackOverflowCall
+from StackOverflow.stackoverflow_calls import StackOverflowCall
 
 
 class TestTrends:
