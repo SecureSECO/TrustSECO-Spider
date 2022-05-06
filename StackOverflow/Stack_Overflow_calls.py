@@ -7,21 +7,37 @@ import requests
 class StackOverflowCall:
     """Class methods for getting data from Stack Overflow"""
 
-    def get_Monthly_Trends(self, language):
+    def get_monthly_trends(self, package):
         """
         Gets popularity of a language each month since 2008
         """
 
         # Take the url for Stack Overflow trends
-        url = "https://insights.stackoverflow.com/trends/get-data"
+        url = 'https://insights.stackoverflow.com/trends/get-data'
 
         # Extract the data as json
-        response = requests.get(url).json()
+        try:
+            response = requests.get(url).json()
+        except requests.exceptions.RequestException as e:
+            print('Error:', e)
+            return None
 
         # Devide the json into data and percentage data
-        years = response.get("Year")
-        months = response.get("Month")
-        popularity = response.get("TagPercents").get(language)
+        if 'Year' in response and 'Month' in response and 'TagPercents' in response:
+            output = None
 
-        # return list of date and percentage tuples.
-        return list(zip(months, years, popularity, strict=True))
+            if response['TagPercents'] is not None and package in response['TagPercents']:
+                years = response['Year']
+                months = response['Month']
+                popularity = response['TagPercents'][package]
+
+                # return list of date and percentage tuples.
+                try:
+                    output = list(zip(months, years, popularity, strict=True))
+                except ValueError:
+                    print('One of the zipped lists was not of the same length')
+
+            return output
+        else:
+            print('Could not find the wanted data')
+            return None
