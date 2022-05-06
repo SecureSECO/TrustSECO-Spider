@@ -8,7 +8,7 @@ import responses
 import pytest
 from unittest import mock
 # Spider import
-import GitHub.github_api_calls as api_caller
+import api_calls.github_api_calls as api_caller
 import constants
 
 
@@ -95,7 +95,7 @@ class TestCheckRateLimit:
 
         # Patch the update_rate_limit_data function to return True
         # By doing this we can see if it is called during the test
-        with mock.patch('GitHub.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=True)) as mock_patch:
+        with mock.patch('api_calls.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=True)) as mock_patch:
             # Create a GitHubAPICall object, and make sure it is initialized correctly
             g = api_caller.GitHubAPICall()
             g.core_remaining = 5000
@@ -125,7 +125,7 @@ class TestCheckRateLimit:
 
         # Patch the update_rate_limit_data function to return True
         # By doing this we can see if it is called during the test
-        with mock.patch('GitHub.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=return_value)) as mock_patch:
+        with mock.patch('api_calls.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=return_value)) as mock_patch:
             # Create a GitHubAPICall object, and make sure it is initialized correctly
             g = api_caller.GitHubAPICall()
             g.core_remaining = 0
@@ -155,7 +155,7 @@ class TestCheckRateLimit:
 
         # Patch the update_rate_limit_data function to return True
         # By doing this we can see if it is called during the test
-        with mock.patch('GitHub.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=return_value)) as mock_patch:
+        with mock.patch('api_calls.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=return_value)) as mock_patch:
             # Create a GitHubAPICall object, and make sure it is initialized correctly
             g = api_caller.GitHubAPICall()
             g.core_remaining = 5000
@@ -181,7 +181,7 @@ class TestCheckRateLimit:
 
         # Patch the update_rate_limit_data function to return True
         # By doing this we can see if it is called during the test
-        with mock.patch('GitHub.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=return_value)) as mock_patch:
+        with mock.patch('api_calls.github_api_calls.GitHubAPICall.update_rate_limit_data', new=mock.Mock(return_value=return_value)) as mock_patch:
             # Create a GitHubAPICall object, and make sure it is initialized correctly
             g = api_caller.GitHubAPICall()
             g.core_remaining = 0
@@ -208,7 +208,7 @@ class TestTryAPICall:
     """
 
     @mock.patch.dict('os.environ', {'GITHUB_TOKEN': ''})
-    @mock.patch('GitHub.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=True))
+    @mock.patch('api_calls.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=True))
     def test_valid_rate_limit(self, call_type):
         """
         Test the function making an API call with a valid rate limit
@@ -233,7 +233,7 @@ class TestTryAPICall:
             assert g.core_remaining == 5000
             assert g.search_remaining == 4999
 
-    @mock.patch('GitHub.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=False))
+    @mock.patch('api_calls.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=False))
     def test_invalid_rate_limit(self, call_type):
         """
         Test the function making an API call with an invalid rate limit
