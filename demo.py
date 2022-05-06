@@ -6,6 +6,8 @@ GitHub API calls, and spidering.
 """
 # For getting additional arguments from the command line
 import sys
+# For pretty printing the JSON data
+import json
 # For accessing the GitHub data-points
 from controller import get_data
 
@@ -59,7 +61,7 @@ def numpy_demo():
     }
 
     # Get the data
-    get_data(input_json)
+    print(json.dumps(get_data(input_json), indent=4))
 
 
 def afnetworking_demo():
@@ -111,7 +113,7 @@ def afnetworking_demo():
     }
 
     # Get the data
-    get_data(input_json)
+    print(json.dumps(get_data(input_json), indent=4))
 
 
 if __name__ == '__main__':

@@ -1,6 +1,10 @@
-#####requirements without specifications####
+# Dev requirements:
 pytest
 responses
+
+# Regular requirements:
 requests
 bs4
 python-dotenv
+flask
+json

@@ -75,7 +75,7 @@ class Controller:
                 repo_name, input_json["cve_data_points"])})
 
         # Print the output JSON object to the console
-        print(json.dumps(output_json))
+        return output_json
 
     def get_github_data(self, owner, repo_name, release, year, wanted_data):
         """
@@ -218,12 +218,12 @@ def get_data(input_json):
     controller = Controller()
 
     # Start the controller
-    controller.run(input_json)
+    return controller.run(input_json)
 
 
-def update_tokens(github_token, libraries_token):
+def update_token_gh(github_token):
     """
-    This function will update the environmental variable with the given GitHub and Libraries.io tokens
+    This function will update the environmental variables with the given GitHub token
     """
 
     # Make sure the .env file exists
@@ -233,4 +233,17 @@ def update_tokens(github_token, libraries_token):
 
     # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.GITHUB_TOKEN, github_token)
+
+
+def update_token_lib(libraries_token):
+    """
+    This function will update the environmental variable with the given Libraries.io token
+    """
+
+    # Make sure the .env file exists
+    if not os.path.exists(constants.ENVIRON_FILE):
+        with open(constants.ENVIRON_FILE, 'w') as f:
+            f.write(f'{constants.GITHUB_TOKEN}=\n{constants.LIBRARIES_TOKEN}=')
+
+    # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)

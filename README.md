@@ -61,21 +61,67 @@ For each of these codes, it can get the following information:
 ## How to use
  
 ### Requirements
- 
-This package is initialised as an npm package so it can be easily imported in node projects. However the functionality is written in python. When installing the python dependencies, it is important that the path in the function `pynode.appendSysPath()` in `trustfacts.js` line 4, is set to the place where the modules are actually installed.
- 
-The standard path we use is `env/Lib/site-packages`.
-If you want to install python packages in an virtual environment on the same location follow these steps:
- 
-0. Make sure python3 installed on your machine
-1. Navigate to the `TRUSTSECO-SPIDER` directory in a command terminal.
-2. Create a virtual environment by running the command: `python -m venv env`
-3. Navigate into the `env/Scripts` folder.
-4. Activate the venv by running the `activate.bat` executable.
-5. You should now see this: `(env) C:/Users/<yourusername>/Documents/TrustSECO-Spider/env/Scripts>`
-6. Navigate back to the `TrustSECO-Spider` folder
-7. Install packages in env with pip running: `pip install -r requirements.txt`
- 
+
+In order to run our program, certain python libraries will have to be installed. This can easily be done by running the `pip install -r requirements.txt` command from within the `TrustSECO-Spider` folder.
+
+### Running as a service
+
+As the other sub-projects will need to request data from the spider, flask was used in order to create an endpoint for this. In order to run the TrustSECO-Spider as a (development) service, simply run `python .\app.py` command from within the `TrustSECO-Spider` folder.
+This will run a local server on the following address: `http://localhost:5000`.
+
+### Setting API tokens
+
+After running the program as a service as described above, the API tokens for GitHub and Libraries.io must be set. This can be done by sending a POST request to `http://localhost:5000/set_tokens`. This POST request **must** contain the following:
+1. A header with the content-type set as `application/json`.
+2. A JSON input following the schemas found in the `JSON schemas` folder. The relevant JSON file would be `token_input.json`.
+
+An example of this (using `python` and the `requests` library) would be the following:
+```
+header = {'Content-type':'application/json'}
+
+input_json = {
+  'github_token': 'gho_jeshfuehfhsjfe',
+  'libraries_token': 'jdf9328bf87831bfdjs0823'
+}
+
+response = requests.post('http://localhost:5000/set_tokens', headers={'Content-type':'application/json'}, json=json_input)
+
+print(response.text)
+```
+*Naturally, the tokens provided here are fake, and must be replaced with your own.*
+
+If only 1 token has to be set/updated, only that 1 token needs to be supplied.
+
+### Requesting data
+
+This address can then be used in order to request data. This is done by sending a POST request to the endpoint. This POST request **must** contain the following:
+1. A header with the content-type set as `application/json`.
+2. A JSON input following the schemas found in the `JSON schemas` folder. The relevant JSON files would be `input_example.json` and `input_structure.json`.
+
+An example of this (using `python` and the `requests` library) would be the following:
+```
+header = {'Content-type':'application/json'}
+
+input_json = {
+  'project_info': {
+    'project_platform': 'Pypi', 
+    'project_owner': 'numpy', 
+    'project_name': 'numpy', 
+    'project_release': 'v.1.22.1', 
+    'project_year': 2021
+  }, 
+  'cve_data_points': [
+    'cve_count',
+    'cve_vulnerabilities',
+    'cve_codes'
+  ]
+}
+
+response = requests.post('http://localhost:5000/get_data', headers={'Content-type':'application/json'}, json=json_input)
+
+print(response.json())
+```
+
 ### Demo
  
 This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run.
