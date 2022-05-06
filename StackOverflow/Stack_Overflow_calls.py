@@ -9,7 +9,7 @@ class StackOverflowCall:
 
     def get_monthly_trends(self, package):
         """
-        Gets popularity of a language each month since 2008
+        Gets popularity list of a package on Stack Overflow in percentage from each month since 2008
         """
 
         # Take the url for Stack Overflow trends
