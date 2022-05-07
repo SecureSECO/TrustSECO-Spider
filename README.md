@@ -136,7 +136,7 @@ Please use the content type to avoid trying to grab non-existent JSON data or te
 
 ### Demo
  
-This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run. **IMPORTANT: The Flask service must be started before running the demo!!!**
+This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run. **IMPORTANT: The Flask service must be started before running the demo, and the tokens must be set in the .env file beforehand too!!!**
  
 Depending on the given arguments, the demo will grab all of the available GitHub and Libraries.io data-points, and print them to the console.
 Current commands:
@@ -147,4 +147,4 @@ Current commands:
  
 ### Unit tests
  
-The project also contains some of the unit tests too. These can be started from within the main `TrustSECO-Spider` folder using the `python -m pytest` command in the console.
+The project also contains some of the unit tests too. These can be started from within the main `TrustSECO-Spider` folder using the `python -m pytest` command in the console. **IMPORTANT: the tokens within the .env file must be removed before running the tests, as they will overwrite the test variables!!!**
