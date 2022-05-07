@@ -9,10 +9,10 @@ import os
 from dotenv import set_key
 import constants
 # Import the data-getting modules
-from api_calls.github_api_calls import GitHubAPICall
-from spiders.github_spider import GitHubSpider
-from api_calls.libaries_io_api_calls import LibrariesAPICall
-from spiders.cve_spider import CVESpider
+from src.api_calls.github_api_calls import GitHubAPICall
+from src.spiders.github_spider import GitHubSpider
+from src.api_calls.libaries_io_api_calls import LibrariesAPICall
+from src.spiders.cve_spider import CVESpider
 
 
 class Controller:

@@ -21,8 +21,13 @@ app = Flask('app')
 def get_data():
     """Uses the given JSON to get the wanted data-points."""
 
-    # Get the input json
-    input_json = request.get_json()
+    # Try to get the input json
+    (is_valid, data) = try_get_json_input()
+    if not is_valid:
+        return data
+    else:
+        input_json = data
+
     # Inform the user of what is happening
     print('Received the following JSON:')
     print(json.dumps(input_json, indent=4))
@@ -46,8 +51,12 @@ def get_data():
 def set_tokens():
     """Uses the given JSON to set the tokens."""
 
-    # Get the input json
-    input_json = request.get_json()
+    # Try to get the input json
+    (is_valid, data) = try_get_json_input()
+    if not is_valid:
+        return data
+    else:
+        input_json = data
 
     # Inform the user of what is happening
     print('Setting tokens...')
@@ -78,6 +87,30 @@ def set_tokens():
     response = make_response(output)
     response.headers.set('Content-Type', 'text/plain')
     return response
+
+
+def try_get_json_input():
+    # Make sure the request is JSON
+    if not request.is_json:
+        output = 'Not a JSON request'
+        print(output)
+        response = make_response(output, 400)
+        response.headers.set('Content-Type', 'text/plain')
+        return (False, response)
+
+    # Get the input json
+    input_json = request.get_json()
+
+    # Make sure the input is valid
+    if input_json is None:
+        output = 'Received invalid JSON'
+        print(output)
+        response = make_response(output, 400)
+        response.headers.set('Content-Type', 'text/plain')
+        return (False, response)
+
+    # Return the input json only if it is valid
+    return (True, input_json)
 
 
 if __name__ == '__main__':
