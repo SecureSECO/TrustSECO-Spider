@@ -18,4 +18,3 @@ RATE = 'rate'
 
 """Authentication Constants"""
 ENVIRON_FILE = '.env'
-GITHUB_ORG_CODE = '1c3bf96ae6a2ec75435c'

@@ -22,7 +22,7 @@ class StackOverflowCall:
             print('Error:', e)
             return None
 
-        # Devide the json into data and percentage data
+        # Divide the json into data and percentage data
         if 'Year' in response and 'Month' in response and 'TagPercents' in response:
             output = None
 

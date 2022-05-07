@@ -6,14 +6,13 @@ This file will be the file that is run by the Node.JS program.
 
 # Import needed libraries
 import os
-import json
 from dotenv import set_key
 import constants
 # Import the data-getting modules
-from api_calls.github_api_calls import GitHubAPICall
-from spiders.github_spider import GitHubSpider
-from api_calls.libaries_io_api_calls import LibrariesAPICall
-from spiders.cve_spider import CVESpider
+from src.api_calls.github_api_calls import GitHubAPICall
+from src.spiders.github_spider import GitHubSpider
+from src.api_calls.libaries_io_api_calls import LibrariesAPICall
+from src.spiders.cve_spider import CVESpider
 
 
 class Controller:
@@ -39,43 +38,67 @@ class Controller:
         """
         This is the main looping function of the program.
 
-        It will try to read the console to see if a new command has been recieved.
+        It will try to read the console to see if a new command has been received.
         """
 
-        # Retrieve the project information
-        platform = input_json["project_info"]["project_platform"]
-        owner = input_json["project_info"]["project_owner"]
-        repo_name = input_json["project_info"]["project_name"]
-        release = input_json["project_info"]["project_release"]
-        year = input_json["project_info"]["project_year"]
+        # Make sure we got the information we need
+        if 'project_info' not in input_json:
+            print('Error: no project information found')
+            return 'Error: no project information found'
 
-        # Create an output JSON object
-        output_json = {}
+        # Make sure all of the wanted project information is available
+        if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' and 'project_year' in input_json["project_info"]:
+            # Retrieve the project information
+            platform = input_json["project_info"]["project_platform"]
+            owner = input_json["project_info"]["project_owner"]
+            repo_name = input_json["project_info"]["project_name"]
+            release = input_json["project_info"]["project_release"]
+            year = input_json["project_info"]["project_year"]
 
-        # Request the data from GitHub
-        if 'gh_data_points' in input_json:
-            output_json.update({'gh_data_points': self.get_github_data(
-                owner, repo_name, release, year, input_json["gh_data_points"])})
+            # Create an output JSON object
+            output_json = {}
 
-        # Request the data from Libraries.IO
-        if 'lib_data_points' in input_json:
-            # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
-            if release[0].lower() == 'v':
-                lib_release = release[1:]
-            else:
-                lib_release = release
+            # Request the data from GitHub
+            if 'gh_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting GitHub data...')
 
-            # Actually request the data
-            output_json.update({'lib_data_points': self.get_libraries_data(
-                platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+                # Actually request the data
+                output_json.update({'gh_data_points': self.get_github_data(
+                    owner, repo_name, release, year, input_json["gh_data_points"])})
 
-        # Request the data from the CVE website
-        if 'cve_data_points' in input_json:
-            output_json.update({'cve_data_points': self.get_cve_data(
-                repo_name, input_json["cve_data_points"])})
+            # Request the data from Libraries.IO
+            if 'lib_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting Libraries.IO data...')
 
-        # Print the output JSON object to the console
-        print(json.dumps(output_json))
+                # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
+                if release[0].lower() == 'v':
+                    lib_release = release[1:]
+                else:
+                    lib_release = release
+
+                # Actually request the data
+                output_json.update({'lib_data_points': self.get_libraries_data(
+                    platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+
+            # Request the data from the CVE website
+            if 'cve_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting CVE data...')
+
+                # Actually request the data
+                output_json.update({'cve_data_points': self.get_cve_data(
+                    repo_name, input_json["cve_data_points"])})
+
+            # Print the output JSON object to the console
+            return output_json
+        else:
+            print('Error: missing project information')
+            return 'Error: missing project information'
 
     def get_github_data(self, owner, repo_name, release, year, wanted_data):
         """
@@ -218,12 +241,12 @@ def get_data(input_json):
     controller = Controller()
 
     # Start the controller
-    controller.run(input_json)
+    return controller.run(input_json)
 
 
-def update_tokens(github_token, libraries_token):
+def update_token_gh(github_token):
     """
-    This function will update the environmental variable with the given GitHub and Libraries.io tokens
+    This function will update the environmental variables with the given GitHub token
     """
 
     # Make sure the .env file exists
@@ -233,4 +256,17 @@ def update_tokens(github_token, libraries_token):
 
     # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.GITHUB_TOKEN, github_token)
+
+
+def update_token_lib(libraries_token):
+    """
+    This function will update the environmental variable with the given Libraries.io token
+    """
+
+    # Make sure the .env file exists
+    if not os.path.exists(constants.ENVIRON_FILE):
+        with open(constants.ENVIRON_FILE, 'w') as f:
+            f.write(f'{constants.GITHUB_TOKEN}=\n{constants.LIBRARIES_TOKEN}=')
+
+    # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)

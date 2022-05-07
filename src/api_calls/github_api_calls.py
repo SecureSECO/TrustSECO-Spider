@@ -4,7 +4,7 @@ File for executing api calls to github
 
 from datetime import datetime
 import constants
-from api_calls.api_calls import make_api_call
+from src.api_calls.api_calls import make_api_call
 
 
 class GitHubAPICall:
@@ -30,7 +30,7 @@ class GitHubAPICall:
         if repository_data is not None:
             return repository_data.json()
         else:
-            print('Error occured while getting the repository data.')
+            print('Error occurred while getting the repository data.')
             return None
 
     def get_repository_language(self, owner, repo):
@@ -46,7 +46,7 @@ class GitHubAPICall:
         if repository_data is not None and 'language' in repository_data:
             return repository_data['language']
         else:
-            print('Error occured while getting the repository language.')
+            print('Error occurred while getting the repository language.')
             return None
 
     def get_repository_stargazer_count(self, owner, repo):
@@ -62,7 +62,7 @@ class GitHubAPICall:
         if repository_data is not None and 'stargazers_count' in repository_data:
             return repository_data['stargazers_count']
         else:
-            print('Error occured while getting the repository stargazer count.')
+            print('Error occurred while getting the repository stargazer count.')
             return None
 
     def get_release_data(self, owner, repo, release):
@@ -79,7 +79,7 @@ class GitHubAPICall:
         if release_data is not None:
             return release_data.json()
         else:
-            print('Error occured while getting the release data.')
+            print('Error occurred while getting the release data.')
             return None
 
     def get_owner_data(self, owner):
@@ -96,7 +96,7 @@ class GitHubAPICall:
         if owner_data is not None:
             return owner_data.json()
         else:
-            print('Error occured while getting the owner data.')
+            print('Error occurred while getting the owner data.')
             return None
 
     def get_repository_contributor_count(self, owner, repo):
@@ -112,7 +112,7 @@ class GitHubAPICall:
 
         # Very simple error handling
         if contributors_data is None:
-            print('Error occured while getting the contributor count.')
+            print('Error occurred while getting the contributor count.')
             return None
 
         # See if this repository has multiple pages of contributors
@@ -123,7 +123,7 @@ class GitHubAPICall:
 
             # Make sure we got a valid response
             if final_page_data is None:
-                print('Error occured while getting the final contributor page.')
+                print('Error occurred while getting the final contributor page.')
                 return None
 
             final_page_contributor_count = len(final_page_data.json())
@@ -165,7 +165,7 @@ class GitHubAPICall:
 
         # Make sure we got a valid response
         if ranking_data is None:
-            print('Error occured while getting the GitStar ranking.')
+            print('Error occurred while getting the GitStar ranking.')
             return None
 
         # See if the result has multiple pages
@@ -180,7 +180,7 @@ class GitHubAPICall:
 
             # Make sure we got a valid response
             if final_page_data is None:
-                print('Error occured while getting the final ranking page.')
+                print('Error occurred while getting the final ranking page.')
                 return None
 
             # Get the stargazer count of the lsat entry on the last page
@@ -203,7 +203,7 @@ class GitHubAPICall:
 
                 # Make sure we got a valid response
                 if page_data_response is None:
-                    print('Error occured while getting the ranking page.')
+                    print('Error occurred while getting the ranking page.')
                     return None
 
                 # Get the JSON information out of the response
@@ -252,7 +252,7 @@ class GitHubAPICall:
 
         # Make sure we got a valid response
         if commits_data is None:
-            print('Error occured while getting the yearly commit count.')
+            print('Error occurred while getting the yearly commit count.')
             return None
 
         # Sum all the weekly commit counts
@@ -276,7 +276,7 @@ class GitHubAPICall:
         # Make sure we got a valid response
         if commits_data is None:
             print(
-                f'Error occured while getting the commit count in the year {year}.')
+                f'Error occurred while getting the commit count in the year {year}.')
             return None
 
         # See if there are multiple pages of commits
@@ -288,7 +288,7 @@ class GitHubAPICall:
             # Make sure we got a valid response
             if final_page_data is None:
                 print(
-                    f'Error occured while getting the final page of commits in the year {year}.')
+                    f'Error occurred while getting the final page of commits in the year {year}.')
                 return None
 
             final_page_commit_count = len(final_page_data.json())
@@ -318,7 +318,7 @@ class GitHubAPICall:
         while True:
             # Make sure we got a valid response
             if releases_data is None:
-                print('Error occured while getting the total download count.')
+                print('Error occurred while getting the total download count.')
                 return None
 
             # Add the download count of all the application assets for every release on this page
@@ -353,7 +353,7 @@ class GitHubAPICall:
         # Make sure we got a valid response
         if release_data is None:
             print(
-                f'Error occured while getting the download count of release {release}.')
+                f'Error occurred while getting the download count of release {release}.')
             return None
 
         # Get the download count per non-text released asset
@@ -379,7 +379,7 @@ class GitHubAPICall:
         while True:
             # Make sure we got a valid response
             if issues_data is None:
-                print('Error occured while getting the 0-response-issues count.')
+                print('Error occurred while getting the 0-response-issues count.')
                 return None
 
             # See if there are more pages AND the last issue on this page has no responses
@@ -422,7 +422,7 @@ class GitHubAPICall:
 
         # Make sure we got a valid response
         if issue_data is None:
-            print('Error occured while getting the average issue resolution time.')
+            print('Error occurred while getting the average issue resolution time.')
             return None
 
         # Add the issues of the first page to the JSON object
@@ -437,7 +437,7 @@ class GitHubAPICall:
 
             # Make sure we got a valid response
             if issue_data is None:
-                print('Error occured while getting the average issue resolution time.')
+                print('Error occurred while getting the average issue resolution time.')
                 return None
 
             all_issues += issue_data.json()
@@ -475,7 +475,7 @@ class GitHubAPICall:
         # Make sure we got a valid response
         if release_dates is None:
             print(
-                f'Error occured while getting the issue count for release {release}.')
+                f'Error occurred while getting the issue count for release {release}.')
             return None
 
         # Extract the publish dates
@@ -492,7 +492,7 @@ class GitHubAPICall:
 
         # Make sure we got a valid response
         if issues_data is None:
-            print('Error occured while getting the issue count for release.')
+            print('Error occurred while getting the issue count for release.')
             return None
 
         # Return this count
@@ -512,7 +512,7 @@ class GitHubAPICall:
         while True:
             # Make sure we got a valid response
             if releases_data is None:
-                print('Error occured while getting the release dates.')
+                print('Error occurred while getting the release dates.')
                 return None
 
             # Get the json data for easy access
@@ -566,7 +566,7 @@ class GitHubAPICall:
         while True:
             # Make sure we got a valid response
             if stargazer_data is None:
-                print('Error occured while getting the stargazer count for owner.')
+                print('Error occurred while getting the stargazer count for owner.')
                 return None
 
             # Loop through all the repositories of the owner
