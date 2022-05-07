@@ -38,13 +38,13 @@ class Controller:
         """
         This is the main looping function of the program.
 
-        It will try to read the console to see if a new command has been recieved.
+        It will try to read the console to see if a new command has been received.
         """
 
         # Make sure we got the information we need
         if 'project_info' not in input_json:
-            print('Error: no project_info found')
-            return 'Error: no project_info found'
+            print('Error: no project information found')
+            return 'Error: no project information found'
 
         # Make sure all of the wanted project information is available
         if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' and 'project_year' in input_json["project_info"]:

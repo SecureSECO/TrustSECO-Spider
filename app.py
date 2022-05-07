@@ -60,21 +60,24 @@ def set_tokens():
         github_token = input_json['github_token']
 
         controller.update_token_gh(github_token)
-        output += 'Github token set.\n'
+        output += 'Github token set. '
 
-    # If the librery token is given, set it
+    # If the library token is given, set it
     if 'libraries_token' in input_json:
         libraries_token = input_json['libraries_token']
 
         controller.update_token_lib(libraries_token)
-        output += 'Libraries token set.\n'
+        output += 'Libraries token set.'
 
     # Inform the user of what happened
     if output == '':
         output = 'Token(s) not set! Please provide valid tokens.'
-
     print(output)
-    return output
+
+    # Return the output
+    response = make_response(output)
+    response.headers.set('Content-Type', 'text/plain')
+    return response
 
 
 if __name__ == '__main__':

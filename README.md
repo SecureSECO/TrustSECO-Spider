@@ -122,6 +122,18 @@ response = requests.post('http://localhost:5000/get_data', headers={'Content-typ
 print(response.json())
 ```
 
+### Return values
+
+Depending on which end-point you send a request to (`get_data` or `set_tokens`), a certain type of response will be sent.
+
+In case of `set_tokens`, it will always return `Content-type: text/plain`.
+
+In case of `get_data`, the return type will change depending on whether or not the request succeeded. For example, if the request did not contain all the needed information, the return type would be `Content-type: text/plain` and would contain the reason for the failure (in this case `Error: missing project information`).
+
+If the request did succeed, the return type would be `Content-type: application/json`, and the response would include the wanted data in a JSON format.
+
+Please use the content type to avoid trying to grab non-existent JSON data or text.
+
 ### Demo
  
 This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run.
