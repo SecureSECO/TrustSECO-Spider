@@ -60,11 +60,20 @@ class Controller:
 
             # Request the data from GitHub
             if 'gh_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting GitHub data...')
+
+                # Actually request the data
                 output_json.update({'gh_data_points': self.get_github_data(
                     owner, repo_name, release, year, input_json["gh_data_points"])})
 
             # Request the data from Libraries.IO
             if 'lib_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting Libraries.IO data...')
+
                 # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
                 if release[0].lower() == 'v':
                     lib_release = release[1:]
@@ -77,6 +86,11 @@ class Controller:
 
             # Request the data from the CVE website
             if 'cve_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting CVE data...')
+
+                # Actually request the data
                 output_json.update({'cve_data_points': self.get_cve_data(
                     repo_name, input_json["cve_data_points"])})
 
