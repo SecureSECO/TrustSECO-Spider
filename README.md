@@ -67,11 +67,11 @@ In order to run our program, certain python libraries will have to be installed.
 ### Running as a service
 
 As the other sub-projects will need to request data from the spider, flask was used in order to create an endpoint for this. In order to run the TrustSECO-Spider as a (development) service, simply run `python .\app.py` command from within the `TrustSECO-Spider` folder.
-This will run a local server on the following address: `http://localhost:5000`.
+This will run a local server on the following address: `http://0.0.0.0:5000`.
 
 ### Setting API tokens
 
-After running the program as a service as described above, the API tokens for GitHub and Libraries.io must be set. This can be done by sending a POST request to `http://localhost:5000/set_tokens`. This POST request **must** contain the following:
+After running the program as a service as described above, the API tokens for GitHub and Libraries.io must be set. This can be done by sending a POST request to `http://0.0.0.0:5000/set_tokens`. This POST request **must** contain the following:
 1. A header with the content-type set as `application/json`.
 2. A JSON input following the schemas found in the `JSON schemas` folder. The relevant JSON file would be `token_input.json`.
 
@@ -84,7 +84,7 @@ input_json = {
   'libraries_token': 'jdf9328bf87831bfdjs0823'
 }
 
-response = requests.post('http://localhost:5000/set_tokens', headers={'Content-type':'application/json'}, json=json_input)
+response = requests.post('http://0.0.0.0:5000/set_tokens', headers={'Content-type':'application/json'}, json=json_input)
 
 print(response.text)
 ```
@@ -117,7 +117,7 @@ input_json = {
   ]
 }
 
-response = requests.post('http://localhost:5000/get_data', headers={'Content-type':'application/json'}, json=json_input)
+response = requests.post('http://0.0.0.0:5000/get_data', headers={'Content-type':'application/json'}, json=json_input)
 
 print(response.json())
 ```
