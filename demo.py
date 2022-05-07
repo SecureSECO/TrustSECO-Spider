@@ -1,13 +1,14 @@
 """
 Basic demo file, purely for demonstration purposes.
 
-Allows the user to test the Device Flow authentication process,
-GitHub API calls, and spidering.
+Before running this file, the Flask application needs to be started. (instructions for which can be found in the README.md file)
 """
 # For getting additional arguments from the command line
 import sys
+# For pretty printing the JSON data
+import json
 # For accessing the GitHub data-points
-from controller import get_data
+import requests
 
 
 def numpy_demo():
@@ -50,11 +51,20 @@ def numpy_demo():
             "lib_first_release_date",
             "lib_release_count",
             "lib_sourcerank"
+        ],
+        "cve_data_points": [
+            "cve_count",
+            "cve_vulnerabilities",
+            "cve_codes"
         ]
     }
 
     # Get the data
-    get_data(input_json)
+    response = requests.post('http://localhost:5000/get_data',
+                             headers={'Content-type': 'application/json'}, json=input_json)
+
+    # Get the data
+    print(json.dumps(response.json(), indent=4))
 
 
 def afnetworking_demo():
@@ -97,11 +107,20 @@ def afnetworking_demo():
             "lib_first_release_date",
             "lib_release_count",
             "lib_sourcerank"
+        ],
+        "cve_data_points": [
+            "cve_count",
+            "cve_vulnerabilities",
+            "cve_codes"
         ]
     }
 
     # Get the data
-    get_data(input_json)
+    response = requests.post('http://localhost:5000/get_data',
+                             headers={'Content-type': 'application/json'}, json=input_json)
+
+    # Get the data
+    print(json.dumps(response.json(), indent=4))
 
 
 if __name__ == '__main__':

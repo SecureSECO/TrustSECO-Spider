@@ -6,11 +6,11 @@ File containing the unit tests for the github_spider.py file.
 from unittest import mock
 import responses
 # Spider import
-from GitHub.github_spider import GitHubSpider
+from src.spiders.github_spider import GitHubSpider
 spider = GitHubSpider()
 
 
-class FileIOForTests:
+class FileIOForSpiderTests:
     """
     Functions to get the needed text files for the tests.
 
@@ -87,7 +87,7 @@ class TestUserCount:
         Return value should be None, as the request failed
         """
         # Get the mock response body
-        regular_body = FileIOForTests.get_regular_body_users()
+        regular_body = FileIOForSpiderTests.get_regular_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=404)
@@ -122,7 +122,7 @@ class TestUserCount:
         Return value should be None, as there is no way to find the user count
         """
         # Get the mock response body
-        no_tag_body = FileIOForTests.get_no_tag_body_users()
+        no_tag_body = FileIOForSpiderTests.get_no_tag_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_tag_body, status=200)
@@ -141,7 +141,7 @@ class TestUserCount:
         Return value should be None, as there is no way to find the user count
         """
         # Get the mock response body
-        no_title_body = FileIOForTests.get_no_title_body_users()
+        no_title_body = FileIOForSpiderTests.get_no_title_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_title_body, status=200)
@@ -160,7 +160,7 @@ class TestUserCount:
         Return value should be the number of users
         """
         # Get the mock response body
-        regular_body = FileIOForTests.get_regular_body_users()
+        regular_body = FileIOForSpiderTests.get_regular_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=200)
@@ -196,7 +196,7 @@ class TestOpenIssues:
         Return value should be None, as the request failed
         """
         # Get the mock response body
-        regular_body = FileIOForTests.get_regular_body_issues()
+        regular_body = FileIOForSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=404)
@@ -231,7 +231,7 @@ class TestOpenIssues:
         Return value should be None, as there is no way to find the open issue count
         """
         # Get the mock response body
-        no_open_body = FileIOForTests.get_no_open_body_issues()
+        no_open_body = FileIOForSpiderTests.get_no_open_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_open_body, status=200)
@@ -250,7 +250,7 @@ class TestOpenIssues:
         Return value should be the open issue count
         """
         # Get the mock response body
-        regular_body = FileIOForTests.get_regular_body_issues()
+        regular_body = FileIOForSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=200)
@@ -286,7 +286,7 @@ class TestClosedIssues:
         Return value should be None, as the request failed
         """
         # Get the mock response body
-        regular_body = FileIOForTests.get_regular_body_issues()
+        regular_body = FileIOForSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=404)
@@ -323,7 +323,7 @@ class TestClosedIssues:
         Return value should be None, as there is no way to find the closed issue count
         """
         # Get the mock response body
-        no_closed_body = FileIOForTests.get_no_closed_body_issues()
+        no_closed_body = FileIOForSpiderTests.get_no_closed_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_closed_body, status=200)
@@ -343,7 +343,7 @@ class TestClosedIssues:
         Return value should be the closed issue count
         """
         # Get the mock response body
-        regular_body = FileIOForTests.get_regular_body_issues()
+        regular_body = FileIOForSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=200)
@@ -371,8 +371,8 @@ class TestIssueRatio:
     repo = 'numpy'
     url = f'https://github.com/{owner}/{repo}/issues'
 
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
     def test_both_successful(self):
         """
         Test for when both the open and closed issue counts are valid numbers
@@ -384,8 +384,8 @@ class TestIssueRatio:
         # The result should be the issue ratio
         assert result == 0.24156432574222012
 
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
     def test_open_successful_close_failed(self):
         """
         Test for when the closed issue count is not a valid number
@@ -396,8 +396,8 @@ class TestIssueRatio:
 
         assert result is None
 
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
     def test_open_failed_closed_successful(self):
         """
         Test for when the closed issue count is not a valid number
@@ -408,8 +408,8 @@ class TestIssueRatio:
 
         assert result is None
 
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
-    @mock.patch('GitHub.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
+    @mock.patch('src.spiders.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
     def test_both_failed(self):
         """
         Test for when both the open and closed issue counts are not valid numbers
