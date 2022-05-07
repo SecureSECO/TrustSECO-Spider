@@ -7,7 +7,7 @@ import responses
 # Unit testing imports
 import pytest
 # Import the Stackoverflow spider
-from spiders.stackoverflow_spider import StackOverflowCall
+from src.spiders.stackoverflow_spider import StackOverflowCall
 
 
 class TestTrends:
@@ -57,7 +57,7 @@ class TestTrends:
             assert response_data is None
 
     @responses.activate
-    def test_invalidreponse(self):
+    def test_invalid_response(self):
         """
         Test for when the function receives no response
         """

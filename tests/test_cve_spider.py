@@ -7,7 +7,7 @@ import pytest
 from unittest import mock
 import responses
 from bs4 import BeautifulSoup
-from spiders.cve_spider import CVESpider
+from src.spiders.cve_spider import CVESpider
 
 
 class TestVulnerabilityCount:
@@ -28,7 +28,7 @@ class TestVulnerabilityCount:
         # Initialise the CVESpider object
         cve_spider = CVESpider()
 
-        with mock.patch('spiders.cve_spider.CVESpider.get_cve_codes', return_value=return_value):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_cve_codes', return_value=return_value):
             # Call the get_cve_vulnerability_count function
             result = cve_spider.get_cve_vulnerability_count('test_package')
 
@@ -60,7 +60,7 @@ class TestGetAllCVEData:
         cve_spider = CVESpider()
 
         # Mock the get_cve_codes function
-        with mock.patch('spiders.cve_spider.CVESpider.get_cve_codes', return_value=get_cve_codes_rv):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_cve_codes', return_value=get_cve_codes_rv):
             # If get_cve_codes returns None, then the output should also be None
             if get_cve_codes_rv is None:
                 assert cve_spider.get_all_cve_data('test_package') is None
@@ -70,7 +70,7 @@ class TestGetAllCVEData:
             # Else, if get_cve_codes returns a non-empty list, then the output can differ depending on the value of extract_cve_data
             else:
                 # Mock the extract_cve_data function
-                with mock.patch('spiders.cve_spider.CVESpider.extract_cve_data', return_value=extract_cve_data_rv):
+                with mock.patch('src.spiders.cve_spider.CVESpider.extract_cve_data', return_value=extract_cve_data_rv):
                     # If extract_cve_data returns only None, then the output list should have no elements
                     if extract_cve_data_rv is None:
                         assert cve_spider.get_all_cve_data(
@@ -107,7 +107,7 @@ class TestExtractData:
         cve_spider = CVESpider()
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=None):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=None):
             # Call the extract_cve_data function
             result = cve_spider.extract_cve_data('test_cve_code')
 
@@ -138,7 +138,7 @@ class TestExtractData:
         }
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the extract_cve_data function
             result = cve_spider.extract_cve_data('test_cve_code')
 
@@ -169,7 +169,7 @@ class TestExtractData:
         }
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the extract_cve_data function
             result = cve_spider.extract_cve_data('test_cve_code')
 
@@ -200,7 +200,7 @@ class TestExtractData:
         }
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the extract_cve_data function
             result = cve_spider.extract_cve_data('test_cve_code')
 
@@ -231,7 +231,7 @@ class TestExtractData:
         }
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the extract_cve_data function
             result = cve_spider.extract_cve_data('test_cve_code')
 
@@ -323,7 +323,7 @@ class TestGetCVECodes:
         # Initialise the CVESpider object
         cve_spider = CVESpider()
 
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=None):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=None):
             # Call the function
             result = cve_spider.get_cve_codes('')
 
@@ -343,7 +343,7 @@ class TestGetCVECodes:
             FileIOForCVETests.get_no_tables_page_get_codes(), 'html.parser')
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the function
             result = cve_spider.get_cve_codes('')
 
@@ -363,7 +363,7 @@ class TestGetCVECodes:
             FileIOForCVETests.get_missing_table_page_get_codes(), 'html.parser')
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the function
             result = cve_spider.get_cve_codes('')
 
@@ -383,7 +383,7 @@ class TestGetCVECodes:
             FileIOForCVETests.get_no_links_page_get_codes(), 'html.parser')
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the function
             result = cve_spider.get_cve_codes('')
 
@@ -400,7 +400,7 @@ class TestGetCVECodes:
 
         # Create the soup object
         soup = BeautifulSoup(
-            FileIOForCVETests.get_regurlar_page_get_codes(), 'html.parser')
+            FileIOForCVETests.get_regular_page_get_codes(), 'html.parser')
 
         # Set the expected value
         expected_value = [
@@ -415,7 +415,7 @@ class TestGetCVECodes:
         ]
 
         # Mock the get_and_parse_webpage function
-        with mock.patch('spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
+        with mock.patch('src.spiders.cve_spider.CVESpider.get_and_parse_webpage', return_value=soup):
             # Call the function
             result = cve_spider.get_cve_codes('')
 
@@ -448,7 +448,7 @@ class FileIOForCVETests:
             incorrect_version_body = incorrect_version.read()
         return incorrect_version_body
 
-    def get_regurlar_page_get_codes():
+    def get_regular_page_get_codes():
         with open('tests/test_files/cve_spider_get_codes/regular_page.txt', 'r', encoding='iso-8859-15') as regular:
             regular_body = regular.read()
         return regular_body
