@@ -136,7 +136,7 @@ Please use the content type to avoid trying to grab non-existent JSON data or te
 
 ### Demo
  
-This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run.
+This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run. **IMPORTANT: The Flask service must be started before running the demo!!!**
  
 Depending on the given arguments, the demo will grab all of the available GitHub and Libraries.io data-points, and print them to the console.
 Current commands:
