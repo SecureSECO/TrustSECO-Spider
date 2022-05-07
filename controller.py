@@ -6,7 +6,6 @@ This file will be the file that is run by the Node.JS program.
 
 # Import needed libraries
 import os
-import json
 from dotenv import set_key
 import constants
 # Import the data-getting modules
@@ -42,40 +41,50 @@ class Controller:
         It will try to read the console to see if a new command has been recieved.
         """
 
-        # Retrieve the project information
-        platform = input_json["project_info"]["project_platform"]
-        owner = input_json["project_info"]["project_owner"]
-        repo_name = input_json["project_info"]["project_name"]
-        release = input_json["project_info"]["project_release"]
-        year = input_json["project_info"]["project_year"]
+        # Make sure we got the information we need
+        if 'project_info' not in input_json:
+            print('Error: no project_info found')
+            return 'Error: no project_info found'
 
-        # Create an output JSON object
-        output_json = {}
+        # Make sure all of the wanted project information is available
+        if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' and 'project_year' in input_json["project_info"]:
+            # Retrieve the project information
+            platform = input_json["project_info"]["project_platform"]
+            owner = input_json["project_info"]["project_owner"]
+            repo_name = input_json["project_info"]["project_name"]
+            release = input_json["project_info"]["project_release"]
+            year = input_json["project_info"]["project_year"]
 
-        # Request the data from GitHub
-        if 'gh_data_points' in input_json:
-            output_json.update({'gh_data_points': self.get_github_data(
-                owner, repo_name, release, year, input_json["gh_data_points"])})
+            # Create an output JSON object
+            output_json = {}
 
-        # Request the data from Libraries.IO
-        if 'lib_data_points' in input_json:
-            # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
-            if release[0].lower() == 'v':
-                lib_release = release[1:]
-            else:
-                lib_release = release
+            # Request the data from GitHub
+            if 'gh_data_points' in input_json:
+                output_json.update({'gh_data_points': self.get_github_data(
+                    owner, repo_name, release, year, input_json["gh_data_points"])})
 
-            # Actually request the data
-            output_json.update({'lib_data_points': self.get_libraries_data(
-                platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+            # Request the data from Libraries.IO
+            if 'lib_data_points' in input_json:
+                # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
+                if release[0].lower() == 'v':
+                    lib_release = release[1:]
+                else:
+                    lib_release = release
 
-        # Request the data from the CVE website
-        if 'cve_data_points' in input_json:
-            output_json.update({'cve_data_points': self.get_cve_data(
-                repo_name, input_json["cve_data_points"])})
+                # Actually request the data
+                output_json.update({'lib_data_points': self.get_libraries_data(
+                    platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
 
-        # Print the output JSON object to the console
-        return output_json
+            # Request the data from the CVE website
+            if 'cve_data_points' in input_json:
+                output_json.update({'cve_data_points': self.get_cve_data(
+                    repo_name, input_json["cve_data_points"])})
+
+            # Print the output JSON object to the console
+            return output_json
+        else:
+            print('Error: missing project information')
+            return 'Error: missing project information'
 
     def get_github_data(self, owner, repo_name, release, year, wanted_data):
         """

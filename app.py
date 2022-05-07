@@ -5,7 +5,7 @@ Running this file will start the Flask application on the localhost at port 5000
 """
 
 # Import Flask
-from flask import Flask, request
+from flask import Flask, make_response, request
 # Import JSON for pretty printing
 import json
 # Import the controller of the TrustSECO-Spider
@@ -27,8 +27,18 @@ def get_data():
     print('Received the following JSON:')
     print(json.dumps(input_json, indent=4))
 
-    # Get and return the data in a JSON format
-    return controller.get_data(input_json)
+    # Get the result from the spider
+    result = controller.get_data(input_json)
+
+    # Return the result
+    response = make_response(result)
+    if type(result) is str:
+        response.headers.set('Content-Type', 'text/plain')
+    else:
+        response.headers.set('Content-Type', 'application/json')
+
+    # Return the response
+    return response
 
 
 # Set the route for token setting
