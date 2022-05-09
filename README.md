@@ -1,6 +1,6 @@
 # TrustSECO-Spider
  
-This spider uses a combination of actual spidering (using BeautifulSoup) and API calls (using requests) in order to gather information from GitHub and Libraries.io.
+This spider uses a combination of actual spidering (using BeautifulSoup) and API calls (using requests) in order to gather information from GitHub, Libraries.io, CVE and Stack Overflow.
  
 ## GitHub
  
@@ -57,6 +57,12 @@ For each of these codes, it can get the following information:
   - Start version
   - End version
   - The type thereof (inclusive or exclusive)
+
+## Stack Overflow
+
+The data-points that the spider is currently able to grab from Stack Overflow are:
+
+- Trend popularity
 
 ## How to use
  
