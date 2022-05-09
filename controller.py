@@ -9,10 +9,13 @@ import os
 from dotenv import set_key
 import constants
 # Import the data-getting modules
+# API calls
 from src.api_calls.github_api_calls import GitHubAPICall
-from src.spiders.github_spider import GitHubSpider
 from src.api_calls.libaries_io_api_calls import LibrariesAPICall
+# Spiders
+from src.spiders.github_spider import GitHubSpider
 from src.spiders.cve_spider import CVESpider
+from src.spiders.stackoverflow_spider import StackOverflowSpider
 
 
 class Controller:
@@ -33,6 +36,7 @@ class Controller:
         # Spider objects
         self.gh_spider = GitHubSpider()
         self.cve_spider = CVESpider()
+        self.so_spider = StackOverflowSpider()
 
     def run(self, input_json):
         """
@@ -93,6 +97,18 @@ class Controller:
                 # Actually request the data
                 output_json.update({'cve_data_points': self.get_cve_data(
                     repo_name, input_json["cve_data_points"])})
+
+            # Request the data from the StackOverflow website
+            if 'so_data_points' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Getting StackOverflow data...')
+
+                # Actually request the data
+                output_json.update({'so_data_points': self.get_so_data(
+                    repo_name, input_json["so_data_points"])})
+
+            print('-------------------')
 
             # Print the output JSON object to the console
             return output_json
@@ -224,6 +240,27 @@ class Controller:
             elif data_point == "cve_codes":
                 return_data.update(
                     {data_point: self.cve_spider.get_cve_codes(repo_name)})
+            else:
+                print(f"Error: invalid data point {data_point}")
+                return_data.update({data_point: None})
+
+        # Return the requested data-points
+        return return_data
+
+    def get_so_data(self, repo_name, wanted_data):
+        """
+        This function will get the data from StackOverflow.
+
+        It will then return a JSON string containing the data.
+        """
+
+        # Create a JSON object to store the data
+        return_data = {}
+
+        for data_point in wanted_data:
+            if data_point == "so_popularity":
+                return_data.update(
+                    {data_point: self.so_spider.get_monthly_popularity(repo_name)})
             else:
                 print(f"Error: invalid data point {data_point}")
                 return_data.update({data_point: None})
