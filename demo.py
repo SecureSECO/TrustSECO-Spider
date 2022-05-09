@@ -56,6 +56,9 @@ def numpy_demo():
             "cve_count",
             "cve_vulnerabilities",
             "cve_codes"
+        ],
+        "so_data_points": [
+            "so_popularity"
         ]
     }
 
@@ -112,6 +115,9 @@ def afnetworking_demo():
             "cve_count",
             "cve_vulnerabilities",
             "cve_codes"
+        ],
+        "so_data_points": [
+            "so_popularity"
         ]
     }
 
