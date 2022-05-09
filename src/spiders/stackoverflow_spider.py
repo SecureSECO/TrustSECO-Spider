@@ -4,10 +4,10 @@ File for looking at Stack Overflow code trends
 import requests
 
 
-class StackOverflowCall:
+class StackOverflowSpider:
     """Class methods for getting data from Stack Overflow"""
 
-    def get_monthly_trends(self, package):
+    def get_monthly_popularity(self, package):
         """
         Gets popularity list of a package on Stack Overflow in percentage from each month since 2008
         """
@@ -22,22 +22,26 @@ class StackOverflowCall:
             print('Error:', e)
             return None
 
-        # Divide the json into data and percentage data
+        # Make sure we got the correct data
         if 'Year' in response and 'Month' in response and 'TagPercents' in response:
-            output = None
+            # Make sure that the percentages have actual values
+            if response['TagPercents'] is not None:
+                # See if the package is present in the response
+                # If so, return the latest popularity data
+                if package in response['TagPercents']:
+                    years = response['Year']
+                    months = response['Month']
+                    popularity = response['TagPercents'][package]
 
-            if response['TagPercents'] is not None and package in response['TagPercents']:
-                years = response['Year']
-                months = response['Month']
-                popularity = response['TagPercents'][package]
+                    # Return the latest popularity with the corresponding year and month
+                    try:
+                        return list(zip(months, years, popularity, strict=True))[-1]
+                    except ValueError:
+                        print('One of the lists was not of the same length')
+                        return None
+                else:
+                    print('Package not in response')
+                    return (response['Month'][-1], response['Year'][-1], 0)
 
-                # return list of date and percentage tuples.
-                try:
-                    output = list(zip(months, years, popularity, strict=True))
-                except ValueError:
-                    print('One of the zipped lists was not of the same length')
-
-            return output
-        else:
-            print('Could not find the wanted data')
-            return None
+        print('Did not get valid response')
+        return None
