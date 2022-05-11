@@ -1,6 +1,13 @@
-"""
-Allow the program to use BeautifulSoup and Requests in order to
-scrape wanted data-points from the CVE website.
+"""File containing the CVE spider
+
+This file contains the logic for the spider that will
+allow the program to use BeautifulSoup and Requests
+in order to scrape wanted data-points from the CVE website.
+
+    Typical usage:
+
+    foo = CVESpider()
+    bar = foo.get_cve_vulnerability_count('name')
 """
 
 import json
@@ -9,13 +16,21 @@ from bs4 import BeautifulSoup
 
 
 class CVESpider:
-    """
-    Class methods for getting data from the CVE website using BeautifulSoup and requests for spidering
+    """Class methods for getting data from the CVE website
+
+    This class handles all of the spidering jobs for the CVE website.
+    It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_cve_vulnerability_count(self, name):
+    def get_cve_vulnerability_count(self, name) -> int:
         """
         Gets the amount of known vulnerabilities of a given package
+
+        Parameters:
+            name (int): The name of the package
+
+        Returns:
+            int: The amount of known vulnerabilities of the given package
         """
 
         # Get the list of CVE links
@@ -27,9 +42,15 @@ class CVESpider:
         else:
             return None
 
-    def get_all_cve_data(self, name):
+    def get_all_cve_data(self, name) -> list:
         """
-        Loops through all the found CVE vulnerabilities, and extracts the data
+        Get all the available CVE data for a given package
+
+        Parameters:
+            name (str): The name of the package
+
+        Returns:
+            list: A list of all the CVE data for the given package
         """
 
         # Get the list of CVE links
@@ -50,11 +71,15 @@ class CVESpider:
         else:
             return None
 
-    def get_cve_codes(self, name):
+    def get_cve_codes(self, name) -> list:
         """
-        Searches through the CVE database for the given package name
+        Get all the CVE codes of vulnerabilities that affect the given package
 
-        Returns a list of CVE codes for vulnerabilities affecting the given package
+        Parameters:
+            name (str): The name of the package
+
+        Returns:
+            list: A list of CVE codes for vulnerabilities affecting the given package
         """
 
         # Create the URL for the package
@@ -87,18 +112,24 @@ class CVESpider:
         else:
             return None
 
-    def extract_cve_data(self, cve_code):
+    def extract_cve_data(self, cve_code) -> dict:
         """
         Extracts the data from a given CVE link
 
-        The data we extract is:
-        - CVE code
-        - CVE score
-        - Affected versions:
-          - Start version type
-          - Start version
-          - End version type
-          - End version
+        Parameters:
+            cve_code (str): The CVE code of the vulnerability
+
+        Returns:
+            dict: A dictionary containing the extracted data
+
+            The data we extract is:
+            - CVE code
+            - CVE score
+            - Affected versions:
+                - Start version type
+                - Start version
+                - End version type
+                - End version
         """
 
         # Create the full URL for the CVE link
@@ -157,9 +188,15 @@ class CVESpider:
         # Return the CVE data
         return cve_data
 
-    def get_and_parse_webpage(self, url):
+    def get_and_parse_webpage(self, url) -> BeautifulSoup:
         """
-        Gets the HTML of a given webpage and converts it into a BeautifulSoup object
+        Gets a BeautifulSoup object of the webpage at the given URL
+
+        Parameters:
+            url (str): The URL of the webpage
+
+        Returns:
+            BeautifulSoup: A BeautifulSoup object of the webpage
         """
 
         try:

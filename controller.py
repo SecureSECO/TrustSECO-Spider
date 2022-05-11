@@ -1,7 +1,12 @@
-"""
-File containing the class that handles all the input and output of the program.
+"""File containing the Controller of the TrustSECO-Spider
 
-This file will be the file that is run by the Node.JS program.
+
+This file contains the Controller class, which contains the logic used to run the spider.
+It also contains some static methods that an outside program/end-user can use to get data from the TrustSECO-Spider.
+
+    Typical usage:
+
+    foo = get_data('input_json')
 """
 
 # Import needed libraries
@@ -19,16 +24,21 @@ from src.spiders.stackoverflow_spider import StackOverflowSpider
 
 
 class Controller:
-    """
-    Class to facilitate input from, and output to, the Node.JS program.
+    """Class methods for controlling the TrustSECO-Spider
 
-    It will try and get input from the console in form of a JSON string.
-    It will then go through this JSON object to find the required information, and the wanted data-points.
-    These data-points will then be requested from the actual API classes,
-    and then returned to the Node.JS program by placing a JSON string on the console
+    This class receives an JSON object as input, and will return an JSON object as output.
+    The output JSON object will contain the data as requested by the input JSON object.
+
+    Attributes:
+        gh_api (GitHubAPICall): The GitHub API object
+        lib_api (LibrariesAPICall): The Libraries.IO API object
+        gh_spider (GitHubSpider): The GitHub spider object
+        cve_spider (CVESpider): The CVE spider object
+        so_spider (StackOverflowSpider): The StackOverflow spider object
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
+        """Initializes the Controller object by setting the data-gathering objects."""
         # API objects
         self.gh_api = GitHubAPICall()
         self.lib_api = LibrariesAPICall()
@@ -38,17 +48,28 @@ class Controller:
         self.cve_spider = CVESpider()
         self.so_spider = StackOverflowSpider()
 
-    def run(self, input_json):
+    def run(self, input_json) -> dict:
         """
         This is the main looping function of the program.
 
         It will try to read the console to see if a new command has been received.
+
+        Parameters:
+            input_json (dict): The input JSON object
+
+            This input JSON object contains information about which package is to be spidered,
+            and what data is to be returned.
+
+        Returns:
+            dict: The output JSON object
+
+            This output JSON object contains the data as requested by the input JSON object.
         """
 
         # Make sure we got the information we need
         if 'project_info' not in input_json:
             print('Error: no project information found')
-            return 'Error: no project information found'
+            return {'Error': 'Error: no project information found'}
 
         # Make sure all of the wanted project information is available
         if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' and 'project_year' in input_json["project_info"]:
@@ -116,11 +137,19 @@ class Controller:
             print('Error: missing project information')
             return 'Error: missing project information'
 
-    def get_github_data(self, owner, repo_name, release, year, wanted_data):
+    def get_github_data(self, owner, repo_name, release, year, wanted_data) -> dict:
         """
-        This function will get the data from GitHub.
+        Get the data from GitHub.
 
-        It will then return a JSON string containing the data.
+        Parameters:
+            owner (str): The owner of the repository
+            repo_name (str): The name of the repository
+            release (str): The release name
+            year (str): The year
+            wanted_data (list): The list of data points to be returned
+
+        Returns:
+            dict: The requested GitHub data
         """
 
         # Create a JSON object to store the data
@@ -177,11 +206,19 @@ class Controller:
         # Return the requested data-points
         return return_data
 
-    def get_libraries_data(self, platform, owner, repo_name, release, wanted_data):
+    def get_libraries_data(self, platform, owner, repo_name, release, wanted_data) -> dict:
         """
-        This function will get the data from Libraries.io.
+        Get the data from Libraries.IO.
 
-        It will then return a JSON string containing the data.
+        Parameters:
+            platform (str): The platform of the repository
+            owner (str): The owner of the repository
+            repo_name (str): The name of the repository
+            release (str): The release name
+            wanted_data (list): The list of data points to be returned
+
+        Returns:
+            dict: The requested Libraries.IO data
         """
 
         # Create a JSON object to store the data
@@ -220,11 +257,16 @@ class Controller:
         # Return the requested data-points
         return return_data
 
-    def get_cve_data(self, repo_name, wanted_data):
+    def get_cve_data(self, repo_name, wanted_data) -> dict:
         """
-        This function will get the data from the CVE website.
+        Get the data from CVE website.
 
-        It will then return a JSON string containing the data.
+        Parameters:
+            repo_name (str): The name of the repository
+            wanted_data (list): The list of data points to be returned
+
+        Returns:
+            dict: The requested CVE data
         """
 
         # Create a JSON object to store the data
@@ -247,11 +289,16 @@ class Controller:
         # Return the requested data-points
         return return_data
 
-    def get_so_data(self, repo_name, wanted_data):
+    def get_so_data(self, repo_name, wanted_data) -> dict:
         """
-        This function will get the data from StackOverflow.
+        Get the data from Stack Overflow.
 
-        It will then return a JSON string containing the data.
+        Parameters:
+            repo_name (str): The name of the repository
+            wanted_data (list): The list of data points to be returned
+
+        Returns:
+            dict: The requested Stack Overflow data
         """
 
         # Create a JSON object to store the data

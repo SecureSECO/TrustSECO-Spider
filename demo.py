@@ -1,5 +1,4 @@
-"""
-Basic demo file, purely for demonstration purposes.
+"""Basic demo file, purely for demonstration purposes.
 
 Before running this file, the Flask application needs to be started. (instructions for which can be found in the README.md file)
 """
