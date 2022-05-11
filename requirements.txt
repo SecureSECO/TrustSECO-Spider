@@ -7,3 +7,4 @@ requests
 bs4
 python-dotenv
 flask
+flask-cors

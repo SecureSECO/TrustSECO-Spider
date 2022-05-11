@@ -10,10 +10,14 @@ from flask import Flask, make_response, request
 import json
 # Import the controller of the TrustSECO-Spider
 import controller
+# Import CORS needed
+from flask_cors import CORS
 
 
 # Create the Flask application
 app = Flask('app')
+# Enable CORS
+CORS(app)
 
 
 # Set the route for data-retrieval
@@ -114,4 +118,4 @@ def try_get_json_input():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False)
