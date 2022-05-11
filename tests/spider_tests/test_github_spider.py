@@ -370,3 +370,9 @@ class TestIssueRatio:
         result = spider.get_repository_issue_ratio(self.owner, self.repo)
 
         assert result is None
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

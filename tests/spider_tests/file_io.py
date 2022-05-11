@@ -181,3 +181,9 @@ class FileIOForCVETests:
 
         with open('tests/spider_tests/spider_files/cve_get_codes/missing_table_page.txt', 'r', encoding='iso-8859-15') as missing_table:
             return missing_table.read()
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

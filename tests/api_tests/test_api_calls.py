@@ -168,3 +168,9 @@ class TestGetNeededParams:
             assert result is None
         elif api_type == constants.API_LIBRARIES:
             assert isinstance(result, type({}))
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

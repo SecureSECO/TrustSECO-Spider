@@ -354,3 +354,9 @@ def update_token_lib(libraries_token):
 
     # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

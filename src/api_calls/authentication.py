@@ -1,7 +1,8 @@
-"""
-File containing all of the functions for the authentication process
+"""File containing all of the functions for the authentication process
 
 It allows the program to authenticate the user for the GitHub and Libraries.io APIs
+
+NOT USED ANYMORE
 """
 
 import os
@@ -191,3 +192,9 @@ def lib_authenticate_user():
             # If not, stop the program
             else:
                 print('Authentication failed.')
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""
