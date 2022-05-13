@@ -25,7 +25,6 @@ def numpy_demo():
             "project_owner": "numpy",
             "project_name": "numpy",
             "project_release": "v1.22.1",
-            "project_year": 2021
         },
         "gh_data_points": [
             "gh_contributor_count",
@@ -33,7 +32,6 @@ def numpy_demo():
             "gh_total_download_count",
             "gh_release_download_count",
             "gh_yearly_commit_count",
-            "gh_given_year_commit_count",
             "gh_repository_language",
             "gh_open_issues_count",
             "gh_zero_response_issues_count",
@@ -84,7 +82,6 @@ def afnetworking_demo():
             "project_owner": "AFNetworking",
             "project_name": "AFNetworking",
             "project_release": "4.0.0",
-            "project_year": 2019
         },
         "gh_data_points": [
             "gh_contributor_count",
@@ -92,7 +89,6 @@ def afnetworking_demo():
             "gh_total_download_count",
             "gh_release_download_count",
             "gh_yearly_commit_count",
-            "gh_given_year_commit_count",
             "gh_repository_language",
             "gh_open_issues_count",
             "gh_zero_response_issues_count",

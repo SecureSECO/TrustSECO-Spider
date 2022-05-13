@@ -344,55 +344,6 @@ class GitHubAPICall:
         # Return the total commits
         return total_commits
 
-    def get_commit_count_in_year(self, owner, repo, year) -> int:
-        """
-        Get the amount of commits in the given year
-
-        Parameters:
-            owner (str): The owner of the repository
-            repo (str): The repository name
-            year (int): The year to get the commit count for
-
-        Returns:
-            int: The amount of commits in the given year
-        """
-
-        print(f'Getting commit count in year {year}...')
-
-        # Get the commits for the given year
-        commits_url = f'{constants.BASE_URL_REPOS}/{owner}/{repo}/commits?per_page=100&since={year}-01-01T00:00:00Z&until={year}-12-31T23:59:59Z'
-        commits_data = self.try_perform_api_call(commits_url, constants.CORE)
-
-        # Make sure we got a valid response
-        if commits_data is None:
-            print(
-                f'Error occurred while getting the commit count in the year {year}.')
-            return None
-
-        # See if there are multiple pages of commits
-        if 'last' in commits_data.links:
-            # Get the amount of commits on the final page
-            final_page_data = self.try_perform_api_call(
-                commits_data.links['last']['url'], constants.CORE)
-
-            # Make sure we got a valid response
-            if final_page_data is None:
-                print(
-                    f'Error occurred while getting the final page of commits in the year {year}.')
-                return None
-
-            final_page_commit_count = len(final_page_data.json())
-            # Get the total page count
-            page_count = int(commits_data.links['last']['url'].split('=')[-1])
-        else:
-            # Get the amount of commits on the first page
-            final_page_commit_count = len(commits_data.json())
-            # There is only one page
-            page_count = 1
-
-        # Return the amount of commits
-        return (page_count - 1) * 100 + final_page_commit_count
-
     def get_total_download_count(self, owner, repo) -> int:
         """
         Get the total amount of downloads of this repository

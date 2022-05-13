@@ -72,13 +72,12 @@ class Controller:
             return {'Error': 'Error: no project information found'}
 
         # Make sure all of the wanted project information is available
-        if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' and 'project_year' in input_json["project_info"]:
+        if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' in input_json["project_info"]:
             # Retrieve the project information
             platform = input_json["project_info"]["project_platform"]
             owner = input_json["project_info"]["project_owner"]
             repo_name = input_json["project_info"]["project_name"]
             release = input_json["project_info"]["project_release"]
-            year = input_json["project_info"]["project_year"]
 
             # Create an output JSON object
             output_json = {}
@@ -91,7 +90,7 @@ class Controller:
 
                 # Actually request the data
                 output_json.update({'gh_data_points': self.get_github_data(
-                    owner, repo_name, release, year, input_json["gh_data_points"])})
+                    owner, repo_name, release, input_json["gh_data_points"])})
 
             # Request the data from Libraries.IO
             if 'lib_data_points' in input_json:
@@ -137,7 +136,7 @@ class Controller:
             print('Error: missing project information')
             return 'Error: missing project information'
 
-    def get_github_data(self, owner, repo_name, release, year, wanted_data) -> dict:
+    def get_github_data(self, owner, repo_name, release, wanted_data) -> dict:
         """
         Get the data from GitHub.
 
@@ -172,9 +171,6 @@ class Controller:
             elif data_point == "gh_yearly_commit_count":
                 return_data.update(
                     {data_point: self.gh_api.get_yearly_commit_count(owner, repo_name)})
-            elif data_point == "gh_given_year_commit_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_commit_count_in_year(owner, repo_name, year)})
             elif data_point == "gh_repository_language":
                 return_data.update(
                     {data_point: self.gh_api.get_repository_language(owner, repo_name)})
