@@ -1,5 +1,11 @@
-"""
-File containing all of the logic pertaining to making actual API calls
+"""File containing all of the logic pertaining to making actual API calls
+
+This file handles all of the logic for actually making API calls.
+This allows the program to be more modular and easier to maintain.
+
+    Typical usage:
+
+    response = make_api_call(api_url, api_type)
 """
 
 import os
@@ -9,13 +15,18 @@ import constants
 from dotenv import load_dotenv
 
 
-def make_api_call(api_url, api_type):
+def make_api_call(api_url, api_type) -> requests.Response:
     """
     Perform a simple GET request, based off the given URL
 
-    If successful, returns the response
-    If not, returns None
+    Parameters:
+        api_url (str): The URL to make the GET request to
+        api_type (str): The type of API to make the request to
+
+    Returns:
+        response (obj): The response from the GET request
     """
+
     # Make sure the environment variables are loaded
     load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
 
@@ -65,10 +76,17 @@ def make_api_call(api_url, api_type):
             return None
 
 
-def get_needed_headers(api_type):
+def get_needed_headers(api_type) -> dict:
     """
-    Returns the needed headers for the given API type
+    Gets the needed headers for the given API type
+
+    Parameters:
+        api_type (str): The type of API to make the request to
+
+    Returns:
+        headers (dict): The headers to use for the request
     """
+
     if api_type == constants.API_GITHUB:
         return {'Authorization': 'token ' + os.getenv(constants.GITHUB_TOKEN),
                 'Accept': 'application/vnd.github.v3+json'}
@@ -76,11 +94,26 @@ def get_needed_headers(api_type):
         return None
 
 
-def get_needed_params(api_type):
-    """Returns the needed parameters for the given API type"""
+def get_needed_params(api_type) -> dict:
+    """
+    Gets the needed parameters for the given API type
+
+    Parameters:
+        api_type (str): The type of API to make the request to
+
+    Returns:
+        params (dict): The parameters to use for the request
+    """
+
     if api_type == constants.API_GITHUB:
         return None
     elif api_type == constants.API_LIBRARIES:
         return {'api_key': os.getenv(constants.LIBRARIES_TOKEN)}
     else:
         return None
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

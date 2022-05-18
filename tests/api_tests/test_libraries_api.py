@@ -1,6 +1,4 @@
-"""
-File containing the unit tests for the libraries_io_api_calls.py file.
-"""
+"""File containing the unit tests for the libraries_io_api_calls.py file."""
 
 # Import for testing
 import responses
@@ -13,8 +11,7 @@ from src.api_calls.libaries_io_api_calls import LibrariesAPICall
 
 # region API calling functions
 class TestProjectInformation:
-    """
-    Class for testing the API call for getting the project information.
+    """Class for testing the API call for getting the project information.
 
     To test this function, we shall test the following scenarios:
     1. The input parameters are valid
@@ -22,10 +19,8 @@ class TestProjectInformation:
     """
 
     @responses.activate
-    def test_valid_parameters(self):
-        """
-        Test for when the function receives the correct input parameters
-        """
+    def test_valid_parameters(self) -> None:
+        """Test for when the function receives the correct input parameters."""
 
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
@@ -46,10 +41,8 @@ class TestProjectInformation:
         assert response_data == {'mock_data': 'value'}
 
     @responses.activate
-    def test_invalid_parameters(self):
-        """
-        Test for when the function receives incorrect input parameters
-        """
+    def test_invalid_parameters(self) -> None:
+        """Test for when the function receives incorrect input parameters."""
 
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
@@ -71,8 +64,7 @@ class TestProjectInformation:
 
 
 class TestProjectDependencies:
-    """
-    Class for testing the API call for getting the project dependencies.
+    """Class for testing the API call for getting the project dependencies.
 
     To test this function, we shall test the following scenarios:
     1. The input parameters are valid
@@ -80,10 +72,8 @@ class TestProjectDependencies:
     """
 
     @responses.activate
-    def test_valid_parameters(self):
-        """
-        Test for when the function receives the correct input parameters
-        """
+    def test_valid_parameters(self) -> None:
+        """Test for when the function receives the correct input parameters."""
 
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
@@ -107,7 +97,7 @@ class TestProjectDependencies:
         assert response_data == {'mock_data': 'value'}
 
     @responses.activate
-    def test_invalid_parameters(self):
+    def test_invalid_parameters(self) -> None:
         """
         Test for when the function receives incorrect input parameters
         """
@@ -134,8 +124,7 @@ class TestProjectDependencies:
 
 
 class TestProjectRepository:
-    """
-    Class for testing the API call for getting the project repository.
+    """Class for testing the API call for getting the project repository.
 
     To test this function, we shall test the following scenarios:
     1. The input parameters are valid
@@ -143,10 +132,8 @@ class TestProjectRepository:
     """
 
     @responses.activate
-    def test_valid_parameters(self):
-        """
-        Test for when the function receives the correct input parameters
-        """
+    def test_valid_parameters(self) -> None:
+        """Test for when the function receives the correct input parameters."""
 
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
@@ -167,10 +154,8 @@ class TestProjectRepository:
         assert response_data == {'mock_data': 'value'}
 
     @responses.activate
-    def test_invalid_parameters(self):
-        """
-        Test for when the function receives incorrect input parameters
-        """
+    def test_invalid_parameters(self) -> None:
+        """Test for when the function receives incorrect input parameters."""
 
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
@@ -194,8 +179,8 @@ class TestProjectRepository:
 
 # region calculation functions
 class TestReleaseFrequency:
-    """
-    Class for testing the get_release_frequency function.
+    """Class for testing the get_release_frequency function.
+
     This function depends on get_latest_release_date, get_first_release_date and get_release_count.
 
     To test this function, we will test the following scenarios:
@@ -212,9 +197,15 @@ class TestReleaseFrequency:
         (None, None, 1, None),
         ('2016-04-21T04:09:15.000Z', '2016-04-20T04:09:15.000Z', 1, 86400.0)
     ])
-    def test_all(self, latest_release_date, first_release_date, release_count, expected_result):
+    def test_all(self, latest_release_date, first_release_date, release_count, expected_result) -> None:
         """
-        Function for testing all of the possible scenarios
+        Tests all of the possible scenarios
+
+        Parameters:
+            latest_release_date: The latest release date
+            first_release_date: The first release date
+            release_count: The number of releases
+            expected_result: The expected result
         """
 
         # Set the input variables
@@ -235,8 +226,8 @@ class TestReleaseFrequency:
 
 
 class TestDependencyCount:
-    """
-    Class for testing the get_dependency_count function.
+    """lass for testing the get_dependency_count function.
+
     This function depends on get_project_dependencies.
 
     To test this function, we will test the following scenarios:
@@ -255,9 +246,13 @@ class TestDependencyCount:
         ({'dependencies': [{'efef': ''}]}, 0),
         ({'dependencies': [{'kind': 'Development'}, {'kind': ''}]}, 1)
     ])
-    def test_all(self, return_value, expected_result):
+    def test_all(self, return_value, expected_result) -> None:
         """
-        Function for testing all of the possible scenarios
+        Tests all of the possible scenarios
+
+        Parameters:
+            return_value: The return value of the get_project_dependencies function
+            expected_result: The expected result
         """
 
         # Set the input variables
@@ -277,9 +272,9 @@ class TestDependencyCount:
 
 
 class TestFirstReleaseDate:
-    """
-    Class for testing the get_first_release_date function.
+    """Class for testing the get_first_release_date function.
 
+    To test this function, we will test the following scenarios:
     get_project_information returns:
     1. None
     2. A dictionary but without the wanted key
@@ -296,9 +291,13 @@ class TestFirstReleaseDate:
         ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'},
          {'published_at': '2016-04-21T04:09:15.000Z'}]}, '2016-04-20T04:09:15.000Z')
     ])
-    def test_all(self, return_value, expected_result):
+    def test_all(self, return_value, expected_result) -> None:
         """
-        Function for testing all of the possible scenarios
+        Tests all of the possible scenarios
+
+        Parameters:
+            return_value: The return value of the get_project_information function
+            expected_result: The expected result
         """
 
         # Set the input variables
@@ -319,8 +318,8 @@ class TestFirstReleaseDate:
 
 # region look-up functions
 class TestLookUp:
-    """
-    Class for testing the simple functions in the LibrariesAPICall class.
+    """Class for testing the simple functions in the LibrariesAPICall class.
+
     These functions simply get a value from a dictionary using a specific key.
 
     The functions that are 'look-up' functions are:
@@ -337,9 +336,13 @@ class TestLookUp:
     """
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'github_contributions_count': 10}, 10)])
-    def test_contributor_count(self, return_value, expected_value):
+    def test_contributor_count(self, return_value, expected_value) -> None:
         """
-        Test containing all of the possible scenarios
+        Test all of the possible scenarios for the get_contributors_count function
+
+        Parameters:
+            return_value: The return value of the get_project_repository function
+            expected_value: The expected value
         """
 
         # Create a libraries.io API call object
@@ -357,9 +360,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'dependents_count': 10}, 10)])
-    def test_dependents_count(self, return_value, expected_value):
+    def test_dependents_count(self, return_value, expected_value) -> None:
         """
-        Test containing all of the possible scenarios
+        Test all of the possible scenarios for the get_dependent_count function
+
+        Parameters:
+            return_value: The return value of the get_project_repository function
+            expected_value: The expected value
         """
 
         # Create a libraries.io API call object
@@ -377,9 +384,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'latest_release_published_at': 10}, 10)])
-    def test_latest_release_date(self, return_value, expected_value):
+    def test_latest_release_date(self, return_value, expected_value) -> None:
         """
-        Test containing all of the possible scenarios
+        Test all of the possible scenarios for the get_latest_release_date function
+
+        Parameters:
+            return_value: The return value of the get_project_repository function
+            expected_value: The expected value
         """
 
         # Create a libraries.io API call object
@@ -398,9 +409,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'versions': [1, 2, 3]}, 3)])
-    def test_release_count(self, return_value, expected_value):
+    def test_release_count(self, return_value, expected_value) -> None:
         """
-        Test containing all of the possible scenarios
+        Test all of the possible scenarios for the get_release_count function
+
+        Parameters:
+            return_value: The return value of the get_project_repository function
+            expected_value: The expected value
         """
 
         # Create a libraries.io API call object
@@ -418,9 +433,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'rank': 10}, 10)])
-    def test_sourcerank(self, return_value, expected_value):
+    def test_sourcerank(self, return_value, expected_value) -> None:
         """
-        Test containing all of the possible scenarios
+        Test all of the possible scenarios for the get_sourcerank function
+
+        Parameters:
+            return_value: The return value of the get_project_repository function
+            expected_value: The expected value
         """
 
         # Create a libraries.io API call object
@@ -437,3 +456,9 @@ class TestLookUp:
             # Check that the response is correct
             assert response_data == expected_value
 # endregion
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

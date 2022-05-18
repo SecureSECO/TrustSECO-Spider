@@ -1,15 +1,36 @@
+"""File containing the Stack Overflow spider
+
+This file contains the logic for the spider that will
+allow the program to use BeautifulSoup and Requests
+in order to scrape wanted data-points from the Stack Overflow website.
+
+    Typical usage:
+
+    foo = StackOverflowSpider()
+    bar = foo.get_monthly_popularity('package')
 """
-File for looking at Stack Overflow code trends
-"""
+
 import requests
 
 
 class StackOverflowSpider:
-    """Class methods for getting data from Stack Overflow"""
+    """Class methods for getting data from Stack Overflow
 
-    def get_monthly_popularity(self, package):
+    This class handles all of the spidering jobs for the Stack Overflow website.
+    It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
+    """
+
+    def get_monthly_popularity(self, package) -> int:
         """
-        Gets popularity list of a package on Stack Overflow in percentage from each month since 2008
+        Get the monthly popularity of the given package.
+
+        Parameters:
+            package (str): The name of the package
+
+        Returns:
+            int: The monthly popularity of the given package
+
+            This popularity is the percentage of questions posted that were about the given package.
         """
 
         # Take the url for Stack Overflow trends
@@ -45,3 +66,9 @@ class StackOverflowSpider:
 
         print('Did not get valid response')
         return None
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

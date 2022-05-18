@@ -7,57 +7,8 @@ from unittest import mock
 import responses
 # Spider import
 from src.spiders.github_spider import GitHubSpider
+from tests.spider_tests.file_io import FileIOForGHSpiderTests
 spider = GitHubSpider()
-
-
-class FileIOForSpiderTests:
-    """
-    Functions to get the needed text files for the tests.
-
-    We are using the encoding parameter as to avoid errors when parsing the text files
-    """
-
-    # Test users
-    def get_regular_body_users():
-        with open('tests/test_files/user_count/regular.txt', 'r', encoding='iso-8859-15') as regular:
-            regular_body = regular.read()
-        return regular_body
-
-    def get_no_tag_body_users():
-        with open('tests/test_files/user_count/no_a_tag.txt', 'r', encoding='iso-8859-15') as no_tag:
-            no_tag_body = no_tag.read()
-        return no_tag_body
-
-    def get_no_title_body_users():
-        with open('tests/test_files/user_count/no_title_attribute.txt', 'r', encoding='iso-8859-15') as no_title:
-            no_title_body = no_title.read()
-        return no_title_body
-
-    # Test issues
-    def get_regular_body_issues():
-        with open('tests/test_files/issue_ratio/regular.txt', 'r', encoding='iso-8859-15') as regular:
-            regular_body = regular.read()
-        return regular_body
-
-    def get_no_open_body_issues():
-        with open('tests/test_files/issue_ratio/no_open_issues.txt', 'r', encoding='iso-8859-15') as no_open:
-            no_open_body = no_open.read()
-        return no_open_body
-
-    def get_zero_open_body_issues():
-        with open('tests/test_files/issue_ratio/zero_open_issues.txt', 'r', encoding='iso-8859-15') as zero_open:
-            zero_open_body = zero_open.read()
-        return zero_open_body
-
-    def get_no_closed_body_issues():
-        with open('tests/test_files/issue_ratio/no_closed_issues.txt', 'r', encoding='iso-8859-15') as no_closed:
-            no_closed_body = no_closed.read()
-        return no_closed_body
-
-    def get_zero_closed_body_issues():
-        with open('tests/test_files/issue_ratio/zero_closed_issues.txt', 'r', encoding='iso-8859-15') as zero_closed:
-            zero_closed_body = zero_closed.read()
-        return zero_closed_body
 
 
 class TestUserCount:
@@ -87,7 +38,7 @@ class TestUserCount:
         Return value should be None, as the request failed
         """
         # Get the mock response body
-        regular_body = FileIOForSpiderTests.get_regular_body_users()
+        regular_body = FileIOForGHSpiderTests.get_regular_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=404)
@@ -122,7 +73,7 @@ class TestUserCount:
         Return value should be None, as there is no way to find the user count
         """
         # Get the mock response body
-        no_tag_body = FileIOForSpiderTests.get_no_tag_body_users()
+        no_tag_body = FileIOForGHSpiderTests.get_no_tag_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_tag_body, status=200)
@@ -141,7 +92,7 @@ class TestUserCount:
         Return value should be None, as there is no way to find the user count
         """
         # Get the mock response body
-        no_title_body = FileIOForSpiderTests.get_no_title_body_users()
+        no_title_body = FileIOForGHSpiderTests.get_no_title_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_title_body, status=200)
@@ -160,7 +111,7 @@ class TestUserCount:
         Return value should be the number of users
         """
         # Get the mock response body
-        regular_body = FileIOForSpiderTests.get_regular_body_users()
+        regular_body = FileIOForGHSpiderTests.get_regular_body_users()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=200)
@@ -196,7 +147,7 @@ class TestOpenIssues:
         Return value should be None, as the request failed
         """
         # Get the mock response body
-        regular_body = FileIOForSpiderTests.get_regular_body_issues()
+        regular_body = FileIOForGHSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=404)
@@ -231,7 +182,7 @@ class TestOpenIssues:
         Return value should be None, as there is no way to find the open issue count
         """
         # Get the mock response body
-        no_open_body = FileIOForSpiderTests.get_no_open_body_issues()
+        no_open_body = FileIOForGHSpiderTests.get_no_open_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_open_body, status=200)
@@ -250,7 +201,7 @@ class TestOpenIssues:
         Return value should be the open issue count
         """
         # Get the mock response body
-        regular_body = FileIOForSpiderTests.get_regular_body_issues()
+        regular_body = FileIOForGHSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=200)
@@ -286,7 +237,7 @@ class TestClosedIssues:
         Return value should be None, as the request failed
         """
         # Get the mock response body
-        regular_body = FileIOForSpiderTests.get_regular_body_issues()
+        regular_body = FileIOForGHSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=404)
@@ -323,7 +274,7 @@ class TestClosedIssues:
         Return value should be None, as there is no way to find the closed issue count
         """
         # Get the mock response body
-        no_closed_body = FileIOForSpiderTests.get_no_closed_body_issues()
+        no_closed_body = FileIOForGHSpiderTests.get_no_closed_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=no_closed_body, status=200)
@@ -343,7 +294,7 @@ class TestClosedIssues:
         Return value should be the closed issue count
         """
         # Get the mock response body
-        regular_body = FileIOForSpiderTests.get_regular_body_issues()
+        regular_body = FileIOForGHSpiderTests.get_regular_body_issues()
 
         # Tell responses to mock the request for us using the provided body and code
         responses.add(responses.GET, self.url, body=regular_body, status=200)
@@ -419,3 +370,9 @@ class TestIssueRatio:
         result = spider.get_repository_issue_ratio(self.owner, self.repo)
 
         assert result is None
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

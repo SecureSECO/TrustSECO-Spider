@@ -1,5 +1,4 @@
-"""
-Basic demo file, purely for demonstration purposes.
+"""Basic demo file, purely for demonstration purposes.
 
 Before running this file, the Flask application needs to be started. (instructions for which can be found in the README.md file)
 """
@@ -26,7 +25,6 @@ def numpy_demo():
             "project_owner": "numpy",
             "project_name": "numpy",
             "project_release": "v1.22.1",
-            "project_year": 2021
         },
         "gh_data_points": [
             "gh_contributor_count",
@@ -34,7 +32,6 @@ def numpy_demo():
             "gh_total_download_count",
             "gh_release_download_count",
             "gh_yearly_commit_count",
-            "gh_given_year_commit_count",
             "gh_repository_language",
             "gh_open_issues_count",
             "gh_zero_response_issues_count",
@@ -85,7 +82,6 @@ def afnetworking_demo():
             "project_owner": "AFNetworking",
             "project_name": "AFNetworking",
             "project_release": "4.0.0",
-            "project_year": 2019
         },
         "gh_data_points": [
             "gh_contributor_count",
@@ -93,7 +89,6 @@ def afnetworking_demo():
             "gh_total_download_count",
             "gh_release_download_count",
             "gh_yearly_commit_count",
-            "gh_given_year_commit_count",
             "gh_repository_language",
             "gh_open_issues_count",
             "gh_zero_response_issues_count",
@@ -150,3 +145,9 @@ if __name__ == '__main__':
         print('\t- numpy')
         print('\t- afnetworking')
         print('\t- all')
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

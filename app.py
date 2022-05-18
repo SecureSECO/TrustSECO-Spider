@@ -1,5 +1,4 @@
-"""
-File containing the setup for the Flask application.
+"""File containing the setup for the Flask application.
 
 Running this file will start the Flask application on the localhost at port 5000.
 """
@@ -40,10 +39,11 @@ def get_data():
     result = controller.get_data(input_json)
 
     # Return the result
-    response = make_response(result)
-    if type(result) is str:
+    if 'Error' in result:
+        response = make_response(result['Error'], 400)
         response.headers.set('Content-Type', 'text/plain')
     else:
+        response = make_response(json.dumps(result), 200)
         response.headers.set('Content-Type', 'application/json')
 
     # Return the response
@@ -94,6 +94,8 @@ def set_tokens():
 
 
 def try_get_json_input():
+    """Tries to get the JSON input from the request."""
+
     # Make sure the request is JSON
     if not request.is_json:
         output = 'Not a JSON request'
@@ -119,3 +121,8 @@ def try_get_json_input():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

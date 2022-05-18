@@ -1,6 +1,4 @@
-"""
-File containing the unit tests for the Stack_Overflow_calls.py file.
-"""
+"""File containing the unit tests for the Stack_Overflow_calls.py file."""
 
 # Import for testing
 import responses
@@ -11,8 +9,7 @@ from src.spiders.stackoverflow_spider import StackOverflowSpider
 
 
 class TestTrends:
-    """
-    Class for testing trend responces
+    """Class for testing Stack Overflow trend responces
 
     To test this function, we shall test the following scenarios:
     1. The input parameters are valid
@@ -33,10 +30,13 @@ class TestTrends:
         ({"Year": [2022], "Month": [5]}, None),
         ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
     ])
-    def test_invalid_package(self, return_json, expected_value):
+    def test_unknown_package(self, return_json, expected_value) -> None:
         """
-        Test for when the function receives correct input parameters
-        and test for when the function receives incorrect input parameters
+        Test for when the function receives an unknown package name
+
+        Parameters:
+            return_json: The json to return from the API call
+            expected_value: The expected value of the function
         """
 
         # Create a Stack Overflow Call object
@@ -61,10 +61,13 @@ class TestTrends:
         ({"Year": [2022], "Month": [5]}, None),
         ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
     ])
-    def test_valid_package(self, return_json, expected_value):
+    def test_valid_package(self, return_json, expected_value) -> None:
         """
-        Test for when the function receives correct input parameters
-        and test for when the function receives incorrect input parameters
+        Test for when the function receives a known package name.
+
+        Parameters:
+            return_json: The json to return from the API call
+            expected_value: The expected value of the function
         """
 
         # Create a Stack Overflow Call object
@@ -81,7 +84,7 @@ class TestTrends:
         assert response_data == expected_value
 
     @responses.activate
-    def test_invalid_response(self):
+    def test_invalid_response(self) -> None:
         """
         Test for when the function receives no response
         """
@@ -97,3 +100,9 @@ class TestTrends:
 
         # Check that the response is correct based on the given package name
         assert response_data is None
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

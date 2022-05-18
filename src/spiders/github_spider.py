@@ -1,6 +1,13 @@
-"""
-Allow the program to use BeautifulSoup and Requests in order to
-scrape wanted data-points from the GitHub website.
+"""File containing the GitHub spider
+
+This file contains the logic for the spider that will
+allow the program to use BeautifulSoup and Requests
+in order to scrape wanted data-points from the GitHub website.
+
+    Typical usage:
+
+    foo = GitHubSpider()
+    bar = foo.get_repository_user_count('owner', 'repo')
 """
 
 from bs4 import BeautifulSoup
@@ -8,13 +15,22 @@ import requests
 
 
 class GitHubSpider:
-    """
-    Class methods for getting data from the GitHub website using BeautifulSoup and requests for spidering
+    """Class methods for getting data from the GitHub website
+
+    This class handles all of the spidering jobs for the GitHub website.
+    It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_repository_user_count(self, owner, repo):
+    def get_repository_user_count(self, owner, repo) -> int:
         """
-        Gets the number of users of a given repository
+        Get the number of users of a given repository
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo (str): The repository
+
+        Returns:
+            int: The number of users of the repository
         """
 
         # Create the URL for the repository
@@ -51,9 +67,16 @@ class GitHubSpider:
 
         return user_count
 
-    def get_repository_open_issue_count(self, owner, repo):
+    def get_repository_open_issue_count(self, owner, repo) -> int:
         """
-        Gets the amount of open issues of a given repository
+        Get the amount of open issues of a given repository
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo (str): The repository
+
+        Returns:
+            int: The number of open issues of the repository
         """
 
         # Create the URL for the repository
@@ -88,9 +111,16 @@ class GitHubSpider:
         # Else return None
         return None
 
-    def get_repository_closed_issue_count(self, owner, repo):
+    def get_repository_closed_issue_count(self, owner, repo) -> int:
         """
-        Gets the amount of closed issues of a given repository
+        Get the amount of closed issues of a given repository
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo (str): The repository
+
+        Returns:
+            int: The number of closed issues of the repository
         """
 
         # Create the URL for the repository
@@ -125,9 +155,16 @@ class GitHubSpider:
         # Else return None
         return None
 
-    def get_repository_issue_ratio(self, owner, repo):
+    def get_repository_issue_ratio(self, owner, repo) -> float:
         """
-        Gets the issue ratio of a given repository
+        Get the issue ratio of a given repository
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo (str): The repository
+
+        Returns:
+            float: The issue ratio of the repository
         """
 
         # Get the issue counts
@@ -142,3 +179,9 @@ class GitHubSpider:
         # Else return the ratio
         else:
             return open_issues / closed_issues
+
+
+"""
+This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
+© Copyright Utrecht University (Department of Information and Computing Sciences)
+"""

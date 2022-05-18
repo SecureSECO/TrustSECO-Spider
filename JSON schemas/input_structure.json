@@ -12,7 +12,6 @@
         "gh_total_download_count",
         "gh_release_download_count",
         "gh_yearly_commit_count",
-        "gh_given_year_commit_count",
         "gh_repository_language",
         "gh_gitstar_ranking",
         "gh_open_issues_count",
