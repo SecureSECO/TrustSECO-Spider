@@ -19,7 +19,12 @@ app = Flask('app')
 CORS(app)
 
 
+def purely_for_testing():
+    return None
+
 # Set the route for data-retrieval
+
+
 @app.post('/get_data')
 def get_data():
     """Uses the given JSON to get the wanted data-points."""
