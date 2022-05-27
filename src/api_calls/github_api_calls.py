@@ -677,6 +677,34 @@ class GitHubAPICall:
             else:
                 return total_stargazer_count
 
+    def get_release_download_links(self, owner, repo, release):
+        """
+        Gets the release data of the given repo, and extracts the download link from it
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo (str): The repository name
+            release (str): The release to get the release download link for
+
+        Returns:
+            List[str]: The download link of the given release
+        """
+
+        # Get the release data
+        release_data = self.get_release_data(owner, repo, release)
+
+        # Make sure we got a valid response
+        if release_data is None:
+            print('Error occurred while getting the release download link.')
+            return None
+
+        # Get the download links
+        output = []
+        for asset in release_data['assets']:
+            output.append(asset['browser_download_url'])
+
+        return output
+
     def try_perform_api_call(self, api_url, call_type) -> Response:
         """
         Perform rate limit checks, and if those pass, perform an API call

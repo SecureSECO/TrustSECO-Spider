@@ -56,6 +56,9 @@ def numpy_demo():
         ],
         "so_data_points": [
             "so_popularity"
+        ],
+        "virus_scanning": [
+            "virus_ratio"
         ]
     }
 
@@ -113,6 +116,9 @@ def afnetworking_demo():
         ],
         "so_data_points": [
             "so_popularity"
+        ],
+        "virus_scanning": [
+            "virus_ratio"
         ]
     }
 

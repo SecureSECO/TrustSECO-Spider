@@ -9,7 +9,7 @@ services:
     volumes:
       - type: volume
         source: TrustSECO
-        target: /run/clamav
+        target: /app/clamav/sockets
 
   scanner:
     container_name: ClamAV-daemon

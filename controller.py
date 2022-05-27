@@ -16,11 +16,13 @@ import constants
 # Import the data-getting modules
 # API calls
 from src.api_calls.github_api_calls import GitHubAPICall
-from src.api_calls.libaries_io_api_calls import LibrariesAPICall
+from src.api_calls.libraries_io_api_calls import LibrariesAPICall
 # Spiders
 from src.spiders.github_spider import GitHubSpider
 from src.spiders.cve_spider import CVESpider
 from src.spiders.stackoverflow_spider import StackOverflowSpider
+# Virus scanning
+from src.virus_scanning.scanner_communication import ScannerCommunication
 
 
 class Controller:
@@ -47,6 +49,9 @@ class Controller:
         self.gh_spider = GitHubSpider()
         self.cve_spider = CVESpider()
         self.so_spider = StackOverflowSpider()
+
+        # Virus scanner objects
+        self.vs_comm = ScannerCommunication()
 
     def run(self, input_json) -> dict:
         """
@@ -127,6 +132,16 @@ class Controller:
                 # Actually request the data
                 output_json.update({'so_data_points': self.get_so_data(
                     repo_name, input_json["so_data_points"])})
+
+            # Scan the release's files for viruses
+            if 'virus_scanning' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Scanning for viruses...')
+
+                # Actually request the data
+                output_json.update({'virus_scanning': {'virus_ratio': self.vs_comm.get_virus_ratio(
+                    self.gh_api.get_release_download_links(owner, repo_name, release))}})
 
             print('-------------------')
 
