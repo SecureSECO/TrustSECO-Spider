@@ -19,12 +19,15 @@ class ScannerCommunication:
         """
 
         # Make sure we have a list of links
+        if links is None:
+            print('No links provided. (None input)')
+            return None
         if len(links) == 0:
-            print('No links to scan.')
+            print('No links provided. (empty list)')
             return None
 
         # Make sure the UNIX socket is available for clamdscan
-        if not os.path.exists('/clamav/sockets'):
+        if not os.path.exists('clamav/sockets/clamd.sock'):
             print('The UNIX socket is not available for clamdscan.')
             print('Please make sure clamdscan is running.')
             return None
@@ -67,18 +70,16 @@ class ScannerCommunication:
         # Close the stream
         stream.close()
 
-        # If we don't get the expected output
-        # Tell the user what happened and return None
-        if not len(feedback) == 4:
-            for line in feedback:
-                print(line)
-            return None
-
-        # Extract the virus count from the output
-        virus_count = feedback[3].strip().split(': ')[1]
+        # Try to extract the virus count from the output
+        virus_count = None
+        for line in feedback:
+            if 'Infected files' in line:
+                virus_count = line.strip().split(': ')[1]
 
         # Return True if a virus has been detected, False otherwise
-        if virus_count == 0:
+        if virus_count is None:
+            return None
+        elif virus_count == '0':
             return False
         else:
             return True

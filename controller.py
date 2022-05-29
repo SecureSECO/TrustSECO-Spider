@@ -139,9 +139,16 @@ class Controller:
                 print('-------------------')
                 print('Scanning for viruses...')
 
-                # Actually request the data
-                output_json.update({'virus_scanning': {'virus_ratio': self.vs_comm.get_virus_ratio(
-                    self.gh_api.get_release_download_links(owner, repo_name, release))}})
+                # Get the links that need to be scanned
+                links_to_scan = self.gh_api.get_release_download_links(
+                    owner, repo_name, release)
+
+                # Actually scan the files
+                scan_result = {
+                    'virus_ratio': self.vs_comm.get_virus_ratio(links_to_scan)}
+
+                # Add the results to the output
+                output_json.update({'virus_scanning': scan_result})
 
             print('-------------------')
 
