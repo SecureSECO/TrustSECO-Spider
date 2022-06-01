@@ -10,7 +10,7 @@ import json
 import requests
 
 
-def numpy_demo():
+def numpy_demo(scan_viruses):
     """
     Function containing the code for the numpy demo.
 
@@ -56,11 +56,12 @@ def numpy_demo():
         ],
         "so_data_points": [
             "so_popularity"
-        ],
-        "virus_scanning": [
-            "virus_ratio"
         ]
     }
+
+    # If the user wants to scan for viruses, add the virus scanning data-points
+    if scan_viruses:
+        input_json["virus_scanning"] = ["virus_ratio"]
 
     # Get the data
     response = requests.post('http://localhost:5000/get_data',
@@ -116,11 +117,12 @@ def afnetworking_demo():
         ],
         "so_data_points": [
             "so_popularity"
-        ],
-        "virus_scanning": [
-            "virus_ratio"
         ]
     }
+
+    # If the user wants to scan for viruses, add the virus scanning data-points
+    if scan_viruses:
+        input_json["virus_scanning"] = ["virus_ratio"]
 
     # Get the data
     response = requests.post('http://localhost:5000/get_data',
@@ -133,24 +135,30 @@ def afnetworking_demo():
 if __name__ == '__main__':
     # See if the user passed arguments
     if len(sys.argv) > 1:
+        # See if we also want to run the virus scanner
+        scan_viruses = False
+        if 'virus' in sys.argv:
+            scan_viruses = True
+
         # If numpy is specified, run the numpy demo
         if 'numpy' in sys.argv:
-            numpy_demo()
+            numpy_demo(scan_viruses)
 
         # If cocoapods is specified, run the cocoapods demo
         if 'afnetworking' in sys.argv:
-            afnetworking_demo()
+            afnetworking_demo(scan_viruses)
 
         # If all is specified, run both demos
         if 'all' in sys.argv:
-            numpy_demo()
-            afnetworking_demo()
+            numpy_demo(scan_viruses)
+            afnetworking_demo(scan_viruses)
     else:
         print('No arguments passed.')
         print('Please specify which library you would like to gather data of:')
         print('\t- numpy')
         print('\t- afnetworking')
         print('\t- all')
+        print('If you would like to run the virus scanner, add the \'virus\' argument and make sure the virus scanner is also running.')
 
 
 """
