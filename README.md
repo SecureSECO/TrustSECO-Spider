@@ -124,6 +124,17 @@ print(response.text)
 
 If only 1 token has to be set/updated, only that 1 token needs to be supplied.
 
+### Getting API tokens
+
+If needed, the API tokens that the TrustSECO-Spider is currently using can be requested. This can simply be done by sending a GET request to `http://localhost:5000/get_tokens`. Example:
+
+``` Python
+response = requests.GET('http://localhost:5000/set_tokens')
+
+print(response.json())
+```
+
+
 ### Requesting data
 
 This address can then be used in order to request data. This is done by sending a POST request to the endpoint. This POST request **must** contain the following:
@@ -187,13 +198,15 @@ Other than that added field, the instructions remain the same as in 'Requesting 
 
 ### Return values
 
-Depending on which end-point you send a request to (`get_data` or `set_tokens`), a certain type of response will be sent.
-
-In case of `set_tokens`, it will always return `Content-type: text/plain`.
+Depending on which end-point you send a request to (`get_data`, `set_tokens` or `get_tokens`), a certain type of response will be sent.
 
 In case of `get_data`, the return type will change depending on whether or not the request succeeded. For example, if the request did not contain all the needed information, the return type would be `Content-type: text/plain` and would contain the reason for the failure (in this case `Error: missing project information`).
 
 If the request did succeed, the return type would be `Content-type: application/json`, and the response would include the wanted data in a JSON format.
+
+In case of `set_tokens`, it will always return `Content-type: text/plain`.
+
+In case of `get_tokens`, the return type will always be `Content-type: application/json`. The JSON structure is the same as what is described within 'token_input.json'.
 
 Please use the content type to avoid trying to grab non-existent JSON data or text.
 

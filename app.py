@@ -9,11 +9,6 @@ from flask import Flask, make_response, request
 import json
 # Import the controller of the TrustSECO-Spider
 import controller
-# Import os and dotenv for loading environment variables
-import os
-from dotenv import load_dotenv
-# Import constants
-import constants
 # Import CORS needed
 from flask_cors import CORS
 import subprocess
@@ -105,21 +100,11 @@ def set_tokens():
 def get_tokens():
     """Returns the tokens currently stored in the .env file"""
 
-    # (Re)load the .env file
-    load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
-
-    # Get the tokens
-    gh_token = os.getenv(constants.GITHUB_TOKEN)
-    lib_token = os.getenv(constants.LIBRARIES_TOKEN)
-
-    # Set the output
-    output_json = {
-        'github_token': gh_token,
-        'libraries_token': lib_token
-    }
+    # Get the tokens from the .env file
+    tokens = controller.get_tokens()
 
     # Return the output
-    response = make_response(output_json)
+    response = make_response(tokens)
     response.headers.set('Content-Type', 'application/json')
     return response
 

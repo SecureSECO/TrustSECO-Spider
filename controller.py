@@ -11,7 +11,7 @@ It also contains some static methods that an outside program/end-user can use to
 
 # Import needed libraries
 import os
-from dotenv import set_key
+from dotenv import set_key, load_dotenv
 import constants
 # Import the data-getting modules
 # API calls
@@ -372,6 +372,25 @@ def update_token_lib(libraries_token):
 
     # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)
+
+
+def get_tokens():
+    """
+    This functions read the environmental variables and returns the tokens currently contained within
+    """
+
+    # (Re)load the .env file
+    load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
+
+    # Get the tokens
+    gh_token = os.getenv(constants.GITHUB_TOKEN)
+    lib_token = os.getenv(constants.LIBRARIES_TOKEN)
+
+    # Return the keys
+    return {
+        'github_token': gh_token,
+        'libraries_token': lib_token
+    }
 
 
 """
