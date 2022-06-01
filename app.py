@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 import constants
 # Import CORS needed
 from flask_cors import CORS
+import subprocess
 
 
 # Create the Flask application
@@ -150,6 +151,11 @@ def try_get_json_input():
 
 
 if __name__ == '__main__':
+    # Set the permissions of the mounted volume
+    result = subprocess.run(
+        ['chmod', '777', 'clamav/sockets/'], capture_output=True)
+
+    # Start the Flask application
     app.run(host='0.0.0.0', port=5000, debug=False)
 
 """
