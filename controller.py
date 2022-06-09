@@ -94,8 +94,8 @@ class Controller:
                 print('Getting GitHub data...')
 
                 # Actually request the data
-                output_json.update({'gh_data_points': self.get_github_data(
-                    owner, repo_name, release, input_json["gh_data_points"])})
+                output_json.update(self.get_github_data(
+                    owner, repo_name, release, input_json["gh_data_points"]))
 
             # Request the data from Libraries.IO
             if 'lib_data_points' in input_json:
@@ -110,8 +110,8 @@ class Controller:
                     lib_release = release
 
                 # Actually request the data
-                output_json.update({'lib_data_points': self.get_libraries_data(
-                    platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+                output_json.update(self.get_libraries_data(
+                    platform, owner, repo_name, lib_release, input_json["lib_data_points"]))
 
             # Request the data from the CVE website
             if 'cve_data_points' in input_json:
@@ -120,8 +120,8 @@ class Controller:
                 print('Getting CVE data...')
 
                 # Actually request the data
-                output_json.update({'cve_data_points': self.get_cve_data(
-                    repo_name, input_json["cve_data_points"])})
+                output_json.update(self.get_cve_data(
+                    repo_name, input_json["cve_data_points"]))
 
             # Request the data from the StackOverflow website
             if 'so_data_points' in input_json:
@@ -130,8 +130,8 @@ class Controller:
                 print('Getting StackOverflow data...')
 
                 # Actually request the data
-                output_json.update({'so_data_points': self.get_so_data(
-                    repo_name, input_json["so_data_points"])})
+                output_json.update(self.get_so_data(
+                    repo_name, input_json["so_data_points"]))
 
             # Scan the release's files for viruses
             if 'virus_scanning' in input_json:

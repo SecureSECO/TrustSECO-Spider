@@ -1,114 +1,104 @@
 {
-    "gh_data_points": {
-        "gh_contributor_count": 1424,
-        "gh_user_count": null,
-        "gh_total_download_count": 488923,
-        "gh_release_download_count": 1261,
-        "gh_yearly_commit_count": 2294,
-        "gh_repository_language": "Python",
-        "gh_open_issues_count": 2049,
-        "gh_zero_response_issues_count": 292,
-        "gh_issue_ratio": 0.24297403059409464,
-        "gh_average_resolution_time": 30551.44,
-        "gh_owner_stargazer_count": 21232
-    },
-    "lib_data_points": {
-        "lib_release_frequency": 3909271.2258064514,
-        "lib_contributor_count": 877,
-        "lib_dependency_count": 0,
-        "lib_dependent_count": 34438,
-        "lib_latest_release_date": "2022-04-12T14:48:15.000Z",
-        "lib_first_release_date": "2006-12-02T02:07:43.000Z",
-        "lib_release_count": 124,
-        "lib_sourcerank": 31
-    },
-    "cve_data_points": {
-        "cve_count": 8,
-        "cve_vulnerabilities": [
-            {
-                "CVE_ID": "CVE-2021-41496",
-                "CVE_score": 7.5,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "excluding",
-                "CVE_affected_version_end": "1.19.0"
-            },
-            {
-                "CVE_ID": "CVE-2021-41495",
-                "CVE_score": 7.5,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "including",
-                "CVE_affected_version_end": "1.19.0"
-            },
-            {
-                "CVE_ID": "CVE-2021-34141",
-                "CVE_score": 5.3,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "excluding",
-                "CVE_affected_version_end": "1.22.0"
-            },
-            {
-                "CVE_ID": "CVE-2021-33430",
-                "CVE_score": 7.5,
-                "CVE_affected_version_start_type": "including",
-                "CVE_affected_version_start": "1.9.0",
-                "CVE_affected_version_end_type": "including",
-                "CVE_affected_version_end": "1.9.3"
-            },
-            {
-                "CVE_ID": "CVE-2019-6446",
-                "CVE_score": 9.8,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "including",
-                "CVE_affected_version_end": "1.16.0"
-            },
-            {
-                "CVE_ID": "CVE-2017-12852",
-                "CVE_score": 7.5,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "including",
-                "CVE_affected_version_end": "1.13.1"
-            },
-            {
-                "CVE_ID": "CVE-2014-1859",
-                "CVE_score": 5.5,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "including",
-                "CVE_affected_version_end": "1.8.0"
-            },
-            {
-                "CVE_ID": "CVE-2014-1858",
-                "CVE_score": 5.5,
-                "CVE_affected_version_start_type": null,
-                "CVE_affected_version_start": null,
-                "CVE_affected_version_end_type": "excluding",
-                "CVE_affected_version_end": "1.8.1"
-            }
-        ],
-        "cve_codes": [
-            "CVE-2021-41496",
-            "CVE-2021-41495",
-            "CVE-2021-34141",
-            "CVE-2021-33430",
-            "CVE-2019-6446",
-            "CVE-2017-12852",
-            "CVE-2014-1859",
-            "CVE-2014-1858"
-        ]
-    },
-    "so_data_points": {
-        "so_popularity": [
-            "4",
-            "2022",
-            0.795922418374
-        ]
-    },
-    "virus_scanning": {
-        "virus_ratio": 0.0
-    }
+    "gh_contributor_count": 1424,
+    "gh_user_count": null,
+    "gh_total_download_count": 488923,
+    "gh_release_download_count": 1261,
+    "gh_yearly_commit_count": 2294,
+    "gh_repository_language": "Python",
+    "gh_open_issues_count": 2049,
+    "gh_zero_response_issues_count": 292,
+    "gh_issue_ratio": 0.24297403059409464,
+    "gh_average_resolution_time": 30551.44,
+    "gh_owner_stargazer_count": 21232,
+    "lib_release_frequency": 3909271.2258064514,
+    "lib_contributor_count": 877,
+    "lib_dependency_count": 0,
+    "lib_dependent_count": 34438,
+    "lib_latest_release_date": "2022-04-12T14:48:15.000Z",
+    "lib_first_release_date": "2006-12-02T02:07:43.000Z",
+    "lib_release_count": 124,
+    "lib_sourcerank": 31,
+    "cve_count": 8,
+    "cve_vulnerabilities": [
+        {
+            "CVE_ID": "CVE-2021-41496",
+            "CVE_score": 7.5,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "excluding",
+            "CVE_affected_version_end": "1.19.0"
+        },
+        {
+            "CVE_ID": "CVE-2021-41495",
+            "CVE_score": 7.5,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "including",
+            "CVE_affected_version_end": "1.19.0"
+        },
+        {
+            "CVE_ID": "CVE-2021-34141",
+            "CVE_score": 5.3,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "excluding",
+            "CVE_affected_version_end": "1.22.0"
+        },
+        {
+            "CVE_ID": "CVE-2021-33430",
+            "CVE_score": 7.5,
+            "CVE_affected_version_start_type": "including",
+            "CVE_affected_version_start": "1.9.0",
+            "CVE_affected_version_end_type": "including",
+            "CVE_affected_version_end": "1.9.3"
+        },
+        {
+            "CVE_ID": "CVE-2019-6446",
+            "CVE_score": 9.8,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "including",
+            "CVE_affected_version_end": "1.16.0"
+        },
+        {
+            "CVE_ID": "CVE-2017-12852",
+            "CVE_score": 7.5,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "including",
+            "CVE_affected_version_end": "1.13.1"
+        },
+        {
+            "CVE_ID": "CVE-2014-1859",
+            "CVE_score": 5.5,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "including",
+            "CVE_affected_version_end": "1.8.0"
+        },
+        {
+            "CVE_ID": "CVE-2014-1858",
+            "CVE_score": 5.5,
+            "CVE_affected_version_start_type": null,
+            "CVE_affected_version_start": null,
+            "CVE_affected_version_end_type": "excluding",
+            "CVE_affected_version_end": "1.8.1"
+        }
+    ],
+    "cve_codes": [
+        "CVE-2021-41496",
+        "CVE-2021-41495",
+        "CVE-2021-34141",
+        "CVE-2021-33430",
+        "CVE-2019-6446",
+        "CVE-2017-12852",
+        "CVE-2014-1859",
+        "CVE-2014-1858"
+    ],
+    "so_popularity": [
+        "4",
+        "2022",
+        0.795922418374
+    ],
+    "virus_ratio": 0.0
 }
