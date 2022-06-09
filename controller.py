@@ -11,16 +11,18 @@ It also contains some static methods that an outside program/end-user can use to
 
 # Import needed libraries
 import os
-from dotenv import set_key
+from dotenv import set_key, load_dotenv
 import constants
 # Import the data-getting modules
 # API calls
 from src.api_calls.github_api_calls import GitHubAPICall
-from src.api_calls.libaries_io_api_calls import LibrariesAPICall
+from src.api_calls.libraries_io_api_calls import LibrariesAPICall
 # Spiders
 from src.spiders.github_spider import GitHubSpider
 from src.spiders.cve_spider import CVESpider
 from src.spiders.stackoverflow_spider import StackOverflowSpider
+# Virus scanning
+from src.virus_scanning.scanner_communication import ScannerCommunication
 
 
 class Controller:
@@ -47,6 +49,9 @@ class Controller:
         self.gh_spider = GitHubSpider()
         self.cve_spider = CVESpider()
         self.so_spider = StackOverflowSpider()
+
+        # Virus scanner objects
+        self.vs_comm = ScannerCommunication()
 
     def run(self, input_json) -> dict:
         """
@@ -89,8 +94,8 @@ class Controller:
                 print('Getting GitHub data...')
 
                 # Actually request the data
-                output_json.update({'gh_data_points': self.get_github_data(
-                    owner, repo_name, release, input_json["gh_data_points"])})
+                output_json.update(self.get_github_data(
+                    owner, repo_name, release, input_json["gh_data_points"]))
 
             # Request the data from Libraries.IO
             if 'lib_data_points' in input_json:
@@ -105,8 +110,8 @@ class Controller:
                     lib_release = release
 
                 # Actually request the data
-                output_json.update({'lib_data_points': self.get_libraries_data(
-                    platform, owner, repo_name, lib_release, input_json["lib_data_points"])})
+                output_json.update(self.get_libraries_data(
+                    platform, owner, repo_name, lib_release, input_json["lib_data_points"]))
 
             # Request the data from the CVE website
             if 'cve_data_points' in input_json:
@@ -115,8 +120,8 @@ class Controller:
                 print('Getting CVE data...')
 
                 # Actually request the data
-                output_json.update({'cve_data_points': self.get_cve_data(
-                    repo_name, input_json["cve_data_points"])})
+                output_json.update(self.get_cve_data(
+                    repo_name, input_json["cve_data_points"]))
 
             # Request the data from the StackOverflow website
             if 'so_data_points' in input_json:
@@ -125,8 +130,25 @@ class Controller:
                 print('Getting StackOverflow data...')
 
                 # Actually request the data
-                output_json.update({'so_data_points': self.get_so_data(
-                    repo_name, input_json["so_data_points"])})
+                output_json.update(self.get_so_data(
+                    repo_name, input_json["so_data_points"]))
+
+            # Scan the release's files for viruses
+            if 'virus_scanning' in input_json:
+                # Tell the user what is going on
+                print('-------------------')
+                print('Scanning for viruses...')
+
+                # Get the links that need to be scanned
+                links_to_scan = self.gh_api.get_release_download_links(
+                    owner, repo_name, release)
+
+                # Actually scan the files
+                scan_result = {
+                    'virus_ratio': self.vs_comm.get_virus_ratio(links_to_scan)}
+
+                # Add the results to the output
+                output_json.update({'virus_scanning': scan_result})
 
             print('-------------------')
 
@@ -350,6 +372,25 @@ def update_token_lib(libraries_token):
 
     # Update the .env file
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)
+
+
+def get_tokens():
+    """
+    This functions read the environmental variables and returns the tokens currently contained within
+    """
+
+    # (Re)load the .env file
+    load_dotenv(dotenv_path=constants.ENVIRON_FILE, override=True)
+
+    # Get the tokens
+    gh_token = os.getenv(constants.GITHUB_TOKEN)
+    lib_token = os.getenv(constants.LIBRARIES_TOKEN)
+
+    # Return the keys
+    return {
+        'github_token': gh_token,
+        'libraries_token': lib_token
+    }
 
 
 """

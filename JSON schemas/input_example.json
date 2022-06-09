@@ -36,5 +36,8 @@
     ],
     "so_data_points": [
         "so_popularity"
+    ],
+    "virus_scanning": [
+        "virus_ratio"
     ]
 }
