@@ -1,6 +1,7 @@
 """File containing the communication between the TrustSECO-Spider and the virus scanner."""
 
 # Import os to allow for file checking and console usage
+from subprocess import run, TimeoutExpired
 import os
 
 
@@ -87,16 +88,17 @@ class ScannerCommunication:
 
         # See if the file-path exists
         if not os.path.exists('clamav/sockets/clamd.sock'):
-            print('The UNIX socket file does not exists.')
+            print('The UNIX socket file does not exist.')
             return False
 
         # See if the UNIX socket is listening to requests
         try:
-            os.popen(
-                'socat -u OPEN:/dev/null UNIX-CONNECT:/clamav/sockets/clamd.sock')
+            run('socat -u OPEN:/dev/null UNIX-CONNECT:clamav/sockets/clamd.sock',
+                shell=True, timeout=1)
         except Exception as e:
-            print(e)
-            return False
+            if type(e) is not TimeoutExpired:
+                print(e)
+                return False
 
         return True
 

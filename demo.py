@@ -8,6 +8,8 @@ import sys
 import json
 # For accessing the GitHub data-points
 import requests
+# For getting virus-scan results
+from src.virus_scanning.scanner_communication import ScannerCommunication
 
 
 def numpy_demo(scan_viruses):
@@ -132,6 +134,39 @@ def afnetworking_demo():
     print(json.dumps(response.json(), indent=4))
 
 
+def virus_free_demo():
+    """
+    Function containing the code for the safe virus-scan demo.
+    """
+
+    sc = ScannerCommunication()
+
+    ratio = sc.get_virus_ratio([
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/1.22.4-changelog.rst',
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/numpy-1.22.4.tar.gz',
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/numpy-1.22.4.zip',
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/README.rst',
+        'https://github.com/numpy/numpy/archive/refs/tags/v1.22.4.zip',
+        'https://github.com/numpy/numpy/archive/refs/tags/v1.22.4.tar.gz'
+    ])
+
+    print(f'Virus ratio: {ratio}')
+
+
+def virus_infected_demo():
+    """
+    Function containing the code for the infected virus-scan demo.
+    """
+
+    sc = ScannerCommunication()
+
+    ratio = sc.get_virus_ratio([
+        'https://github.com/fire1ce/eicar-standard-antivirus-test-files/archive/refs/heads/master.zip'
+    ])
+
+    print(f'Virus ratio: {ratio}')
+
+
 if __name__ == '__main__':
     # See if the user passed arguments
     if len(sys.argv) > 1:
@@ -144,9 +179,17 @@ if __name__ == '__main__':
         if 'numpy' in sys.argv:
             numpy_demo(scan_viruses)
 
-        # If cocoapods is specified, run the cocoapods demo
+        # If afnetworking is specified, run the afnetworking demo
         if 'afnetworking' in sys.argv:
             afnetworking_demo(scan_viruses)
+
+        # If virus_s is specified, run the safe virus demo
+        if 'virus_s' in sys.argv:
+            virus_free_demo()
+
+        # If virus_i is specified, run the infected virus demo
+        if 'virus_i' in sys.argv:
+            virus_infected_demo()
 
         # If all is specified, run both demos
         if 'all' in sys.argv:
@@ -157,6 +200,8 @@ if __name__ == '__main__':
         print('Please specify which library you would like to gather data of:')
         print('\t- numpy')
         print('\t- afnetworking')
+        print('\t- virus_s (safe)')
+        print('\t- virus_i (infected)')
         print('\t- all')
         print('If you would like to run the virus scanner, add the \'virus\' argument and make sure the virus scanner is also running.')
 
