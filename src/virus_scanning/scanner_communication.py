@@ -27,9 +27,7 @@ class ScannerCommunication:
             return None
 
         # Make sure the UNIX socket is available for clamdscan
-        if not os.path.exists('clamav/sockets/clamd.sock'):
-            print('The UNIX socket is not available for clamdscan.')
-            print('Please make sure clamdscan is running.')
+        if not self.check_socket_availability():
             return None
 
         # Initialize a counter for the number of infected links found
@@ -83,6 +81,24 @@ class ScannerCommunication:
             return False
         else:
             return True
+
+    def check_socket_availability(self) -> bool:
+        """Function to check whether or not the socket file exists, and is accepting connections."""
+
+        # See if the file-path exists
+        if not os.path.exists('clamav/sockets/clamd.sock'):
+            print('The UNIX socket file does not exists.')
+            return False
+
+        # See if the UNIX socket is listening to requests
+        try:
+            os.popen(
+                'socat -u OPEN:/dev/null UNIX-CONNECT:/clamav/sockets/clamd.sock')
+        except Exception as e:
+            print(e)
+            return False
+
+        return True
 
 
 """
