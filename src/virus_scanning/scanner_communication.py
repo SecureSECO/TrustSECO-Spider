@@ -27,10 +27,6 @@ class ScannerCommunication:
             print('No links provided. (empty list)')
             return None
 
-        # Make sure the UNIX socket is available for clamdscan
-        if not self.check_socket_availability():
-            return None
-
         # Initialize a counter for the number of infected links found
         infected_links = 0
 
@@ -60,6 +56,10 @@ class ScannerCommunication:
         Returns:
             bool: True if a virus has been detected, False otherwise.
         """
+
+        # # Make sure the UNIX socket is available for clamdscan
+        if not self.check_socket_availability():
+            return None
 
         # Open a command stream with the clamdscan command
         stream = os.popen(
