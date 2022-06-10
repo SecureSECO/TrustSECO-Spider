@@ -94,7 +94,7 @@ class ScannerCommunication:
         # See if the UNIX socket is listening to requests
         try:
             run('socat -u OPEN:/dev/null UNIX-CONNECT:clamav/sockets/clamd.sock',
-                shell=True, timeout=1)
+                shell=True, timeout=0.1)
         except Exception as e:
             if type(e) is not TimeoutExpired:
                 print(e)
