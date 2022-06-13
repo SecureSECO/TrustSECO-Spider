@@ -5,7 +5,7 @@ from subprocess import run, TimeoutExpired
 import os
 
 
-class ScannerCommunication:
+class ClamAVScanner:
     """ Class methods for scanning web links that direct to files for viruses. """
 
     def get_virus_ratio(self, links) -> float:

@@ -8,11 +8,16 @@ This allows the program to be more modular and easier to maintain.
     response = make_api_call(api_url, api_type)
 """
 
+# Import for getting the environmental variable values
 import os
+# Import for adding delays to our HTTP requests
 import time
+# Import for sending and handling HTTP requests
 import requests
-import constants
+# Import for loading .env files
 from dotenv import load_dotenv
+# Imports for utilities
+import src.utils.constants as constants
 
 
 def make_api_call(api_url, api_type) -> requests.Response:

@@ -8,10 +8,13 @@ This file contains all of the logic pertaining to making actual API calls to git
     bar = foo.get_repository_data('owner', 'name')
 """
 
+# Import for handling dates
 from datetime import datetime
-import constants
+# Import for setting return types
 from requests import Response
-from src.api_calls.api_calls import make_api_call
+# Imports for utilities
+import src.utils.constants as constants
+from src.utils.api_calls import make_api_call
 
 
 class GitHubAPICall:

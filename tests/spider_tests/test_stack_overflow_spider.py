@@ -1,11 +1,11 @@
 """File containing the unit tests for the Stack_Overflow_calls.py file."""
 
-# Import for testing
-import responses
 # Unit testing imports
 import pytest
-# Import the Stackoverflow spider
-from src.spiders.stackoverflow_spider import StackOverflowSpider
+# Import for sending and handling HTTP requests
+import responses
+# StackOverflow spider import
+from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 
 
 class TestTrends:
