@@ -1,4 +1,15 @@
-"""File containing the communication between the TrustSECO-Spider and the virus scanner."""
+"""File containing the communication between the TrustSECO-Spider and the ClamAV virus scanner.
+
+This file contains all the logic for
+scanning a list of urls (that point to files).
+The scanning is done using ClamAV which
+is running in another Docker container.
+
+    Typical usage:
+
+    foo = ClamAVScanner()
+    bar = foo.get_virus_ratio([url1, url2, url3])
+"""
 
 # Import os to allow for file checking and console usage
 from subprocess import run, TimeoutExpired
@@ -86,7 +97,12 @@ class ClamAVScanner:
             return True
 
     def check_socket_availability(self) -> bool:
-        """Function to check whether or not the socket file exists, and is accepting connections."""
+        """
+        Checks whether or not the socket file exists, and is accepting connections.
+
+        Returns:
+            bool: Whether or not the socket exists and is listening
+        """
 
         # See if the file-path exists
         if not os.path.exists('clamav/sockets/clamd.sock'):

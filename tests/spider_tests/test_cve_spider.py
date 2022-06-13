@@ -29,8 +29,8 @@ class TestVulnerabilityCount:
         Tests all of the possible scenarios using mocking to change the output of the get_cve_codes function.
 
         Parameters:
-            return_value: The value that the get_cve_codes function will return.
-            expected_value: The expected value that the get_cve_codes function will return.
+            return_value (List[str]): The value that the get_cve_codes function will return.
+            expected_value (int): The expected value that the get_cve_codes function will return.
         """
         # Initialise the CVESpider object
         cve_spider = CVESpider()
@@ -63,8 +63,8 @@ class TestGetAllCVEData:
         Tests all of the possible scenarios using mocking to change the output of the get_cve_codes and extract_cve_data functions.
 
         Parameters:
-            get_cve_codes_rv: The value that the get_cve_codes function will return.
-            extract_cve_data_rv: The value that the extract_cve_data function will return.
+            get_cve_codes_rv (List[str]): The value that the get_cve_codes function will return.
+            extract_cve_data_rv (dict): The value that the extract_cve_data function will return.
         """
         # Initialise the CVESpider object
         cve_spider = CVESpider()

@@ -30,7 +30,12 @@ CORS(app)
 # Set the route for data-retrieval
 @app.post('/get_data')
 def get_data() -> Response:
-    """Uses the given JSON to get the wanted data-points."""
+    """
+    Uses the given JSON to get the wanted data-points.
+
+    Returns:
+        responses.Response: HTTP response containing the requested data as JSON
+    """
 
     # Try to get the input json
     (is_valid, data) = try_get_json_input()
@@ -61,7 +66,12 @@ def get_data() -> Response:
 # Set the route for token setting
 @app.post('/set_tokens')
 def set_tokens() -> Response:
-    """Uses the given JSON to set the tokens."""
+    """
+    Uses the given JSON to set the tokens.
+
+    Returns:
+        responses.Respons: HTTP response informing the user which keys were set using plain/text
+    """
 
     # Try to get the input json
     (is_valid, data) = try_get_json_input()
@@ -103,7 +113,12 @@ def set_tokens() -> Response:
 
 @app.get('/get_tokens')
 def get_tokens() -> Response:
-    """Returns the tokens currently stored in the .env file"""
+    """
+    Returns the tokens currently stored in the .env file
+
+    Returns:
+        responses.Response: HTTP request containing a JSON object with the TrustSECO-Spider's API tokens
+    """
 
     # Get the tokens from the .env file
     tokens = controller.get_tokens()
@@ -114,8 +129,14 @@ def get_tokens() -> Response:
     return response
 
 
-def try_get_json_input() -> Tuple[bool, Response]:
-    """Tries to get the JSON input from the request."""
+def try_get_json_input() -> Tuple[bool, Response | dict]:
+    """
+    Tries to get the JSON input from the request.
+
+    Returns:
+        Tuple[bool, responses.Response | dict]: A tuple containg a bool that denotes whether or not the JSON input was valid,
+        and either an HTTP response informing the user that something went wrong or the actual JSON input
+    """
 
     # Make sure the request is JSON
     if not request.is_json:

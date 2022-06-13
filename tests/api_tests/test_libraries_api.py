@@ -202,10 +202,10 @@ class TestReleaseFrequency:
         Tests all of the possible scenarios
 
         Parameters:
-            latest_release_date: The latest release date
-            first_release_date: The first release date
-            release_count: The number of releases
-            expected_result: The expected result
+            latest_release_date (str): The latest release date
+            first_release_date (str): The first release date
+            release_count (str): The number of releases
+            expected_result (str): The expected result
         """
 
         # Set the input variables
@@ -251,8 +251,8 @@ class TestDependencyCount:
         Tests all of the possible scenarios
 
         Parameters:
-            return_value: The return value of the get_project_dependencies function
-            expected_result: The expected result
+            return_value (dict): The return value of the get_project_dependencies function
+            expected_result (int): The expected result
         """
 
         # Set the input variables
@@ -296,8 +296,8 @@ class TestFirstReleaseDate:
         Tests all of the possible scenarios
 
         Parameters:
-            return_value: The return value of the get_project_information function
-            expected_result: The expected result
+            return_value (dict): The return value of the get_project_information function
+            expected_result (str): The expected result
         """
 
         # Set the input variables
@@ -341,8 +341,8 @@ class TestLookUp:
         Test all of the possible scenarios for the get_contributors_count function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -365,8 +365,8 @@ class TestLookUp:
         Test all of the possible scenarios for the get_dependent_count function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -389,8 +389,8 @@ class TestLookUp:
         Test all of the possible scenarios for the get_latest_release_date function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -414,8 +414,8 @@ class TestLookUp:
         Test all of the possible scenarios for the get_release_count function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -438,8 +438,8 @@ class TestLookUp:
         Test all of the possible scenarios for the get_sourcerank function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
