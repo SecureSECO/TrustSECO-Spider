@@ -84,7 +84,7 @@ class TestCheckRateLimit:
     The amount of times update_rate_limit_data() is called will also be checked.
     """
 
-    def test_both_greater_zero(self, call_type) -> None:
+    def test_both_greater_zero(self, call_type: str) -> None:
         """
         Test the function checking the rate limit counts with both counts greater than zero
 
@@ -106,7 +106,7 @@ class TestCheckRateLimit:
             assert mock_patch.call_count == 0
 
     @pytest.mark.parametrize('return_value', [True, False])
-    def test_core_zero_search_greater(self, call_type, return_value) -> None:
+    def test_core_zero_search_greater(self, call_type: str, return_value: bool) -> None:
         """
         Test the function checking the rate limit counts with core count == 0 and search count > 0
 
@@ -138,7 +138,7 @@ class TestCheckRateLimit:
             assert mock_patch.call_count == expected_update_call_count
 
     @pytest.mark.parametrize('return_value', [True, False])
-    def test_core_greater_search_zero(self, call_type, return_value) -> None:
+    def test_core_greater_search_zero(self, call_type: str, return_value: bool) -> None:
         """
         Test the function checking the rate limit counts with core count > 0 and search count == 0
 
@@ -170,7 +170,7 @@ class TestCheckRateLimit:
             assert mock_patch.call_count == expected_update_call_count
 
     @pytest.mark.parametrize('return_value', [True, False])
-    def test_core_zero_search_zero(self, call_type, return_value):
+    def test_core_zero_search_zero(self, call_type: str, return_value: bool) -> None:
         """
         Test the function checking the rate limit counts with core count == 0 and search count == 0
 
@@ -213,7 +213,7 @@ class TestTryAPICall:
 
     @mock.patch.dict('os.environ', {'GITHUB_TOKEN': ''})
     @mock.patch('src.github.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=True))
-    def test_valid_rate_limit(self, call_type) -> None:
+    def test_valid_rate_limit(self, call_type: str) -> None:
         """
         Test the function making an API call with a valid rate limit
 
@@ -241,7 +241,7 @@ class TestTryAPICall:
             assert g.search_remaining == 4999
 
     @mock.patch('src.github.github_api_calls.GitHubAPICall.check_rate_limit', new=mock.Mock(return_value=False))
-    def test_invalid_rate_limit(self, call_type) -> None:
+    def test_invalid_rate_limit(self, call_type: str) -> None:
         """
         Test the function making an API call with an invalid rate limit
 

@@ -35,7 +35,7 @@ class TestUserCount:
     url = f'https://github.com/{owner}/{repo}'
 
     @ responses.activate
-    def test_invalid_response_code(self):
+    def test_invalid_response_code(self) -> None:
         """
         Test for when the request returns an invalid response, i.e. a response with a code other than 200
 
@@ -54,7 +54,7 @@ class TestUserCount:
         assert result is None
 
     @ responses.activate
-    def test_empty_response_body(self):
+    def test_empty_response_body(self) -> None:
         """
         Test for when the request body is empty
 
@@ -70,7 +70,7 @@ class TestUserCount:
         assert result is None
 
     @ responses.activate
-    def test_user_count_tag_not_found(self):
+    def test_user_count_tag_not_found(self) -> None:
         """
         Test for when the request body is not empty but the 'used by' <a> tag can not be found
 
@@ -89,7 +89,7 @@ class TestUserCount:
         assert result is None
 
     @ responses.activate
-    def test_no_title_attribute(self):
+    def test_no_title_attribute(self) -> None:
         """
         Test for when the request body is not empty, and the 'used by' <a> tag is found, but the tag does not have a 'title' attribute
 
@@ -108,7 +108,7 @@ class TestUserCount:
         assert result is None
 
     @ responses.activate
-    def test_user_count_found(self):
+    def test_user_count_found(self) -> None:
         """
         Test for when the request body is not empty, and the 'used by' <a> tag is found, and the tag has a 'title' attribute
 
@@ -144,7 +144,7 @@ class TestOpenIssues:
     url = f'https://github.com/{owner}/{repo}/issues'
 
     @ responses.activate
-    def test_invalid_response_code(self):
+    def test_invalid_response_code(self) -> None:
         """
         Test for when the request returns an invalid response, i.e. a response with a code other than 200
 
@@ -163,7 +163,7 @@ class TestOpenIssues:
         assert result is None
 
     @ responses.activate
-    def test_empty_response_body(self):
+    def test_empty_response_body(self) -> None:
         """
         Test for when the request body is empty
 
@@ -179,7 +179,7 @@ class TestOpenIssues:
         assert result is None
 
     @ responses.activate
-    def test_no_open_issues(self):
+    def test_no_open_issues(self) -> None:
         """
         Test for when the request body is not empty, but the open issue count can not be found
 
@@ -198,7 +198,7 @@ class TestOpenIssues:
         assert result is None
 
     @responses.activate
-    def test_open_issue_count_found(self):
+    def test_open_issue_count_found(self) -> None:
         """
         Test for when the request body is not empty, and the open issue count is found
 
@@ -234,7 +234,7 @@ class TestClosedIssues:
     url = f'https://github.com/{owner}/{repo}/issues'
 
     @ responses.activate
-    def test_invalid_response_code(self):
+    def test_invalid_response_code(self) -> None:
         """
         Test for when the request returns an invalid response, i.e. a response with a code other than 200
 
@@ -254,7 +254,7 @@ class TestClosedIssues:
         assert result is None
 
     @ responses.activate
-    def test_empty_response_body(self):
+    def test_empty_response_body(self) -> None:
         """
         Test for when the request body is empty
 
@@ -271,7 +271,7 @@ class TestClosedIssues:
         assert result is None
 
     @ responses.activate
-    def test_no_closed_issues(self):
+    def test_no_closed_issues(self) -> None:
         """
         Test for when the request body is not empty, but the closed issue count can not be found
 
@@ -291,7 +291,7 @@ class TestClosedIssues:
         assert result is None
 
     @responses.activate
-    def test_closed_issue_count_found(self):
+    def test_closed_issue_count_found(self) -> None:
         """
         Test for when the request body is not empty, and the closed issue count is found
 
@@ -328,7 +328,7 @@ class TestIssueRatio:
 
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
-    def test_both_successful(self):
+    def test_both_successful(self) -> None:
         """
         Test for when both the open and closed issue counts are valid numbers
 
@@ -341,7 +341,7 @@ class TestIssueRatio:
 
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=2026))
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
-    def test_open_successful_close_failed(self):
+    def test_open_successful_close_failed(self) -> None:
         """
         Test for when the closed issue count is not a valid number
 
@@ -353,7 +353,7 @@ class TestIssueRatio:
 
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=8387))
-    def test_open_failed_closed_successful(self):
+    def test_open_failed_closed_successful(self) -> None:
         """
         Test for when the closed issue count is not a valid number
 
@@ -365,7 +365,7 @@ class TestIssueRatio:
 
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=None))
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_closed_issue_count', new=mock.Mock(return_value=None))
-    def test_both_failed(self):
+    def test_both_failed(self) -> None:
         """
         Test for when both the open and closed issue counts are not valid numbers
 

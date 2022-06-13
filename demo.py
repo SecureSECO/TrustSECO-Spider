@@ -12,7 +12,7 @@ import requests
 from src.clamav.clamav_scanner import ClamAVScanner
 
 
-def numpy_demo(scan_viruses):
+def numpy_demo(scan_viruses: bool) -> None:
     """
     Function containing the code for the numpy demo.
 
@@ -73,7 +73,7 @@ def numpy_demo(scan_viruses):
     print(json.dumps(response.json(), indent=4))
 
 
-def afnetworking_demo():
+def afnetworking_demo(scan_viruses: bool) -> None:
     """
     Function containing the code for the AFNetworking demo.
 
@@ -134,7 +134,7 @@ def afnetworking_demo():
     print(json.dumps(response.json(), indent=4))
 
 
-def virus_free_demo():
+def virus_free_demo() -> None:
     """
     Function containing the code for the safe virus-scan demo.
     """
@@ -153,7 +153,7 @@ def virus_free_demo():
     print(f'Virus ratio: {ratio}')
 
 
-def virus_infected_demo():
+def virus_infected_demo() -> None:
     """
     Function containing the code for the infected virus-scan demo.
     """

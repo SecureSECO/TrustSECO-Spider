@@ -10,6 +10,10 @@ import sys
 from flask import Flask, make_response, request
 # Import JSON for pretty printing
 import json
+# Import for setting return-type
+from responses import Response
+# Import for setting parameter types
+from typing import Tuple
 # Import the controller of the TrustSECO-Spider
 import controller
 # Import CORS needed
@@ -25,7 +29,7 @@ CORS(app)
 
 # Set the route for data-retrieval
 @app.post('/get_data')
-def get_data():
+def get_data() -> Response:
     """Uses the given JSON to get the wanted data-points."""
 
     # Try to get the input json
@@ -56,7 +60,7 @@ def get_data():
 
 # Set the route for token setting
 @app.post('/set_tokens')
-def set_tokens():
+def set_tokens() -> Response:
     """Uses the given JSON to set the tokens."""
 
     # Try to get the input json
@@ -96,11 +100,9 @@ def set_tokens():
     response.headers.set('Content-Type', 'text/plain')
     return response
 
-# Return the tokens
-
 
 @app.get('/get_tokens')
-def get_tokens():
+def get_tokens() -> Response:
     """Returns the tokens currently stored in the .env file"""
 
     # Get the tokens from the .env file
@@ -112,7 +114,7 @@ def get_tokens():
     return response
 
 
-def try_get_json_input():
+def try_get_json_input() -> Tuple[bool, Response]:
     """Tries to get the JSON input from the request."""
 
     # Make sure the request is JSON

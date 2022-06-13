@@ -30,7 +30,7 @@ class TestTrends:
         ({"Year": [2022], "Month": [5]}, None),
         ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
     ])
-    def test_unknown_package(self, return_json, expected_value) -> None:
+    def test_unknown_package(self, return_json: dict, expected_value: tuple) -> None:
         """
         Test for when the function receives an unknown package name
 
@@ -61,7 +61,7 @@ class TestTrends:
         ({"Year": [2022], "Month": [5]}, None),
         ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
     ])
-    def test_valid_package(self, return_json, expected_value) -> None:
+    def test_valid_package(self, return_json: dict, expected_value: tuple) -> None:
         """
         Test for when the function receives a known package name.
 

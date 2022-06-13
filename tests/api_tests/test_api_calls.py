@@ -27,7 +27,7 @@ class TestMakeAPICall_gh:
     @responses.activate
     @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', Response())])
     @mock.patch.dict('os.environ', {constants.GITHUB_TOKEN: 'test_key'})
-    def test_valid_key(self, api_url, return_value) -> None:
+    def test_valid_key(self, api_url: str, return_value: Response) -> None:
         """
         Test the function making an API call with a valid API key
 
@@ -45,9 +45,9 @@ class TestMakeAPICall_gh:
         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
         assert isinstance(actual_result, type(return_value))
 
-    @pytest.mark.parametrize('api_url, return_value', [('https://api.github.com/repos/numpy/numpasfdy', None), ('https://api.github.com/repos/numpy/numpy', None)])
+    @pytest.mark.parametrize('api_url', ['https://api.github.com/repos/numpy/numpasfdy', 'https://api.github.com/repos/numpy/numpy'])
     @mock.patch.dict('os.environ', {constants.GITHUB_TOKEN: 'asdfs'})
-    def test_invalid_key(self, api_url, return_value) -> None:
+    def test_invalid_key(self, api_url: str) -> None:
         """
         Test the function making an API call with an invalid API key
 
@@ -60,7 +60,7 @@ class TestMakeAPICall_gh:
         actual_result = make_api_call(api_url, constants.API_GITHUB)
 
         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
-        assert isinstance(actual_result, type(return_value))
+        assert actual_result is None
 
 
 class TestMakeAPICall_lib:
@@ -78,7 +78,7 @@ class TestMakeAPICall_lib:
     @responses.activate
     @pytest.mark.parametrize('api_url, return_value', [('https://libraries.io/api/platfs', None), ('https://libraries.io/api/platforms', Response())])
     @mock.patch.dict('os.environ', {constants.LIBRARIES_TOKEN: 'test_key'})
-    def test_valid_key(self, api_url, return_value) -> None:
+    def test_valid_key(self, api_url: str, return_value: Response) -> None:
         """
         Test the function making an API call with a valid API key
 
@@ -97,9 +97,9 @@ class TestMakeAPICall_lib:
         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
         assert isinstance(actual_result, type(return_value))
 
-    @pytest.mark.parametrize('api_url, return_value', [('https://libraries.io/api/platfs', None), ('https://libraries.io/api/platforms', None)])
+    @pytest.mark.parametrize('api_url', ['https://libraries.io/api/platfs', 'https://libraries.io/api/platforms'])
     @mock.patch.dict('os.environ', {constants.LIBRARIES_TOKEN: '!$#@#$sdafjkh'})
-    def test_invalid_key(self, api_url, return_value) -> None:
+    def test_invalid_key(self, api_url: str) -> None:
         """
         Test the function making an API call with an invalid API key
 
@@ -112,7 +112,7 @@ class TestMakeAPICall_lib:
         actual_result = make_api_call(api_url, constants.API_LIBRARIES)
 
         # Assert that the type of the result is the same as the wanted type (as we can't predict the exact return value)
-        assert isinstance(actual_result, type(return_value))
+        assert actual_result is None
 
 
 @mock.patch.dict('os.environ', {constants.GITHUB_TOKEN: 'test_key'})
@@ -125,7 +125,7 @@ class TestGetNeededHeaders:
     2. api_type is Libraries.io
     """
 
-    def test_get_needed_headers(self, api_type) -> None:
+    def test_get_needed_headers(self, api_type: str) -> None:
         """
         Test the function that gets the needed headers for the API calls
 
@@ -153,7 +153,7 @@ class TestGetNeededParams:
     2. api_type is Libraries.io
     """
 
-    def test_get_needed_params(self, api_type) -> None:
+    def test_get_needed_params(self, api_type: str) -> None:
         """
         Test the function that gets the needed parameters for the API calls
 

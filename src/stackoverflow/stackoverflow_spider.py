@@ -21,7 +21,7 @@ class StackOverflowSpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_monthly_popularity(self, package) -> int:
+    def get_monthly_popularity(self, package: str) -> int:
         """
         Get the monthly popularity of the given package.
 

@@ -3,12 +3,14 @@
 # Import os to allow for file checking and console usage
 from subprocess import run, TimeoutExpired
 import os
+# Import for setting parameter types
+from typing import List
 
 
 class ClamAVScanner:
     """ Class methods for scanning web links that direct to files for viruses. """
 
-    def get_virus_ratio(self, links) -> float:
+    def get_virus_ratio(self, links: List[str]) -> float:
         """
         Scans the given links' contents for viruses.
 
@@ -46,7 +48,7 @@ class ClamAVScanner:
         # Return the percentage of links that have been scanned for viruses
         return infected_links / len(links)
 
-    def scan_link(self, link) -> bool:
+    def scan_link(self, link: str) -> bool:
         """
         Scans the given link's contents for viruses.
 

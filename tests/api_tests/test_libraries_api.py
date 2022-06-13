@@ -197,7 +197,7 @@ class TestReleaseFrequency:
         (None, None, 1, None),
         ('2016-04-21T04:09:15.000Z', '2016-04-20T04:09:15.000Z', 1, 86400.0)
     ])
-    def test_all(self, latest_release_date, first_release_date, release_count, expected_result) -> None:
+    def test_all(self, latest_release_date: str, first_release_date: str, release_count: int, expected_result: int) -> None:
         """
         Tests all of the possible scenarios
 
@@ -246,7 +246,7 @@ class TestDependencyCount:
         ({'dependencies': [{'efef': ''}]}, 0),
         ({'dependencies': [{'kind': 'Development'}, {'kind': ''}]}, 1)
     ])
-    def test_all(self, return_value, expected_result) -> None:
+    def test_all(self, return_value: dict, expected_result: int) -> None:
         """
         Tests all of the possible scenarios
 
@@ -291,7 +291,7 @@ class TestFirstReleaseDate:
         ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'},
          {'published_at': '2016-04-21T04:09:15.000Z'}]}, '2016-04-20T04:09:15.000Z')
     ])
-    def test_all(self, return_value, expected_result) -> None:
+    def test_all(self, return_value: dict, expected_result: str) -> None:
         """
         Tests all of the possible scenarios
 
@@ -336,7 +336,7 @@ class TestLookUp:
     """
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'github_contributions_count': 10}, 10)])
-    def test_contributor_count(self, return_value, expected_value) -> None:
+    def test_contributor_count(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_contributors_count function
 
@@ -360,7 +360,7 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'dependents_count': 10}, 10)])
-    def test_dependents_count(self, return_value, expected_value) -> None:
+    def test_dependents_count(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_dependent_count function
 
@@ -384,7 +384,7 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'latest_release_published_at': 10}, 10)])
-    def test_latest_release_date(self, return_value, expected_value) -> None:
+    def test_latest_release_date(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_latest_release_date function
 
@@ -409,7 +409,7 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'versions': [1, 2, 3]}, 3)])
-    def test_release_count(self, return_value, expected_value) -> None:
+    def test_release_count(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_release_count function
 
@@ -433,7 +433,7 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'rank': 10}, 10)])
-    def test_sourcerank(self, return_value, expected_value) -> None:
+    def test_sourcerank(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_sourcerank function
 

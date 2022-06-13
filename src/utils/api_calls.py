@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 import src.utils.constants as constants
 
 
-def make_api_call(api_url, api_type) -> requests.Response:
+def make_api_call(api_url: str, api_type: str) -> requests.Response:
     """
     Perform a simple GET request, based off the given URL
 
@@ -29,7 +29,7 @@ def make_api_call(api_url, api_type) -> requests.Response:
         api_type (str): The type of API to make the request to
 
     Returns:
-        response (obj): The response from the GET request
+        response (requests.Response): The response from the GET request
     """
 
     # Make sure the environment variables are loaded
@@ -81,7 +81,7 @@ def make_api_call(api_url, api_type) -> requests.Response:
             return None
 
 
-def get_needed_headers(api_type) -> dict:
+def get_needed_headers(api_type: str) -> dict:
     """
     Gets the needed headers for the given API type
 
@@ -99,7 +99,7 @@ def get_needed_headers(api_type) -> dict:
         return None
 
 
-def get_needed_params(api_type) -> dict:
+def get_needed_params(api_type: str) -> dict:
     """
     Gets the needed parameters for the given API type
 
