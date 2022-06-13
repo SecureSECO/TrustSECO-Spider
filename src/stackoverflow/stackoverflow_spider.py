@@ -10,6 +10,7 @@ in order to scrape wanted data-points from the Stack Overflow website.
     bar = foo.get_monthly_popularity('package')
 """
 
+# Import for sending and handling HTTP requests
 import requests
 
 

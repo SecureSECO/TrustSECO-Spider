@@ -8,9 +8,11 @@ This file contains all of the logic pertaining to making actual API calls to Lib
     bar = libraries_io.get_release_frequency('platform', 'name')
 """
 
+# Import for handling dates
 from datetime import datetime as dt
-import constants
-from src.api_calls.api_calls import make_api_call
+# Imports for utilities
+import src.utils.constants as constants
+from src.utils.api_calls import make_api_call
 
 
 class LibrariesAPICall:

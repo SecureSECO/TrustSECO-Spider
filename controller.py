@@ -9,20 +9,21 @@ It also contains some static methods that an outside program/end-user can use to
     foo = get_data('input_json')
 """
 
-# Import needed libraries
+# Imports for environmental variables
 import os
 from dotenv import set_key, load_dotenv
-import constants
 # Import the data-getting modules
 # API calls
-from src.api_calls.github_api_calls import GitHubAPICall
-from src.api_calls.libraries_io_api_calls import LibrariesAPICall
+from src.github.github_api_calls import GitHubAPICall
+from src.libraries_io.libraries_io_api_calls import LibrariesAPICall
 # Spiders
-from src.spiders.github_spider import GitHubSpider
-from src.spiders.cve_spider import CVESpider
-from src.spiders.stackoverflow_spider import StackOverflowSpider
+from src.github.github_spider import GitHubSpider
+from src.cve.cve_spider import CVESpider
+from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 # Virus scanning
-from src.virus_scanning.scanner_communication import ScannerCommunication
+from src.clamav.clamav_scanner import ClamAVScanner
+# Imports for utilities
+import src.utils.constants as constants
 
 
 class Controller:
@@ -51,7 +52,7 @@ class Controller:
         self.so_spider = StackOverflowSpider()
 
         # Virus scanner objects
-        self.vs_comm = ScannerCommunication()
+        self.vs_comm = ClamAVScanner()
 
     def run(self, input_json) -> dict:
         """

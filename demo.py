@@ -2,14 +2,14 @@
 
 Before running this file, the Flask application needs to be started. (instructions for which can be found in the README.md file)
 """
-# For getting additional arguments from the command line
+# Import for getting input parameters
 import sys
-# For pretty printing the JSON data
+# Import for pretty printing the JSON data
 import json
-# For accessing the GitHub data-points
+# Import for sending and handling HTTP requests
 import requests
-# For getting virus-scan results
-from src.virus_scanning.scanner_communication import ScannerCommunication
+# Import the ClamAV scanner
+from src.clamav.clamav_scanner import ClamAVScanner
 
 
 def numpy_demo(scan_viruses):
@@ -139,7 +139,7 @@ def virus_free_demo():
     Function containing the code for the safe virus-scan demo.
     """
 
-    sc = ScannerCommunication()
+    sc = ClamAVScanner()
 
     ratio = sc.get_virus_ratio([
         'https://github.com/numpy/numpy/releases/download/v1.22.4/1.22.4-changelog.rst',
@@ -158,7 +158,7 @@ def virus_infected_demo():
     Function containing the code for the infected virus-scan demo.
     """
 
-    sc = ScannerCommunication()
+    sc = ClamAVScanner()
 
     ratio = sc.get_virus_ratio([
         'https://github.com/fire1ce/eicar-standard-antivirus-test-files/archive/refs/heads/master.zip'

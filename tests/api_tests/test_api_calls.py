@@ -1,14 +1,15 @@
 """File containing the unit tests for the api_calls.py file."""
 
-# Import for testing
-import responses
 # Unit testing imports
 import pytest
 from unittest import mock
+# Import for sending and handling HTTP requests
+import responses
 from requests.models import Response
-# Spider imports
-from src.api_calls.api_calls import make_api_call, get_needed_headers, get_needed_params
-import constants
+# API call imports
+from src.utils.api_calls import make_api_call, get_needed_headers, get_needed_params
+# Imports for utilities
+import src.utils.constants as constants
 
 
 class TestMakeAPICall_gh:

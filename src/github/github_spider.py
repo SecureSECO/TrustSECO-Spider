@@ -10,8 +10,10 @@ in order to scrape wanted data-points from the GitHub website.
     bar = foo.get_repository_user_count('owner', 'repo')
 """
 
-from bs4 import BeautifulSoup
+# Import for sending and handling HTTP requests
 import requests
+# Import for parsing and searching through HTML
+from bs4 import BeautifulSoup
 
 
 class GitHubSpider:

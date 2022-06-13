@@ -10,8 +10,11 @@ in order to scrape wanted data-points from the CVE website.
     bar = foo.get_cve_vulnerability_count('name')
 """
 
+# Import for handing JSON objects
 import json
+# Import for sending and handling HTTP requests
 import requests
+# Import for parsing and searching through HTML
 from bs4 import BeautifulSoup
 
 
