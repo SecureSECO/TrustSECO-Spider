@@ -25,12 +25,12 @@ class CVESpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_cve_vulnerability_count(self, name) -> int:
+    def get_cve_vulnerability_count(self, name: str) -> int:
         """
         Gets the amount of known vulnerabilities of a given package
 
         Parameters:
-            name (int): The name of the package
+            name (str): The name of the package
 
         Returns:
             int: The amount of known vulnerabilities of the given package
@@ -45,7 +45,7 @@ class CVESpider:
         else:
             return None
 
-    def get_all_cve_data(self, name) -> list:
+    def get_all_cve_data(self, name: str) -> list:
         """
         Get all the available CVE data for a given package
 
@@ -74,7 +74,7 @@ class CVESpider:
         else:
             return None
 
-    def get_cve_codes(self, name) -> list:
+    def get_cve_codes(self, name: str) -> list:
         """
         Get all the CVE codes of vulnerabilities that affect the given package
 
@@ -115,7 +115,7 @@ class CVESpider:
         else:
             return None
 
-    def extract_cve_data(self, cve_code) -> dict:
+    def extract_cve_data(self, cve_code: str) -> dict:
         """
         Extracts the data from a given CVE link
 
@@ -191,7 +191,7 @@ class CVESpider:
         # Return the CVE data
         return cve_data
 
-    def get_and_parse_webpage(self, url) -> BeautifulSoup:
+    def get_and_parse_webpage(self, url: str) -> BeautifulSoup:
         """
         Gets a BeautifulSoup object of the webpage at the given URL
 

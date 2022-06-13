@@ -24,6 +24,8 @@ from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 from src.clamav.clamav_scanner import ClamAVScanner
 # Imports for utilities
 import src.utils.constants as constants
+# Import for setting parameter types
+from typing import List
 
 
 class Controller:
@@ -40,7 +42,7 @@ class Controller:
         so_spider (StackOverflowSpider): The StackOverflow spider object
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes the Controller object by setting the data-gathering objects."""
         # API objects
         self.gh_api = GitHubAPICall()
@@ -54,7 +56,7 @@ class Controller:
         # Virus scanner objects
         self.vs_comm = ClamAVScanner()
 
-    def run(self, input_json) -> dict:
+    def run(self, input_json: dict) -> dict:
         """
         This is the main looping function of the program.
 
@@ -159,7 +161,7 @@ class Controller:
             print('Error: missing project information')
             return 'Error: missing project information'
 
-    def get_github_data(self, owner, repo_name, release, wanted_data) -> dict:
+    def get_github_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
         Get the data from GitHub.
 
@@ -225,7 +227,7 @@ class Controller:
         # Return the requested data-points
         return return_data
 
-    def get_libraries_data(self, platform, owner, repo_name, release, wanted_data) -> dict:
+    def get_libraries_data(self, platform: str, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
         Get the data from Libraries.IO.
 
@@ -276,7 +278,7 @@ class Controller:
         # Return the requested data-points
         return return_data
 
-    def get_cve_data(self, repo_name, wanted_data) -> dict:
+    def get_cve_data(self, repo_name: str, wanted_data: List[str]) -> dict:
         """
         Get the data from CVE website.
 
@@ -308,7 +310,7 @@ class Controller:
         # Return the requested data-points
         return return_data
 
-    def get_so_data(self, repo_name, wanted_data) -> dict:
+    def get_so_data(self, repo_name: str, wanted_data: List[str]) -> dict:
         """
         Get the data from Stack Overflow.
 
@@ -335,9 +337,15 @@ class Controller:
         return return_data
 
 
-def get_data(input_json):
+def get_data(input_json: dict) -> dict:
     """
-    This function will start the controller.
+    This function will run the controller with the given JSON input
+
+    Parameters:
+        input_json (dict): The received JSON input
+
+    Returns:
+        dict: The requested data
     """
 
     # Create a new controller
@@ -347,9 +355,12 @@ def get_data(input_json):
     return controller.run(input_json)
 
 
-def update_token_gh(github_token):
+def update_token_gh(github_token: str) -> None:
     """
     This function will update the environmental variables with the given GitHub token
+
+    Parameters:
+        github_token (str): The user's GitHub token
     """
 
     # Make sure the .env file exists
@@ -361,9 +372,12 @@ def update_token_gh(github_token):
     set_key(constants.ENVIRON_FILE, constants.GITHUB_TOKEN, github_token)
 
 
-def update_token_lib(libraries_token):
+def update_token_lib(libraries_token: str) -> None:
     """
     This function will update the environmental variable with the given Libraries.io token
+
+    Parameters:
+        libraries_token (str): The user's Libraries.io token
     """
 
     # Make sure the .env file exists
@@ -375,9 +389,12 @@ def update_token_lib(libraries_token):
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)
 
 
-def get_tokens():
+def get_tokens() -> dict:
     """
     This functions read the environmental variables and returns the tokens currently contained within
+
+    Returns:
+        dict: The current GitHub and Libraries.io tokens
     """
 
     # (Re)load the .env file

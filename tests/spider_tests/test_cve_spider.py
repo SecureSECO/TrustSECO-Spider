@@ -7,6 +7,8 @@ from unittest import mock
 import responses
 # Import for parsing and searching through HTML
 from bs4 import BeautifulSoup
+# Import for setting parameter types
+from typing import List
 # CVE spider imports
 from src.cve.cve_spider import CVESpider
 from tests.spider_tests.file_io import FileIOForCVETests
@@ -22,13 +24,13 @@ class TestVulnerabilityCount:
     """
 
     @pytest.mark.parametrize('return_value, expected_value', [(None, None), ([], 0), (['CVE-2019-1234', 'CVE-2019-1235'], 2)])
-    def test_all(self, return_value, expected_value) -> None:
+    def test_all(self, return_value: List[str], expected_value: int) -> None:
         """
         Tests all of the possible scenarios using mocking to change the output of the get_cve_codes function.
 
         Parameters:
-            return_value: The value that the get_cve_codes function will return.
-            expected_value: The expected value that the get_cve_codes function will return.
+            return_value (List[str]): The value that the get_cve_codes function will return.
+            expected_value (int): The expected value that the get_cve_codes function will return.
         """
         # Initialise the CVESpider object
         cve_spider = CVESpider()
@@ -56,13 +58,13 @@ class TestGetAllCVEData:
 
     @pytest.mark.parametrize('get_cve_codes_rv', [None, [], ['CVE-2019-1234', 'CVE-2019-1235']])
     @pytest.mark.parametrize('extract_cve_data_rv', [None, {'test_key': 'test_value'}])
-    def test_all(self, get_cve_codes_rv, extract_cve_data_rv) -> None:
+    def test_all(self, get_cve_codes_rv: List[str], extract_cve_data_rv: dict) -> None:
         """
         Tests all of the possible scenarios using mocking to change the output of the get_cve_codes and extract_cve_data functions.
 
         Parameters:
-            get_cve_codes_rv: The value that the get_cve_codes function will return.
-            extract_cve_data_rv: The value that the extract_cve_data function will return.
+            get_cve_codes_rv (List[str]): The value that the get_cve_codes function will return.
+            extract_cve_data_rv (dict): The value that the extract_cve_data function will return.
         """
         # Initialise the CVESpider object
         cve_spider = CVESpider()
@@ -242,8 +244,8 @@ class TestGetParseWebsite:
     3. Valid request
     """
 
-    @pytest.mark.parametrize('given_url, expected_value', [(None, None), ('', None), ('test_url', None), ('google.com', None)])
-    def test_invalid_url(self, given_url, expected_value) -> None:
+    @pytest.mark.parametrize('given_url', [None, '', 'test_url', 'google.com'])
+    def test_invalid_url(self, given_url: str) -> None:
         """
         Tests the scenario where the url is invalid.
 
@@ -259,7 +261,7 @@ class TestGetParseWebsite:
         result = cve_spider.get_and_parse_webpage(given_url)
 
         # Make sure the result matches what we expect
-        assert expected_value is result
+        assert result is None
 
     @ responses.activate
     def test_invalid_return_code(self) -> None:

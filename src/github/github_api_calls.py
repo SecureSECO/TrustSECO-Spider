@@ -12,6 +12,8 @@ This file contains all of the logic pertaining to making actual API calls to git
 from datetime import datetime
 # Import for setting return types
 from requests import Response
+# Import for setting parameter types
+from typing import List
 # Imports for utilities
 import src.utils.constants as constants
 from src.utils.api_calls import make_api_call
@@ -37,7 +39,7 @@ class GitHubAPICall:
         self.core_remaining = 0
         self.search_remaining = 0
 
-    def get_basic_repository_data(self, owner, repo) -> dict:
+    def get_basic_repository_data(self, owner: str, repo: str) -> dict:
         """
         Get the basic information about the given repository
 
@@ -63,7 +65,7 @@ class GitHubAPICall:
             print('Error occurred while getting the repository data.')
             return None
 
-    def get_repository_language(self, owner, repo) -> str:
+    def get_repository_language(self, owner: str, repo: str) -> str:
         """
         Get the language of the given repository
 
@@ -87,7 +89,7 @@ class GitHubAPICall:
             print('Error occurred while getting the repository language.')
             return None
 
-    def get_repository_stargazer_count(self, owner, repo) -> int:
+    def get_repository_stargazer_count(self, owner: str, repo: str) -> int:
         """
         Get the stargazer count of the given repository
 
@@ -111,7 +113,7 @@ class GitHubAPICall:
             print('Error occurred while getting the repository stargazer count.')
             return None
 
-    def get_release_data(self, owner, repo, release) -> dict:
+    def get_release_data(self, owner: str, repo: str, release: str) -> dict:
         """
         Get information about a specific release/release of a repository
 
@@ -137,7 +139,7 @@ class GitHubAPICall:
             print('Error occurred while getting the release data.')
             return None
 
-    def get_owner_data(self, owner) -> dict:
+    def get_owner_data(self, owner: str) -> dict:
         """
         Get the basic information about the repository owner
 
@@ -161,7 +163,7 @@ class GitHubAPICall:
             print('Error occurred while getting the owner data.')
             return None
 
-    def get_repository_contributor_count(self, owner, repo) -> int:
+    def get_repository_contributor_count(self, owner: str, repo: str) -> int:
         """
         Get the amount of contributors of the given repository
 
@@ -209,7 +211,7 @@ class GitHubAPICall:
         # Return the total contributor count
         return (page_count - 1) * 100 + final_page_contributor_count
 
-    def get_gitstar_ranking(self, owner, repo) -> int:
+    def get_gitstar_ranking(self, owner: str, repo: str) -> int:
         """
         Get the GitStar ranking of the given repository
 
@@ -315,7 +317,7 @@ class GitHubAPICall:
             # If we didn't find the repository, return None
             return None
 
-    def get_yearly_commit_count(self, owner, repo) -> int:
+    def get_yearly_commit_count(self, owner: str, repo: str) -> int:
         """
         Get the amount of commits in the last year
         This 'last year' is counted from the current date
@@ -347,7 +349,7 @@ class GitHubAPICall:
         # Return the total commits
         return total_commits
 
-    def get_total_download_count(self, owner, repo) -> int:
+    def get_total_download_count(self, owner: str, repo: str) -> int:
         """
         Get the total amount of downloads of this repository
 
@@ -393,7 +395,7 @@ class GitHubAPICall:
         # Return the total download count
         return total_download_count
 
-    def get_release_download_count(self, owner, repo, release) -> int:
+    def get_release_download_count(self, owner: str, repo: str, release: str) -> int:
         """
         Get the total amount of downloads of a specific release
 
@@ -426,7 +428,7 @@ class GitHubAPICall:
         # Return the total download count
         return total_release_download_count
 
-    def get_zero_responses_issue_count(self, owner, repo) -> int:
+    def get_zero_responses_issue_count(self, owner: str, repo: str) -> int:
         """
         Get the total amount of issues that have no responses
 
@@ -478,7 +480,7 @@ class GitHubAPICall:
                 # Return the total number of seen issues + the index of the last 0-response issue
                 return (last_full_no_responses_page * 100) + last_no_response_index
 
-    def get_average_issue_resolution_time(self, owner, repo) -> int:
+    def get_average_issue_resolution_time(self, owner: str, repo: str) -> int:
         """
         Get the average resolution time of the last 200 issues
 
@@ -536,7 +538,7 @@ class GitHubAPICall:
         # Return the average resolution time
         return total_resolution_time / len(all_issues)
 
-    def issue_count_per_release(self, owner, repo, release) -> int:
+    def issue_count_per_release(self, owner: str, repo: str, release: str) -> int:
         """
         Get the amount of issues that were posted between the given release and the release after it
 
@@ -580,7 +582,7 @@ class GitHubAPICall:
         # Return this count
         return issues_data.json()['total_count']
 
-    def get_release_dates(self, owner, repo, release) -> tuple:
+    def get_release_dates(self, owner: str, repo: str, release: str) -> tuple:
         """
         Get the publish date of the given release and the release after it (if it exists)
 
@@ -637,7 +639,7 @@ class GitHubAPICall:
             else:
                 return (None, None)
 
-    def get_owner_stargazer_count(self, owner) -> int:
+    def get_owner_stargazer_count(self, owner: str) -> int:
         """
         Get the stargazer count of the given owner
         Can take a lot of API calls and time, as an owner can have a lot of repositories
@@ -680,7 +682,7 @@ class GitHubAPICall:
             else:
                 return total_stargazer_count
 
-    def get_release_download_links(self, owner, repo, release):
+    def get_release_download_links(self, owner: str, repo: str, release: str) -> List[str]:
         """
         Gets the release data of the given repo, and extracts the download link from it
 
@@ -708,7 +710,7 @@ class GitHubAPICall:
 
         return output
 
-    def try_perform_api_call(self, api_url, call_type) -> Response:
+    def try_perform_api_call(self, api_url: str, call_type: str) -> Response:
         """
         Perform rate limit checks, and if those pass, perform an API call
 
@@ -737,7 +739,7 @@ class GitHubAPICall:
         # If we don't have any API calls left, return None
         return None
 
-    def check_rate_limit(self, call_type) -> bool:
+    def check_rate_limit(self, call_type: str) -> bool:
         """
         Function to check if a rate limit has been reached
 

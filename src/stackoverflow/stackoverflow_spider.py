@@ -12,6 +12,8 @@ in order to scrape wanted data-points from the Stack Overflow website.
 
 # Import for sending and handling HTTP requests
 import requests
+# Import for setting parameter types
+from typing import Tuple
 
 
 class StackOverflowSpider:
@@ -21,7 +23,7 @@ class StackOverflowSpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_monthly_popularity(self, package) -> int:
+    def get_monthly_popularity(self, package: str) -> Tuple:
         """
         Get the monthly popularity of the given package.
 
@@ -29,7 +31,7 @@ class StackOverflowSpider:
             package (str): The name of the package
 
         Returns:
-            int: The monthly popularity of the given package
+            Tuple: The monthly popularity of the given package
 
             This popularity is the percentage of questions posted that were about the given package.
         """
