@@ -1,6 +1,7 @@
 """File containing the communication between the TrustSECO-Spider and the virus scanner."""
 
 # Import os to allow for file checking and console usage
+from subprocess import run, TimeoutExpired
 import os
 
 
@@ -24,12 +25,6 @@ class ScannerCommunication:
             return None
         if len(links) == 0:
             print('No links provided. (empty list)')
-            return None
-
-        # Make sure the UNIX socket is available for clamdscan
-        if not os.path.exists('clamav/sockets/clamd.sock'):
-            print('The UNIX socket is not available for clamdscan.')
-            print('Please make sure clamdscan is running.')
             return None
 
         # Initialize a counter for the number of infected links found
@@ -62,6 +57,10 @@ class ScannerCommunication:
             bool: True if a virus has been detected, False otherwise.
         """
 
+        # # Make sure the UNIX socket is available for clamdscan
+        if not self.check_socket_availability():
+            return None
+
         # Open a command stream with the clamdscan command
         stream = os.popen(
             f'wget -qO- {link} | clamdscan --config-file=clamav/client_clamd.conf -')
@@ -83,6 +82,25 @@ class ScannerCommunication:
             return False
         else:
             return True
+
+    def check_socket_availability(self) -> bool:
+        """Function to check whether or not the socket file exists, and is accepting connections."""
+
+        # See if the file-path exists
+        if not os.path.exists('clamav/sockets/clamd.sock'):
+            print('The UNIX socket file does not exist.')
+            return False
+
+        # See if the UNIX socket is listening to requests
+        try:
+            run('socat -u OPEN:/dev/null UNIX-CONNECT:clamav/sockets/clamd.sock',
+                shell=True, timeout=0.1)
+        except Exception as e:
+            if type(e) is not TimeoutExpired:
+                print(e)
+                return False
+
+        return True
 
 
 """
