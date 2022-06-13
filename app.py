@@ -3,6 +3,9 @@
 Running this file will start the Flask application on the localhost at port 5000.
 """
 
+# Import for filesystem IO
+import os
+import sys
 # Import Flask
 from flask import Flask, make_response, request
 # Import JSON for pretty printing
@@ -136,9 +139,10 @@ def try_get_json_input():
 
 
 if __name__ == '__main__':
-    # Set the permissions of the mounted volume
-    result = subprocess.run(
-        ['chmod', '777', 'clamav/sockets/'], capture_output=True)
+    # Set the permissions of the mounted volume (if needed)
+    if os.path.exists('clamav/sockets/') and sys.platform != 'win32':
+        result = subprocess.run(
+            ['chmod', '777', 'clamav/sockets/'], capture_output=True)
 
     # Start the Flask application
     app.run(host='0.0.0.0', port=5000, debug=False)
