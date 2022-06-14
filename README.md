@@ -110,14 +110,16 @@ Where of course the empty strings must be replaced with your tokens.
 
 Alternatively, the recommended way of running the TrustSECO-Spider is by running it within a Docker container. To do this, you must first install and start up Docker, as otherwise you will not have access to the needed commands.
 
-After Docker is ready, simply open a terminal window within the `TrustSECO-Spider` folder. Now, there are two different ways of running the Spider, either with or without running the virus scan service. If you don't need the virus scan capabilities, please perform the following commands:
-
-1. `docker build . -t spider-image` -> This will create a Docker image with the name "spider-image"
-2. `docker run --name 'TrustSECO-Spider' spider-image` -> This will create a Docker container based off of the Docker image you just made. It will also set the name of the container to 'TrustSECO-Spider' for easy identification.
+After Docker is ready, simply open a terminal window within the `TrustSECO-Spider` folder. Now, there are two different ways of running the Spider, either with or without running the virus scan service. 
 
 If you do need the virus scan capabilities, only one command has to be run:
 
 1. `docker-compose up` -> Uses the configuration specified within the 'docker-compose.yml' file to start up the TrustSECO-Spider and the ClamAV virus scanner.
+
+If you don't need the virus scan capabilities, please perform the following commands:
+
+1. `docker build . -t spider-image` -> This will create a Docker image with the name "spider-image"
+2. `docker run --name 'TrustSECO-Spider' spider-image` -> This will create a Docker container based off of the Docker image you just made. It will also set the name of the container to 'TrustSECO-Spider' for easy identification.
 
 ### Setting API tokens
 
