@@ -14,6 +14,8 @@ is running in another Docker container.
 # Import os to allow for file checking and console usage
 from subprocess import run, TimeoutExpired
 import os
+# Import for improved logging
+import logging
 # Import for setting parameter types
 from typing import List
 
@@ -34,17 +36,20 @@ class ClamAVScanner:
 
         # Make sure we have a list of links
         if links is None:
-            print('No links provided. (None input)')
+            logging.error('Virus ratio: No links provided. (None input)')
             return None
         if len(links) == 0:
-            print('No links provided. (empty list)')
+            logging.error('Virus ratio: No links provided. (empty list)')
             return None
 
         # Initialize a counter for the number of infected links found
         infected_links = 0
+        counter = 0
 
         # Iterate through the links
         for link in links:
+            logging.info(f'Scanning link {counter} out of {len(links)}')
+
             # Scan the link
             result = self.scan_link(link)
 
@@ -106,7 +111,7 @@ class ClamAVScanner:
 
         # See if the file-path exists
         if not os.path.exists('clamav/sockets/clamd.sock'):
-            print('The UNIX socket file does not exist.')
+            logging.error('The UNIX socket file does not exist.')
             return False
 
         # See if the UNIX socket is listening to requests
@@ -115,7 +120,7 @@ class ClamAVScanner:
                 shell=True, timeout=0.1)
         except Exception as e:
             if type(e) is not TimeoutExpired:
-                print(e)
+                logging.error(e)
                 return False
 
         return True

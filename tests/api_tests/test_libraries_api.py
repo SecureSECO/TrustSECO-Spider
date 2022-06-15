@@ -85,7 +85,7 @@ class TestProjectDependencies:
 
         # Create the url, and add it to responses
         info_url = f'https://libraries.io/api/{platform}/{name}/{release}/dependencies'
-        print(info_url)
+
         responses.add(responses.GET, info_url, json={
                       'mock_data': 'value'}, status=200)
 

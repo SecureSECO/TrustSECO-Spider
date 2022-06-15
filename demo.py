@@ -66,11 +66,14 @@ def numpy_demo(scan_viruses: bool) -> None:
         input_json["virus_scanning"] = ["virus_ratio"]
 
     # Get the data
-    response = requests.post('http://localhost:5000/get_data',
-                             headers={'Content-type': 'application/json'}, json=input_json)
+    response_data = requests.post('http://localhost:5000/get_data',
+                                  headers={'Content-type': 'application/json'}, json=input_json).json()
 
-    # Get the data
-    print(json.dumps(response.json(), indent=4))
+    # Print the data
+    if response_data is not None:
+        print(json.dumps(response_data, indent=4))
+    else:
+        print("No data found, perhaps you did not set your API tokens?")
 
 
 def afnetworking_demo(scan_viruses: bool) -> None:
@@ -127,11 +130,14 @@ def afnetworking_demo(scan_viruses: bool) -> None:
         input_json["virus_scanning"] = ["virus_ratio"]
 
     # Get the data
-    response = requests.post('http://localhost:5000/get_data',
-                             headers={'Content-type': 'application/json'}, json=input_json)
+    response_data = requests.post('http://localhost:5000/get_data',
+                                  headers={'Content-type': 'application/json'}, json=input_json).json()
 
-    # Get the data
-    print(json.dumps(response.json(), indent=4))
+    # Print the data
+    if response_data is not None:
+        print(json.dumps(response_data, indent=4))
+    else:
+        print("No data found, perhaps you did not set your API tokens?")
 
 
 def virus_free_demo() -> None:

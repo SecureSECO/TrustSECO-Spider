@@ -6,6 +6,8 @@ Running this file will start the Flask application on the localhost at port 5000
 # Import for filesystem IO
 import os
 import sys
+# Import for improved logging
+import logging
 # Import Flask
 from flask import Flask, make_response, request
 # Import JSON for pretty printing
@@ -18,6 +20,7 @@ from typing import Tuple
 import controller
 # Import CORS needed
 from flask_cors import CORS
+# Import for setting file permissions on startup
 import subprocess
 
 
@@ -45,8 +48,8 @@ def get_data() -> Response:
         input_json = data
 
     # Inform the user of what is happening
-    print('Received the following JSON:')
-    print(json.dumps(input_json, indent=4))
+    logging.info('Received the following JSON:')
+    logging.info(json.dumps(input_json, indent=4))
 
     # Get the result from the spider
     result = controller.get_data(input_json)
@@ -81,7 +84,7 @@ def set_tokens() -> Response:
         input_json = data
 
     # Inform the user of what is happening
-    print('Setting tokens...')
+    logging.info('Setting tokens...')
 
     # Initialize an output string
     output = ''
@@ -103,7 +106,8 @@ def set_tokens() -> Response:
     # Inform the user of what happened
     if output == '':
         output = 'Token(s) not set! Please provide valid tokens.'
-    print(output)
+        logging.warning(output)
+    logging.info(output)
 
     # Return the output
     response = make_response(output)
@@ -140,8 +144,8 @@ def try_get_json_input() -> Tuple[bool, Response | dict]:
 
     # Make sure the request is JSON
     if not request.is_json:
-        output = 'Not a JSON request'
-        print(output)
+        output = 'Error: Request was not of type application/json'
+        logging.error(output)
         response = make_response(output, 400)
         response.headers.set('Content-Type', 'text/plain')
         return (False, response)
@@ -151,8 +155,8 @@ def try_get_json_input() -> Tuple[bool, Response | dict]:
 
     # Make sure the input is valid
     if input_json is None:
-        output = 'Received invalid JSON'
-        print(output)
+        output = 'Error: Received JSON was invalid'
+        logging.error(output)
         response = make_response(output, 400)
         response.headers.set('Content-Type', 'text/plain')
         return (False, response)
@@ -167,8 +171,11 @@ if __name__ == '__main__':
         result = subprocess.run(
             ['chmod', '777', 'clamav/sockets/'], capture_output=True)
 
+    # Set the logging level
+    logging.basicConfig(level=logging.INFO)
+
     # Start the Flask application
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_evalex=False)
 
 """
 This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
