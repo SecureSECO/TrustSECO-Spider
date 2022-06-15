@@ -1,21 +1,32 @@
+# Set the starting image
 FROM python:3.10.4-slim
 
+# Copy over the needed folders
+COPY ./app.py /app/app.py
+COPY ./controller.py /app/controller.py
+COPY ./demo.py /app/demo.py
+COPY ./requirements.txt /app/requirements.txt
+# Copy over the needed files
+COPY ./clamav /app/clamav
+COPY ./src /app/src
+
+# Set the working directory
 WORKDIR /app
 
-# We copy just the requirements.txt first to leverage Docker cache
-COPY ./requirements.txt /app/requirements.txt
+# Install al the python requirements
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install -r requirements.txt
-
-COPY . /app
-
+# Install the required linux programs
 RUN apt-get update && apt-get install -y \
     clamav-daemon \
     wget \
+    socat \
     && rm -rf /var/lib/apt/lists/*
 
+# Set the entrypoint
 ENTRYPOINT [ "python" ]
 
+# Start the flask server
 CMD [ "app.py" ]
 
 

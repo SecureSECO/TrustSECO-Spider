@@ -3,14 +3,24 @@
 Running this file will start the Flask application on the localhost at port 5000.
 """
 
+# Import for filesystem IO
+import os
+import sys
+# Import for improved logging
+import logging
 # Import Flask
 from flask import Flask, make_response, request
 # Import JSON for pretty printing
 import json
+# Import for setting return-type
+from responses import Response
+# Import for setting parameter types
+from typing import Tuple
 # Import the controller of the TrustSECO-Spider
 import controller
 # Import CORS needed
 from flask_cors import CORS
+# Import for setting file permissions on startup
 import subprocess
 import os
 import sys
@@ -24,8 +34,13 @@ CORS(app)
 
 # Set the route for data-retrieval
 @app.post('/get_data')
-def get_data():
-    """Uses the given JSON to get the wanted data-points."""
+def get_data() -> Response:
+    """
+    Uses the given JSON to get the wanted data-points.
+
+    Returns:
+        responses.Response: HTTP response containing the requested data as JSON
+    """
 
     # Try to get the input json
     (is_valid, data) = try_get_json_input()
@@ -35,8 +50,8 @@ def get_data():
         input_json = data
 
     # Inform the user of what is happening
-    print('Received the following JSON:')
-    print(json.dumps(input_json, indent=4))
+    logging.info('Received the following JSON:')
+    logging.info(json.dumps(input_json, indent=4))
 
     # Get the result from the spider
     result = controller.get_data(input_json)
@@ -55,8 +70,13 @@ def get_data():
 
 # Set the route for token setting
 @app.post('/set_tokens')
-def set_tokens():
-    """Uses the given JSON to set the tokens."""
+def set_tokens() -> Response:
+    """
+    Uses the given JSON to set the tokens.
+
+    Returns:
+        responses.Respons: HTTP response informing the user which keys were set using plain/text
+    """
 
     # Try to get the input json
     (is_valid, data) = try_get_json_input()
@@ -66,7 +86,7 @@ def set_tokens():
         input_json = data
 
     # Inform the user of what is happening
-    print('Setting tokens...')
+    logging.info('Setting tokens...')
 
     # Initialize an output string
     output = ''
@@ -88,19 +108,23 @@ def set_tokens():
     # Inform the user of what happened
     if output == '':
         output = 'Token(s) not set! Please provide valid tokens.'
-    print(output)
+        logging.warning(output)
+    logging.info(output)
 
     # Return the output
     response = make_response(output)
     response.headers.set('Content-Type', 'text/plain')
     return response
 
-# Return the tokens
-
 
 @app.get('/get_tokens')
-def get_tokens():
-    """Returns the tokens currently stored in the .env file"""
+def get_tokens() -> Response:
+    """
+    Returns the tokens currently stored in the .env file
+
+    Returns:
+        responses.Response: HTTP request containing a JSON object with the TrustSECO-Spider's API tokens
+    """
 
     # Get the tokens from the .env file
     tokens = controller.get_tokens()
@@ -111,13 +135,19 @@ def get_tokens():
     return response
 
 
-def try_get_json_input():
-    """Tries to get the JSON input from the request."""
+def try_get_json_input() -> Tuple[bool, Response | dict]:
+    """
+    Tries to get the JSON input from the request.
+
+    Returns:
+        Tuple[bool, responses.Response | dict]: A tuple containg a bool that denotes whether or not the JSON input was valid,
+        and either an HTTP response informing the user that something went wrong or the actual JSON input
+    """
 
     # Make sure the request is JSON
     if not request.is_json:
-        output = 'Not a JSON request'
-        print(output)
+        output = 'Error: Request was not of type application/json'
+        logging.error(output)
         response = make_response(output, 400)
         response.headers.set('Content-Type', 'text/plain')
         return (False, response)
@@ -127,8 +157,8 @@ def try_get_json_input():
 
     # Make sure the input is valid
     if input_json is None:
-        output = 'Received invalid JSON'
-        print(output)
+        output = 'Error: Received JSON was invalid'
+        logging.error(output)
         response = make_response(output, 400)
         response.headers.set('Content-Type', 'text/plain')
         return (False, response)
@@ -143,8 +173,11 @@ if __name__ == '__main__':
         result = subprocess.run(
             ['chmod', '777', 'clamav/sockets/'], capture_output=True)
 
+    # Set the logging level
+    logging.basicConfig(level=logging.INFO)
+
     # Start the Flask application
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_evalex=False)
 
 """
 This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.

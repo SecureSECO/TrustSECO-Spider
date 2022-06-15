@@ -10,8 +10,10 @@ in order to scrape wanted data-points from the GitHub website.
     bar = foo.get_repository_user_count('owner', 'repo')
 """
 
-from bs4 import BeautifulSoup
+# Import for sending and handling HTTP requests
 import requests
+# Import for parsing and searching through HTML
+from bs4 import BeautifulSoup
 
 
 class GitHubSpider:
@@ -21,7 +23,7 @@ class GitHubSpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_repository_user_count(self, owner, repo) -> int:
+    def get_repository_user_count(self, owner: str, repo: str) -> int:
         """
         Get the number of users of a given repository
 
@@ -67,7 +69,7 @@ class GitHubSpider:
 
         return user_count
 
-    def get_repository_open_issue_count(self, owner, repo) -> int:
+    def get_repository_open_issue_count(self, owner: str, repo: str) -> int:
         """
         Get the amount of open issues of a given repository
 
@@ -111,7 +113,7 @@ class GitHubSpider:
         # Else return None
         return None
 
-    def get_repository_closed_issue_count(self, owner, repo) -> int:
+    def get_repository_closed_issue_count(self, owner: str, repo: str) -> int:
         """
         Get the amount of closed issues of a given repository
 
@@ -155,7 +157,7 @@ class GitHubSpider:
         # Else return None
         return None
 
-    def get_repository_issue_ratio(self, owner, repo) -> float:
+    def get_repository_issue_ratio(self, owner: str, repo: str) -> float:
         """
         Get the issue ratio of a given repository
 

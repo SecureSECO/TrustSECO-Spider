@@ -10,6 +10,7 @@ services:
       - type: volume
         source: TrustSECO
         target: /app/clamav/sockets
+    stop_signal: SIGINT
 
   scanner:
     container_name: ClamAV-daemon

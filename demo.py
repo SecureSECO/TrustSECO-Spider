@@ -2,20 +2,22 @@
 
 Before running this file, the Flask application needs to be started. (instructions for which can be found in the README.md file)
 """
-# For getting additional arguments from the command line
+# Import for getting input parameters
 import sys
-# For pretty printing the JSON data
+# Import for pretty printing the JSON data
 import json
-# For accessing the GitHub data-points
+# Import for sending and handling HTTP requests
 import requests
+# Import the ClamAV scanner
+from src.clamav.clamav_scanner import ClamAVScanner
 
 
-def numpy_demo(scan_viruses):
+def numpy_demo(scan_viruses: bool) -> None:
     """
     Function containing the code for the numpy demo.
 
-    First, we set the input JSON to include numpy's details,
-    and then we set the wanted data-points.
+    Parameters:
+        scan_virusses (bool): Boolean denoting if we also want to scan for viruses
     """
 
     # Set the input JSON
@@ -64,19 +66,22 @@ def numpy_demo(scan_viruses):
         input_json["virus_scanning"] = ["virus_ratio"]
 
     # Get the data
-    response = requests.post('http://localhost:5000/get_data',
-                             headers={'Content-type': 'application/json'}, json=input_json)
+    response_data = requests.post('http://localhost:5000/get_data',
+                                  headers={'Content-type': 'application/json'}, json=input_json).json()
 
-    # Get the data
-    print(json.dumps(response.json(), indent=4))
+    # Print the data
+    if response_data is not None:
+        print(json.dumps(response_data, indent=4))
+    else:
+        print("No data found, perhaps you did not set your API tokens?")
 
 
-def afnetworking_demo():
+def afnetworking_demo(scan_viruses: bool) -> None:
     """
     Function containing the code for the AFNetworking demo.
 
-    First, we set the input JSON to include AFNetworking's details,
-    and then we set the wanted data-points.
+    Parameters:
+        scan_virusses (bool): Boolean denoting if we also want to scan for viruses
     """
 
     # Set the input JSON
@@ -125,11 +130,47 @@ def afnetworking_demo():
         input_json["virus_scanning"] = ["virus_ratio"]
 
     # Get the data
-    response = requests.post('http://localhost:5000/get_data',
-                             headers={'Content-type': 'application/json'}, json=input_json)
+    response_data = requests.post('http://localhost:5000/get_data',
+                                  headers={'Content-type': 'application/json'}, json=input_json).json()
 
-    # Get the data
-    print(json.dumps(response.json(), indent=4))
+    # Print the data
+    if response_data is not None:
+        print(json.dumps(response_data, indent=4))
+    else:
+        print("No data found, perhaps you did not set your API tokens?")
+
+
+def virus_free_demo() -> None:
+    """
+    Function containing the code for the safe virus-scan demo.
+    """
+
+    sc = ClamAVScanner()
+
+    ratio = sc.get_virus_ratio([
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/1.22.4-changelog.rst',
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/numpy-1.22.4.tar.gz',
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/numpy-1.22.4.zip',
+        'https://github.com/numpy/numpy/releases/download/v1.22.4/README.rst',
+        'https://github.com/numpy/numpy/archive/refs/tags/v1.22.4.zip',
+        'https://github.com/numpy/numpy/archive/refs/tags/v1.22.4.tar.gz'
+    ])
+
+    print(f'Virus ratio: {ratio}')
+
+
+def virus_infected_demo() -> None:
+    """
+    Function containing the code for the infected virus-scan demo.
+    """
+
+    sc = ClamAVScanner()
+
+    ratio = sc.get_virus_ratio([
+        'https://github.com/fire1ce/eicar-standard-antivirus-test-files/archive/refs/heads/master.zip'
+    ])
+
+    print(f'Virus ratio: {ratio}')
 
 
 if __name__ == '__main__':
@@ -144,9 +185,17 @@ if __name__ == '__main__':
         if 'numpy' in sys.argv:
             numpy_demo(scan_viruses)
 
-        # If cocoapods is specified, run the cocoapods demo
+        # If afnetworking is specified, run the afnetworking demo
         if 'afnetworking' in sys.argv:
             afnetworking_demo(scan_viruses)
+
+        # If virus_s is specified, run the safe virus demo
+        if 'virus_s' in sys.argv:
+            virus_free_demo()
+
+        # If virus_i is specified, run the infected virus demo
+        if 'virus_i' in sys.argv:
+            virus_infected_demo()
 
         # If all is specified, run both demos
         if 'all' in sys.argv:
@@ -157,6 +206,8 @@ if __name__ == '__main__':
         print('Please specify which library you would like to gather data of:')
         print('\t- numpy')
         print('\t- afnetworking')
+        print('\t- virus_s (safe)')
+        print('\t- virus_i (infected)')
         print('\t- all')
         print('If you would like to run the virus scanner, add the \'virus\' argument and make sure the virus scanner is also running.')
 

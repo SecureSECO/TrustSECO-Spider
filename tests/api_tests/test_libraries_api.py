@@ -1,12 +1,12 @@
 """File containing the unit tests for the libraries_io_api_calls.py file."""
 
-# Import for testing
-import responses
 # Unit testing imports
 import pytest
 from unittest import mock
-# Spider import
-from src.api_calls.libraries_io_api_calls import LibrariesAPICall
+# Import for sending and handling HTTP requests
+import responses
+# Libraries.io API call import
+from src.libraries_io.libraries_io_api_calls import LibrariesAPICall
 
 
 # region API calling functions
@@ -85,7 +85,7 @@ class TestProjectDependencies:
 
         # Create the url, and add it to responses
         info_url = f'https://libraries.io/api/{platform}/{name}/{release}/dependencies'
-        print(info_url)
+
         responses.add(responses.GET, info_url, json={
                       'mock_data': 'value'}, status=200)
 
@@ -197,15 +197,15 @@ class TestReleaseFrequency:
         (None, None, 1, None),
         ('2016-04-21T04:09:15.000Z', '2016-04-20T04:09:15.000Z', 1, 86400.0)
     ])
-    def test_all(self, latest_release_date, first_release_date, release_count, expected_result) -> None:
+    def test_all(self, latest_release_date: str, first_release_date: str, release_count: int, expected_result: int) -> None:
         """
         Tests all of the possible scenarios
 
         Parameters:
-            latest_release_date: The latest release date
-            first_release_date: The first release date
-            release_count: The number of releases
-            expected_result: The expected result
+            latest_release_date (str): The latest release date
+            first_release_date (str): The first release date
+            release_count (str): The number of releases
+            expected_result (str): The expected result
         """
 
         # Set the input variables
@@ -215,9 +215,9 @@ class TestReleaseFrequency:
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_latest_release_date', return_value=latest_release_date):
-            with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_first_release_date', return_value=first_release_date):
-                with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_release_count', return_value=release_count):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_latest_release_date', return_value=latest_release_date):
+            with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_first_release_date', return_value=first_release_date):
+                with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_release_count', return_value=release_count):
                     # Execute the function
                     result = lib_api_call.get_release_frequency(platform, name)
 
@@ -246,13 +246,13 @@ class TestDependencyCount:
         ({'dependencies': [{'efef': ''}]}, 0),
         ({'dependencies': [{'kind': 'Development'}, {'kind': ''}]}, 1)
     ])
-    def test_all(self, return_value, expected_result) -> None:
+    def test_all(self, return_value: dict, expected_result: int) -> None:
         """
         Tests all of the possible scenarios
 
         Parameters:
-            return_value: The return value of the get_project_dependencies function
-            expected_result: The expected result
+            return_value (dict): The return value of the get_project_dependencies function
+            expected_result (int): The expected result
         """
 
         # Set the input variables
@@ -263,7 +263,7 @@ class TestDependencyCount:
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_dependencies', return_value=return_value):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_dependencies', return_value=return_value):
             # Execute the function
             result = lib_api_call.get_dependency_count(platform, name, release)
 
@@ -291,13 +291,13 @@ class TestFirstReleaseDate:
         ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'},
          {'published_at': '2016-04-21T04:09:15.000Z'}]}, '2016-04-20T04:09:15.000Z')
     ])
-    def test_all(self, return_value, expected_result) -> None:
+    def test_all(self, return_value: dict, expected_result: str) -> None:
         """
         Tests all of the possible scenarios
 
         Parameters:
-            return_value: The return value of the get_project_information function
-            expected_result: The expected result
+            return_value (dict): The return value of the get_project_information function
+            expected_result (str): The expected result
         """
 
         # Set the input variables
@@ -307,7 +307,7 @@ class TestFirstReleaseDate:
         # Create a libraries.io API call object
         lib_api_call = LibrariesAPICall()
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_information', return_value=return_value):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_information', return_value=return_value):
             # Execute the function
             result = lib_api_call.get_first_release_date(platform, name)
 
@@ -336,13 +336,13 @@ class TestLookUp:
     """
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'github_contributions_count': 10}, 10)])
-    def test_contributor_count(self, return_value, expected_value) -> None:
+    def test_contributor_count(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_contributors_count function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -352,7 +352,7 @@ class TestLookUp:
         owner = 'numpy'
         name = 'numpy'
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_repository', new=mock.Mock(return_value=return_value)):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_repository', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_contributors_count(owner, name)
 
@@ -360,13 +360,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'dependents_count': 10}, 10)])
-    def test_dependents_count(self, return_value, expected_value) -> None:
+    def test_dependents_count(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_dependent_count function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -376,7 +376,7 @@ class TestLookUp:
         owner = 'numpy'
         name = 'numpy'
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_dependent_count(owner, name)
 
@@ -384,13 +384,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'latest_release_published_at': 10}, 10)])
-    def test_latest_release_date(self, return_value, expected_value) -> None:
+    def test_latest_release_date(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_latest_release_date function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -400,7 +400,7 @@ class TestLookUp:
         platform = 'numpy'
         name = 'numpy'
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_latest_release_date(
                 platform, name)
@@ -409,13 +409,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'versions': [1, 2, 3]}, 3)])
-    def test_release_count(self, return_value, expected_value) -> None:
+    def test_release_count(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_release_count function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -425,7 +425,7 @@ class TestLookUp:
         platform = 'numpy'
         name = 'numpy'
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_release_count(platform, name)
 
@@ -433,13 +433,13 @@ class TestLookUp:
             assert response_data == expected_value
 
     @ pytest.mark.parametrize('return_value, expected_value', [(None, None), ({}, None), ({'rank': 10}, 10)])
-    def test_sourcerank(self, return_value, expected_value) -> None:
+    def test_sourcerank(self, return_value: dict, expected_value: int) -> None:
         """
         Test all of the possible scenarios for the get_sourcerank function
 
         Parameters:
-            return_value: The return value of the get_project_repository function
-            expected_value: The expected value
+            return_value (dict): The return value of the get_project_repository function
+            expected_value (int): The expected value
         """
 
         # Create a libraries.io API call object
@@ -449,7 +449,7 @@ class TestLookUp:
         platform = 'numpy'
         name = 'numpy'
 
-        with mock.patch('src.api_calls.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
+        with mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_project_information', new=mock.Mock(return_value=return_value)):
             # Execute the function
             response_data = lib_api_call.get_sourcerank(platform, name)
 

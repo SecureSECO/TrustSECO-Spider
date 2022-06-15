@@ -1,13 +1,29 @@
-"""File containing the communication between the TrustSECO-Spider and the virus scanner."""
+"""File containing the communication between the TrustSECO-Spider and the ClamAV virus scanner.
+
+This file contains all the logic for
+scanning a list of urls (that point to files).
+The scanning is done using ClamAV which
+is running in another Docker container.
+
+    Typical usage:
+
+    foo = ClamAVScanner()
+    bar = foo.get_virus_ratio([url1, url2, url3])
+"""
 
 # Import os to allow for file checking and console usage
+from subprocess import run, TimeoutExpired
 import os
+# Import for improved logging
+import logging
+# Import for setting parameter types
+from typing import List
 
 
-class ScannerCommunication:
+class ClamAVScanner:
     """ Class methods for scanning web links that direct to files for viruses. """
 
-    def get_virus_ratio(self, links) -> float:
+    def get_virus_ratio(self, links: List[str]) -> float:
         """
         Scans the given links' contents for viruses.
 
@@ -20,23 +36,20 @@ class ScannerCommunication:
 
         # Make sure we have a list of links
         if links is None:
-            print('No links provided. (None input)')
+            logging.error('Virus ratio: No links provided. (None input)')
             return None
         if len(links) == 0:
-            print('No links provided. (empty list)')
-            return None
-
-        # Make sure the UNIX socket is available for clamdscan
-        if not os.path.exists('clamav/sockets/clamd.sock'):
-            print('The UNIX socket is not available for clamdscan.')
-            print('Please make sure clamdscan is running.')
+            logging.error('Virus ratio: No links provided. (empty list)')
             return None
 
         # Initialize a counter for the number of infected links found
         infected_links = 0
+        counter = 0
 
         # Iterate through the links
         for link in links:
+            logging.info(f'Scanning link {counter} out of {len(links)}')
+
             # Scan the link
             result = self.scan_link(link)
 
@@ -48,10 +61,13 @@ class ScannerCommunication:
                 # Increment the counter if a virus has been detected
                 infected_links += 1
 
+            # Up the counter
+            counter += 1
+
         # Return the percentage of links that have been scanned for viruses
         return infected_links / len(links)
 
-    def scan_link(self, link) -> bool:
+    def scan_link(self, link: str) -> bool:
         """
         Scans the given link's contents for viruses.
 
@@ -61,6 +77,10 @@ class ScannerCommunication:
         Returns:
             bool: True if a virus has been detected, False otherwise.
         """
+
+        # # Make sure the UNIX socket is available for clamdscan
+        if not self.check_socket_availability():
+            return None
 
         # Open a command stream with the clamdscan command
         stream = os.popen(
@@ -83,6 +103,30 @@ class ScannerCommunication:
             return False
         else:
             return True
+
+    def check_socket_availability(self) -> bool:
+        """
+        Checks whether or not the socket file exists, and is accepting connections.
+
+        Returns:
+            bool: Whether or not the socket exists and is listening
+        """
+
+        # See if the file-path exists
+        if not os.path.exists('clamav/sockets/clamd.sock'):
+            logging.error('The UNIX socket file does not exist.')
+            return False
+
+        # See if the UNIX socket is listening to requests
+        try:
+            run('socat -u OPEN:/dev/null UNIX-CONNECT:clamav/sockets/clamd.sock',
+                shell=True, timeout=0.1)
+        except Exception as e:
+            if type(e) is not TimeoutExpired:
+                logging.error(e)
+                return False
+
+        return True
 
 
 """

@@ -9,20 +9,25 @@ It also contains some static methods that an outside program/end-user can use to
     foo = get_data('input_json')
 """
 
-# Import needed libraries
+# Imports for environmental variables
 import os
 from dotenv import set_key, load_dotenv
-import constants
+# Import for improved logging
+import logging
 # Import the data-getting modules
 # API calls
-from src.api_calls.github_api_calls import GitHubAPICall
-from src.api_calls.libraries_io_api_calls import LibrariesAPICall
+from src.github.github_api_calls import GitHubAPICall
+from src.libraries_io.libraries_io_api_calls import LibrariesAPICall
 # Spiders
-from src.spiders.github_spider import GitHubSpider
-from src.spiders.cve_spider import CVESpider
-from src.spiders.stackoverflow_spider import StackOverflowSpider
+from src.github.github_spider import GitHubSpider
+from src.cve.cve_spider import CVESpider
+from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 # Virus scanning
-from src.virus_scanning.scanner_communication import ScannerCommunication
+from src.clamav.clamav_scanner import ClamAVScanner
+# Imports for utilities
+import src.utils.constants as constants
+# Import for setting parameter types
+from typing import List
 
 
 class Controller:
@@ -39,7 +44,7 @@ class Controller:
         so_spider (StackOverflowSpider): The StackOverflow spider object
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes the Controller object by setting the data-gathering objects."""
         # API objects
         self.gh_api = GitHubAPICall()
@@ -51,9 +56,9 @@ class Controller:
         self.so_spider = StackOverflowSpider()
 
         # Virus scanner objects
-        self.vs_comm = ScannerCommunication()
+        self.vs_comm = ClamAVScanner()
 
-    def run(self, input_json) -> dict:
+    def run(self, input_json: dict) -> dict:
         """
         This is the main looping function of the program.
 
@@ -73,7 +78,7 @@ class Controller:
 
         # Make sure we got the information we need
         if 'project_info' not in input_json:
-            print('Error: no project information found')
+            logging.error('No project information found')
             return {'Error': 'Error: no project information found'}
 
         # Make sure all of the wanted project information is available
@@ -90,8 +95,8 @@ class Controller:
             # Request the data from GitHub
             if 'gh_data_points' in input_json:
                 # Tell the user what is going on
-                print('-------------------')
-                print('Getting GitHub data...')
+                logging.info('-------------------')
+                logging.info('Getting GitHub data...')
 
                 # Actually request the data
                 output_json.update(self.get_github_data(
@@ -100,8 +105,8 @@ class Controller:
             # Request the data from Libraries.IO
             if 'lib_data_points' in input_json:
                 # Tell the user what is going on
-                print('-------------------')
-                print('Getting Libraries.IO data...')
+                logging.info('-------------------')
+                logging.info('Getting Libraries.IO data...')
 
                 # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
                 if release[0].lower() == 'v':
@@ -116,8 +121,8 @@ class Controller:
             # Request the data from the CVE website
             if 'cve_data_points' in input_json:
                 # Tell the user what is going on
-                print('-------------------')
-                print('Getting CVE data...')
+                logging.info('-------------------')
+                logging.info('Getting CVE data...')
 
                 # Actually request the data
                 output_json.update(self.get_cve_data(
@@ -126,8 +131,8 @@ class Controller:
             # Request the data from the StackOverflow website
             if 'so_data_points' in input_json:
                 # Tell the user what is going on
-                print('-------------------')
-                print('Getting StackOverflow data...')
+                logging.info('-------------------')
+                logging.info('Getting StackOverflow data...')
 
                 # Actually request the data
                 output_json.update(self.get_so_data(
@@ -136,8 +141,8 @@ class Controller:
             # Scan the release's files for viruses
             if 'virus_scanning' in input_json:
                 # Tell the user what is going on
-                print('-------------------')
-                print('Scanning for viruses...')
+                logging.info('-------------------')
+                logging.info('Scanning for viruses...')
 
                 # Get the links that need to be scanned
                 links_to_scan = self.gh_api.get_release_download_links(
@@ -150,15 +155,15 @@ class Controller:
                 # Add the results to the output
                 output_json.update({'virus_scanning': scan_result})
 
-            print('-------------------')
+            logging.info('-------------------')
 
-            # Print the output JSON object to the console
+            # Return the found data
             return output_json
         else:
-            print('Error: missing project information')
+            logging.error('Missing project information')
             return 'Error: missing project information'
 
-    def get_github_data(self, owner, repo_name, release, wanted_data) -> dict:
+    def get_github_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
         Get the data from GitHub.
 
@@ -218,13 +223,13 @@ class Controller:
                 return_data.update(
                     {data_point: self.gh_api.get_owner_stargazer_count(owner)})
             else:
-                print(f"Error: invalid data point {data_point}")
+                logging.warning(f"GitHub: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
         return return_data
 
-    def get_libraries_data(self, platform, owner, repo_name, release, wanted_data) -> dict:
+    def get_libraries_data(self, platform: str, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
         Get the data from Libraries.IO.
 
@@ -269,13 +274,14 @@ class Controller:
                 return_data.update(
                     {data_point: self.lib_api.get_sourcerank(platform, repo_name)})
             else:
-                print(f"Error: invalid data point {data_point}")
+                logging.warning(
+                    f"Libraries.io: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
         return return_data
 
-    def get_cve_data(self, repo_name, wanted_data) -> dict:
+    def get_cve_data(self, repo_name: str, wanted_data: List[str]) -> dict:
         """
         Get the data from CVE website.
 
@@ -301,13 +307,13 @@ class Controller:
                 return_data.update(
                     {data_point: self.cve_spider.get_cve_codes(repo_name)})
             else:
-                print(f"Error: invalid data point {data_point}")
+                logging.warning(f"CVE: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
         return return_data
 
-    def get_so_data(self, repo_name, wanted_data) -> dict:
+    def get_so_data(self, repo_name: str, wanted_data: List[str]) -> dict:
         """
         Get the data from Stack Overflow.
 
@@ -327,16 +333,23 @@ class Controller:
                 return_data.update(
                     {data_point: self.so_spider.get_monthly_popularity(repo_name)})
             else:
-                print(f"Error: invalid data point {data_point}")
+                logging.warning(
+                    f"StackOverflow: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
         return return_data
 
 
-def get_data(input_json):
+def get_data(input_json: dict) -> dict:
     """
-    This function will start the controller.
+    This function will run the controller with the given JSON input
+
+    Parameters:
+        input_json (dict): The received JSON input
+
+    Returns:
+        dict: The requested data
     """
 
     # Create a new controller
@@ -346,9 +359,12 @@ def get_data(input_json):
     return controller.run(input_json)
 
 
-def update_token_gh(github_token):
+def update_token_gh(github_token: str) -> None:
     """
     This function will update the environmental variables with the given GitHub token
+
+    Parameters:
+        github_token (str): The user's GitHub token
     """
 
     # Make sure the .env file exists
@@ -360,9 +376,12 @@ def update_token_gh(github_token):
     set_key(constants.ENVIRON_FILE, constants.GITHUB_TOKEN, github_token)
 
 
-def update_token_lib(libraries_token):
+def update_token_lib(libraries_token: str) -> None:
     """
     This function will update the environmental variable with the given Libraries.io token
+
+    Parameters:
+        libraries_token (str): The user's Libraries.io token
     """
 
     # Make sure the .env file exists
@@ -374,9 +393,12 @@ def update_token_lib(libraries_token):
     set_key(constants.ENVIRON_FILE, constants.LIBRARIES_TOKEN, libraries_token)
 
 
-def get_tokens():
+def get_tokens() -> dict:
     """
     This functions read the environmental variables and returns the tokens currently contained within
+
+    Returns:
+        dict: The current GitHub and Libraries.io tokens
     """
 
     # (Re)load the .env file

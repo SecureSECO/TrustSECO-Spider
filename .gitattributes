@@ -1,0 +1,5 @@
+# default behavior
+* text=Auto
+
+# Make sure the config files are in LF mode
+*.conf text eol=LF

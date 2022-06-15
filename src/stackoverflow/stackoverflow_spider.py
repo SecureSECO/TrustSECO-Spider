@@ -10,7 +10,12 @@ in order to scrape wanted data-points from the Stack Overflow website.
     bar = foo.get_monthly_popularity('package')
 """
 
+# Import for improved logging
+import logging
+# Import for sending and handling HTTP requests
 import requests
+# Import for setting parameter types
+from typing import Tuple
 
 
 class StackOverflowSpider:
@@ -20,7 +25,7 @@ class StackOverflowSpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_monthly_popularity(self, package) -> int:
+    def get_monthly_popularity(self, package: str) -> Tuple:
         """
         Get the monthly popularity of the given package.
 
@@ -28,10 +33,12 @@ class StackOverflowSpider:
             package (str): The name of the package
 
         Returns:
-            int: The monthly popularity of the given package
+            Tuple: The monthly popularity of the given package
 
             This popularity is the percentage of questions posted that were about the given package.
         """
+
+        logging.info('Getting monthly popularity')
 
         # Take the url for Stack Overflow trends
         url = 'https://insights.stackoverflow.com/trends/get-data'
@@ -40,7 +47,7 @@ class StackOverflowSpider:
         try:
             response = requests.get(url).json()
         except requests.exceptions.RequestException as e:
-            print('Error:', e)
+            logging.error(e)
             return None
 
         # Make sure we got the correct data
@@ -57,14 +64,17 @@ class StackOverflowSpider:
                     # Return the latest popularity with the corresponding year and month
                     try:
                         return list(zip(months, years, popularity, strict=True))[-1]
-                    except ValueError:
-                        print('One of the lists was not of the same length')
+                    except ValueError as e:
+                        logging.error(
+                            'Monthly popularity: One of the lists was not of the same length')
+                        logging.error(e)
                         return None
                 else:
-                    print('Package not in response')
+                    logging.info('Package not in response')
                     return (response['Month'][-1], response['Year'][-1], 0)
 
-        print('Did not get valid response')
+        logging.warning(
+            'Monthly popularity: Did not get valid response (missing data)')
         return None
 
 

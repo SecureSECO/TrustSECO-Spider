@@ -30,6 +30,6 @@
     "editor.formatOnSave": true,
     "python.linting.flake8Args": [
         "--ignore",
-        "E501"
+        "E501, ANN101"
     ],
 }

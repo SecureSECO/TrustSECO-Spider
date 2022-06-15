@@ -87,16 +87,39 @@ In order to run our program, certain python libraries will have to be installed.
 As the other sub-projects will need to request data from the spider, flask was used in order to create an endpoint for this. In order to run the TrustSECO-Spider as a (development) service, simply run `python .\app.py` command from within the `TrustSECO-Spider` folder.
 This will run a local server on the following address: `http://localhost:5000`.
 
+For this to work, you will have to manually enter your GitHub and Libraries.io tokens into the .env file.
+
+##### Finding the tokens
+
+The GitHub token can be generated under `Settings -> Developer settings -> Personal access tokens`. The needed token does not need any of the selectable scopes.
+
+The Libraries.io token can be found under `Settings -> API Key` after logging in.
+
+##### Entering the tokens
+
+The tokens have to be added to a file called `.env` which must be located within the `TrustSECO-Spider` folder. The file should look like this:
+
+```Python
+GITHUB_TOKEN=''
+LIBRARIES_TOKEN=''
+```
+
+Where of course the empty strings must be replaced with your tokens.
+
 #### Docker
 
 Alternatively, the recommended way of running the TrustSECO-Spider is by running it within a Docker container. To do this, you must first install and start up Docker, as otherwise you will not have access to the needed commands.
 
-After Docker is ready, simply open a terminal window within the `TrustSECO-Spider` folder. Now, there are two different ways of running the Spider, either with or without running the virus scan service. If you don't need the virus scan capabilities, please perform the following commands:
-1. `docker build . -t spider-image` -> This will create a Docker image with the name "spider-image"
-2. `docker run --name 'TrustSECO-Spider' spider-image` -> This will create a Docker container based off of the Docker image you just made. It will also set the name of the container to 'TrustSECO-Spider' for easy identification.
+After Docker is ready, simply open a terminal window within the `TrustSECO-Spider` folder. Now, there are two different ways of running the Spider, either with or without running the virus scan service. 
 
 If you do need the virus scan capabilities, only one command has to be run:
+
 1. `docker-compose up` -> Uses the configuration specified within the 'docker-compose.yml' file to start up the TrustSECO-Spider and the ClamAV virus scanner.
+
+If you don't need the virus scan capabilities, please perform the following commands:
+
+1. `docker build . -t spider-image` -> This will create a Docker image with the name "spider-image"
+2. `docker run --name 'TrustSECO-Spider' spider-image` -> This will create a Docker container based off of the Docker image you just made. It will also set the name of the container to 'TrustSECO-Spider' for easy identification.
 
 ### Setting API tokens
 
@@ -115,7 +138,7 @@ input_json = {
   'libraries_token': 'jdf9328bf87831bfdjs0823'
 }
 
-response = requests.post('http://localhost:5000/set_tokens', headers={'Content-type':'application/json'}, json=json_input)
+response = requests.post('http://localhost:5000/set_tokens', headers={'Content-type':'application/json'}, json=input_json)
 
 print(response.text)
 ```
@@ -133,7 +156,6 @@ response = requests.GET('http://localhost:5000/set_tokens')
 
 print(response.json())
 ```
-
 
 ### Requesting data
 
@@ -212,7 +234,7 @@ Please use the content type to avoid trying to grab non-existent JSON data or te
 
 ### Demo
 
-This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run. 
+This project also contains a small demo file (demo.py) which can demo basic functionality. Simply enter `python .\demo.py` in the command line in order to get a list of possible arguments. With these arguments you can specify which of the demos to run.
 
 **IMPORTANT: The Flask service must be started before running the demo, and the tokens must be set in the .env file beforehand too!!!**
 
@@ -229,6 +251,6 @@ Another available argument is `virus`. Passing this will allow the demo to also 
 
 ### Unit tests
 
-The project also contains some of the unit tests too. These can be started from within the main `TrustSECO-Spider` folder using the `python -m pytest` command in the console. 
+The project also contains some of the unit tests too. These can be started from within the main `TrustSECO-Spider` folder using the `python -m pytest` command in the console.
 
 **IMPORTANT: the tokens within the .env file must be removed before running the tests, as they will overwrite the test variables!!!**

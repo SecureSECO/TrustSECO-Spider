@@ -1,5 +1,8 @@
+"""File containing all the IO logic for the spider unit tests"""
+
+
 class FileIOForGHSpiderTests:
-    """Class that contains all of the IO functions for the GitHub tests."""
+    """Class that contains all of the IO functions for the spider tests."""
 
     # Test users
     def get_regular_body_users() -> str:

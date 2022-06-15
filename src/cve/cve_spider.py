@@ -10,8 +10,13 @@ in order to scrape wanted data-points from the CVE website.
     bar = foo.get_cve_vulnerability_count('name')
 """
 
+# Import for improved logging
+import logging
+# Import for handing JSON objects
 import json
+# Import for sending and handling HTTP requests
 import requests
+# Import for parsing and searching through HTML
 from bs4 import BeautifulSoup
 
 
@@ -22,12 +27,12 @@ class CVESpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_cve_vulnerability_count(self, name) -> int:
+    def get_cve_vulnerability_count(self, name: str) -> int:
         """
         Gets the amount of known vulnerabilities of a given package
 
         Parameters:
-            name (int): The name of the package
+            name (str): The name of the package
 
         Returns:
             int: The amount of known vulnerabilities of the given package
@@ -42,7 +47,7 @@ class CVESpider:
         else:
             return None
 
-    def get_all_cve_data(self, name) -> list:
+    def get_all_cve_data(self, name: str) -> list:
         """
         Get all the available CVE data for a given package
 
@@ -71,7 +76,7 @@ class CVESpider:
         else:
             return None
 
-    def get_cve_codes(self, name) -> list:
+    def get_cve_codes(self, name: str) -> list:
         """
         Get all the CVE codes of vulnerabilities that affect the given package
 
@@ -112,7 +117,7 @@ class CVESpider:
         else:
             return None
 
-    def extract_cve_data(self, cve_code) -> dict:
+    def extract_cve_data(self, cve_code: str) -> dict:
         """
         Extracts the data from a given CVE link
 
@@ -172,8 +177,8 @@ class CVESpider:
             affected_version_start = data['rangeStartVersion']
             affected_version_end = data['rangeEndVersion']
         except Exception as e:
-            print('Could not find affected versions.')
-            print(e)
+            logging.error(f'{cve_code}: Could not find affected versions.')
+            logging.error(e)
 
         # Put the extracted data into a dictionary
         cve_data = {
@@ -188,7 +193,7 @@ class CVESpider:
         # Return the CVE data
         return cve_data
 
-    def get_and_parse_webpage(self, url) -> BeautifulSoup:
+    def get_and_parse_webpage(self, url: str) -> BeautifulSoup:
         """
         Gets a BeautifulSoup object of the webpage at the given URL
 
@@ -206,16 +211,15 @@ class CVESpider:
                 raise requests.exceptions.RequestException(
                     'Could not load the webpage')
         except requests.exceptions.RequestException as e:
-            print('Error loading webpage.')
-            print(e)
+            logging.error(e)
             return None
 
         try:
             # Convert the raw HTML into a BeautifulSoup object
             soup = BeautifulSoup(html.text, 'html.parser')
         except Exception as e:
-            print('Error parsing the webpage.')
-            print(e)
+            logging.error('Could not parse the webpage.')
+            logging.error(e)
             return None
 
         # Return the BeautifulSoup object

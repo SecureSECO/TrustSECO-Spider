@@ -1,11 +1,11 @@
 """File containing the unit tests for the Stack_Overflow_calls.py file."""
 
-# Import for testing
-import responses
 # Unit testing imports
 import pytest
-# Import the Stackoverflow spider
-from src.spiders.stackoverflow_spider import StackOverflowSpider
+# Import for sending and handling HTTP requests
+import responses
+# StackOverflow spider import
+from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 
 
 class TestTrends:
@@ -30,13 +30,13 @@ class TestTrends:
         ({"Year": [2022], "Month": [5]}, None),
         ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
     ])
-    def test_unknown_package(self, return_json, expected_value) -> None:
+    def test_unknown_package(self, return_json: dict, expected_value: tuple) -> None:
         """
         Test for when the function receives an unknown package name
 
         Parameters:
-            return_json: The json to return from the API call
-            expected_value: The expected value of the function
+            return_json (dict): The json to return from the API call
+            expected_value (tuple): The expected value of the function
         """
 
         # Create a Stack Overflow Call object
@@ -61,13 +61,13 @@ class TestTrends:
         ({"Year": [2022], "Month": [5]}, None),
         ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
     ])
-    def test_valid_package(self, return_json, expected_value) -> None:
+    def test_valid_package(self, return_json: dict, expected_value: tuple) -> None:
         """
         Test for when the function receives a known package name.
 
         Parameters:
-            return_json: The json to return from the API call
-            expected_value: The expected value of the function
+            return_json (dict): The json to return from the API call
+            expected_value (tuple): The expected value of the function
         """
 
         # Create a Stack Overflow Call object

@@ -8,9 +8,13 @@ This file contains all of the logic pertaining to making actual API calls to Lib
     bar = libraries_io.get_release_frequency('platform', 'name')
 """
 
+# Import for improved logging
+import logging
+# Import for handling dates
 from datetime import datetime as dt
-import constants
-from src.api_calls.api_calls import make_api_call
+# Imports for utilities
+import src.utils.constants as constants
+from src.utils.api_calls import make_api_call
 
 
 class LibrariesAPICall:
@@ -21,7 +25,7 @@ class LibrariesAPICall:
     If needed, it performs calculations to get the data.
     """
 
-    def get_release_frequency(self, platform, name) -> int:
+    def get_release_frequency(self, platform: str, name: str) -> int:
         """
         Gets the average time per release
 
@@ -33,7 +37,7 @@ class LibrariesAPICall:
             int: The average time per release
         """
 
-        print('Getting the average release frequency')
+        logging.info('Getting the average release frequency')
 
         # Get the first and last release dates, so we know for how long the project has been active
         latest_release_date = self.get_latest_release_date(platform, name)
@@ -52,10 +56,11 @@ class LibrariesAPICall:
             return (latest - first).total_seconds() / release_count
         # Else, return None
         else:
-            print('Error occurred while getting the average release frequency')
+            logging.error(
+                'Error occurred while getting the average release frequency')
             return None
 
-    def get_contributors_count(self, owner, name) -> int:
+    def get_contributors_count(self, owner: str, name: str) -> int:
         """
         Get the project's repository contributor count
 
@@ -67,7 +72,7 @@ class LibrariesAPICall:
             int: The project's repository contributor count
         """
 
-        print('Getting the repository contributor count')
+        logging.info('Getting the repository contributor count')
 
         # Get the repository data of this project
         data = self.get_project_repository(owner, name)
@@ -77,11 +82,11 @@ class LibrariesAPICall:
             return data['github_contributions_count']
         # Else, return None
         else:
-            print(
+            logging.error(
                 "Error occurred while getting the project's repository contributor count")
             return None
 
-    def get_dependency_count(self, platform, name, release) -> int:
+    def get_dependency_count(self, platform: str, name: str, release: str) -> int:
         """
         Get the project's dependency count
 
@@ -94,7 +99,7 @@ class LibrariesAPICall:
             int: The project's dependency count
         """
 
-        print('Getting the dependency count')
+        logging.info('Getting the dependency count')
 
         # Get the dependency data of this project
         data = self.get_project_dependencies(platform, name, release)
@@ -111,10 +116,11 @@ class LibrariesAPICall:
             return count
         # Else, return None
         else:
-            print('Error occurred while getting the project dependency count')
+            logging.error(
+                'Error occurred while getting the project dependency count')
             return None
 
-    def get_dependent_count(self, platform, name) -> int:
+    def get_dependent_count(self, platform: str, name: str) -> int:
         """
         Get the amount of dependents the project has
 
@@ -126,7 +132,7 @@ class LibrariesAPICall:
             int: The amount of dependents the project has
         """
 
-        print('Getting the dependent count')
+        logging.info('Getting the dependent count')
 
         # Get the project data
         data = self.get_project_information(platform, name)
@@ -136,10 +142,11 @@ class LibrariesAPICall:
             return data['dependents_count']
         # Else, return None
         else:
-            print("Error occurred while getting the project's dependent count")
+            logging.error(
+                "Error occurred while getting the project's dependent count")
             return None
 
-    def get_latest_release_date(self, platform, name) -> str:
+    def get_latest_release_date(self, platform: str, name: str) -> str:
         """
         Get the time of the project's latest release
 
@@ -151,7 +158,7 @@ class LibrariesAPICall:
             str: The time of the project's latest release (in the format YYYY-MM-DDTHH:MM:SS, using the UTC timezone)
         """
 
-        print('Getting the latest release date')
+        logging.info('Getting the latest release date')
 
         # Get the project data
         data = self.get_project_information(platform, name)
@@ -161,10 +168,11 @@ class LibrariesAPICall:
             return data['latest_release_published_at']
         # Else, return None
         else:
-            print("Error occurred while getting the project's latest release date")
+            logging.error(
+                "Error occurred while getting the project's latest release date")
             return None
 
-    def get_first_release_date(self, platform, name) -> str:
+    def get_first_release_date(self, platform: str, name: str) -> str:
         """
         Get the time of the project's latest release
 
@@ -176,7 +184,7 @@ class LibrariesAPICall:
             str: The time of the project's latest release (in the format YYYY-MM-DDTHH:MM:SS, using the UTC timezone)
         """
 
-        print('Getting the first release date')
+        logging.info('Getting the first release date')
 
         # Get the project data
         data = self.get_project_information(platform, name)
@@ -202,10 +210,11 @@ class LibrariesAPICall:
                 return earliest_string
 
         # Return None if we could not find the first release date
-        print("Error occurred while getting the project's first release date")
+        logging.error(
+            "Error occurred while getting the project's first release date")
         return None
 
-    def get_release_count(self, platform, name) -> int:
+    def get_release_count(self, platform: str, name: str) -> int:
         """
         Get the amount of releases the project has
 
@@ -217,7 +226,7 @@ class LibrariesAPICall:
             int: The amount of releases the project has
         """
 
-        print('Getting the release count')
+        logging.info('Getting the release count')
 
         # Get the project data
         data = self.get_project_information(platform, name)
@@ -227,10 +236,11 @@ class LibrariesAPICall:
             return len(data['versions'])
         # Else, return None
         else:
-            print("Error occurred while getting the project's release count")
+            logging.error(
+                "Error occurred while getting the project's release count")
             return None
 
-    def get_sourcerank(self, platform, name) -> int:
+    def get_sourcerank(self, platform: str, name: str) -> int:
         """
         Get the project's source rank
 
@@ -242,7 +252,7 @@ class LibrariesAPICall:
             int: The project's source rank
         """
 
-        print('Getting the project source rank')
+        logging.info('Getting the project source rank')
 
         # Get the project data
         data = self.get_project_information(platform, name)
@@ -252,12 +262,13 @@ class LibrariesAPICall:
             return data['rank']
         # Else, return None
         else:
-            print("Error occurred while getting the project's source rank")
+            logging.error(
+                "Error occurred while getting the project's source rank")
             return None
 
-    def get_project_repository(self, owner, name) -> dict:
+    def get_project_repository(self, owner: str, name: str) -> dict:
         """
-        Get the project repository's information from Libraries.io
+        Get the project's repository information from Libraries.io
 
         Parameters:
             owner (str): The owner of the project
@@ -266,6 +277,8 @@ class LibrariesAPICall:
         Returns:
             dict: The project repository's information
         """
+
+        logging.info("Getting the project's repository information")
 
         # Setup the url, and perform the request
         repo_url = f'https://libraries.io/api/github/{owner}/{name}'
@@ -276,10 +289,11 @@ class LibrariesAPICall:
             return data_response.json()
         # Else, inform the user that the request has failed, and return None
         else:
-            print("Error occurred while getting the project's repository information")
+            logging.error(
+                "Error occurred while getting the project's repository information")
             return None
 
-    def get_project_dependencies(self, platform, name, release) -> dict:
+    def get_project_dependencies(self, platform: str, name: str, release: str) -> dict:
         """
         Get the project's dependencies from Libraries.io
 
@@ -292,6 +306,8 @@ class LibrariesAPICall:
             dict: The project's dependencies
         """
 
+        logging.info("Getting the project's dependency information")
+
         # Setup the url, and perform the request
         dependency_url = f'https://libraries.io/api/{platform}/{name}/{release}/dependencies'
         data_response = make_api_call(dependency_url, constants.API_LIBRARIES)
@@ -301,10 +317,11 @@ class LibrariesAPICall:
             return data_response.json()
         # Else, inform the user that the request has failed, and return None
         else:
-            print("Error occurred while getting the project's dependency information")
+            logging.error(
+                "Error occurred while getting the project's dependency information")
             return None
 
-    def get_project_information(self, platform, name) -> dict:
+    def get_project_information(self, platform: str, name: str) -> dict:
         """
         Get the project information from Libraries.io
 
@@ -316,6 +333,8 @@ class LibrariesAPICall:
             dict: The project's information
         """
 
+        logging.info("Getting the project's information")
+
         # Setup the url, and perform the request
         repo_url = f'https://libraries.io/api/{platform}/{name}'
         data_response = make_api_call(repo_url, constants.API_LIBRARIES)
@@ -325,7 +344,8 @@ class LibrariesAPICall:
             return data_response.json()
         # Else, inform the user that the request has failed, and return None
         else:
-            print("Error occurred while getting the project information")
+            logging.error(
+                "Error occurred while getting the project information")
             return None
 
 
