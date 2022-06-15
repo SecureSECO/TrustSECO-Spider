@@ -38,6 +38,8 @@ class StackOverflowSpider:
             This popularity is the percentage of questions posted that were about the given package.
         """
 
+        logging.info('Getting monthly popularity')
+
         # Take the url for Stack Overflow trends
         url = 'https://insights.stackoverflow.com/trends/get-data'
 
@@ -64,14 +66,15 @@ class StackOverflowSpider:
                         return list(zip(months, years, popularity, strict=True))[-1]
                     except ValueError as e:
                         logging.error(
-                            'One of the lists was not of the same length')
+                            'Monthly popularity: One of the lists was not of the same length')
                         logging.error(e)
                         return None
                 else:
                     logging.info('Package not in response')
                     return (response['Month'][-1], response['Year'][-1], 0)
 
-        logging.warning('Did not get valid response')
+        logging.warning(
+            'Monthly popularity: Did not get valid response (missing data)')
         return None
 
 

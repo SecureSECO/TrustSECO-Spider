@@ -143,7 +143,7 @@ def try_get_json_input() -> Tuple[bool, Response | dict]:
 
     # Make sure the request is JSON
     if not request.is_json:
-        output = 'Not a JSON request'
+        output = 'Error: Request was not of type application/json'
         logging.error(output)
         response = make_response(output, 400)
         response.headers.set('Content-Type', 'text/plain')
@@ -154,7 +154,7 @@ def try_get_json_input() -> Tuple[bool, Response | dict]:
 
     # Make sure the input is valid
     if input_json is None:
-        output = 'Received invalid JSON'
+        output = 'Error: Received JSON was invalid'
         logging.error(output)
         response = make_response(output, 400)
         response.headers.set('Content-Type', 'text/plain')

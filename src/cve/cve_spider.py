@@ -177,7 +177,7 @@ class CVESpider:
             affected_version_start = data['rangeStartVersion']
             affected_version_end = data['rangeEndVersion']
         except Exception as e:
-            logging.error('Could not find affected versions.')
+            logging.error(f'{cve_code}: Could not find affected versions.')
             logging.error(e)
 
         # Put the extracted data into a dictionary

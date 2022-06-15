@@ -289,7 +289,7 @@ class GitHubAPICall:
                 # Make sure we got a valid response
                 if page_data_response is None:
                     logging.error(
-                        'Error occurred while getting the ranking page.')
+                        f'Error occurred while getting ranking page {middle_page_number}.')
                     return None
 
                 # Get the JSON information out of the response
@@ -418,7 +418,7 @@ class GitHubAPICall:
             int: The total amount of downloads of the given release
         """
 
-        logging.info(f'Getting download count of release {release}...')
+        logging.info('Getting download count of the release...')
 
         # Get the information for the given release
         release_data = self.get_release_data(owner, repo, release)
@@ -426,7 +426,7 @@ class GitHubAPICall:
         # Make sure we got a valid response
         if release_data is None:
             logging.error(
-                f'Error occurred while getting the download count of release {release}.')
+                'Error occurred while getting the download count of the release.')
             return None
 
         # Get the download count per non-text released asset
@@ -461,7 +461,7 @@ class GitHubAPICall:
             # Make sure we got a valid response
             if issues_data is None:
                 logging.error(
-                    'Error occurred while getting the 0-response-issues count.')
+                    'Error occurred while getting the zero-response-issues count.')
                 return None
 
             # See if there are more pages AND the last issue on this page has no responses
@@ -564,7 +564,7 @@ class GitHubAPICall:
             int: The amount of issues that were posted between the release and the release after it
         """
 
-        logging.info(f'Getting issue count for release {release}...')
+        logging.info('Getting issue count for the release...')
 
         # Get the publish dates of the given release and the release after it
         release_dates = self.get_release_dates(owner, repo, release)
@@ -608,6 +608,8 @@ class GitHubAPICall:
         Returns:
             tuple: The publish dates of the given release and the release after it (if it exists)
         """
+
+        logging.info('Getting the publish date of the given release')
 
         # Get the information about the first releases
         releases_url = f'{constants.BASE_URL_REPOS}/{owner}/{repo}/releases?per_page=100'
@@ -666,7 +668,7 @@ class GitHubAPICall:
             int: The stargazer count of the given owner
         """
 
-        logging.info(f'Getting stargazer count for owner {owner}...')
+        logging.info('Getting stargazer count for the owner...')
 
         # Get the stargazer count
         stargazer_url = f'{constants.BASE_URL_ORGS}/{owner}/repos?per_page=100'
@@ -679,7 +681,7 @@ class GitHubAPICall:
             # Make sure we got a valid response
             if stargazer_data is None:
                 logging.error(
-                    'Error occurred while getting the stargazer count for owner.')
+                    'Error occurred while getting the stargazer count for the owner.')
                 return None
 
             # Loop through all the repositories of the owner
@@ -711,8 +713,7 @@ class GitHubAPICall:
             List[str]: The download link of the given release
         """
 
-        logging.info(
-            f'Getting release download links for {repo}, version: {release}')
+        logging.info('Getting release download links for the given version')
 
         # Get the release data
         release_data = self.get_release_data(owner, repo, release)
@@ -777,10 +778,12 @@ class GitHubAPICall:
             if self.update_rate_limit_data():
                 # If the update was successful, check the rate limits again
                 if call_type == constants.CORE and self.core_remaining == 0:
-                    logging.warning('Core rate limit reached.')
+                    logging.warning(
+                        'Core rate-limit reached.')
                     return False
                 elif call_type == constants.SEARCH and self.search_remaining == 0:
-                    logging.warning('Search rate limit reached.')
+                    logging.warning(
+                        'Search rate-limit reached.')
                     return False
             else:
                 # If the update was unsuccessful, return false

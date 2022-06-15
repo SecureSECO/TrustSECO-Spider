@@ -223,7 +223,7 @@ class Controller:
                 return_data.update(
                     {data_point: self.gh_api.get_owner_stargazer_count(owner)})
             else:
-                logging.warning(f"Invalid data point {data_point}")
+                logging.warning(f"GitHub: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
@@ -274,7 +274,8 @@ class Controller:
                 return_data.update(
                     {data_point: self.lib_api.get_sourcerank(platform, repo_name)})
             else:
-                logging.warning(f"Invalid data point {data_point}")
+                logging.warning(
+                    f"Libraries.io: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
@@ -306,7 +307,7 @@ class Controller:
                 return_data.update(
                     {data_point: self.cve_spider.get_cve_codes(repo_name)})
             else:
-                logging.warning(f"Invalid data point {data_point}")
+                logging.warning(f"CVE: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points
@@ -332,7 +333,8 @@ class Controller:
                 return_data.update(
                     {data_point: self.so_spider.get_monthly_popularity(repo_name)})
             else:
-                logging.warning(f"Invalid data point {data_point}")
+                logging.warning(
+                    f"StackOverflow: Invalid data point {data_point}")
                 return_data.update({data_point: None})
 
         # Return the requested data-points

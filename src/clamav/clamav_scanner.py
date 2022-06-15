@@ -36,10 +36,10 @@ class ClamAVScanner:
 
         # Make sure we have a list of links
         if links is None:
-            logging.error('No links provided. (None input)')
+            logging.error('Virus ratio: No links provided. (None input)')
             return None
         if len(links) == 0:
-            logging.error('No links provided. (empty list)')
+            logging.error('Virus ratio: No links provided. (empty list)')
             return None
 
         # Initialize a counter for the number of infected links found
