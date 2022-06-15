@@ -44,9 +44,12 @@ class ClamAVScanner:
 
         # Initialize a counter for the number of infected links found
         infected_links = 0
+        counter = 0
 
         # Iterate through the links
         for link in links:
+            logging.info(f'Scanning link {counter} out of {len(links)}')
+
             # Scan the link
             result = self.scan_link(link)
 

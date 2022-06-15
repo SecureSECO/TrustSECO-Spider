@@ -175,7 +175,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
     # Start the Flask application
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_evalex=False)
 
 """
 This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
