@@ -61,6 +61,9 @@ class ClamAVScanner:
                 # Increment the counter if a virus has been detected
                 infected_links += 1
 
+            # Up the counter
+            counter += 1
+
         # Return the percentage of links that have been scanned for viruses
         return infected_links / len(links)
 

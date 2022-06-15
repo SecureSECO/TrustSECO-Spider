@@ -1,3 +1,7 @@
+# Dev requirements:
+pytest
+
+# Regular requirements:
 requests
 bs4
 python-dotenv
