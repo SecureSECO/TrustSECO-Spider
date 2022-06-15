@@ -106,7 +106,8 @@ def set_tokens() -> Response:
     # Inform the user of what happened
     if output == '':
         output = 'Token(s) not set! Please provide valid tokens.'
-    logging.warning(output)
+        logging.warning(output)
+    logging.info(output)
 
     # Return the output
     response = make_response(output)
@@ -169,6 +170,9 @@ if __name__ == '__main__':
     if os.path.exists('clamav/sockets/') and sys.platform != 'win32':
         result = subprocess.run(
             ['chmod', '777', 'clamav/sockets/'], capture_output=True)
+
+    # Set the logging level
+    logging.basicConfig(level=logging.INFO)
 
     # Start the Flask application
     app.run(host='0.0.0.0', port=5000, debug=False)

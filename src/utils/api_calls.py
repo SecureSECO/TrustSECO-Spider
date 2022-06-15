@@ -95,8 +95,13 @@ def get_needed_headers(api_type: str) -> dict:
     """
 
     if api_type == constants.API_GITHUB:
-        return {'Authorization': 'token ' + os.getenv(constants.GITHUB_TOKEN),
-                'Accept': 'application/vnd.github.v3+json'}
+        gh_token = os.getenv(constants.GITHUB_TOKEN)
+
+        if gh_token is not None:
+            return {'Authorization': f'token {gh_token}', 'Accept': 'application/vnd.github.v3+json'}
+        else:
+            logging.error('Could not find GitHub token')
+            return None
     else:
         return None
 
@@ -115,7 +120,13 @@ def get_needed_params(api_type: str) -> dict:
     if api_type == constants.API_GITHUB:
         return None
     elif api_type == constants.API_LIBRARIES:
-        return {'api_key': os.getenv(constants.LIBRARIES_TOKEN)}
+        lib_token = os.getenv(constants.LIBRARIES_TOKEN)
+
+        if lib_token is not None:
+            return {'api_key': lib_token}
+        else:
+            logging.error('Could not find Libraries.io token')
+            return None
     else:
         return None
 
