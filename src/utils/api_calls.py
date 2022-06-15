@@ -10,6 +10,8 @@ This allows the program to be more modular and easier to maintain.
 
 # Import for getting the environmental variable values
 import os
+# Import for improved logging
+import logging
 # Import for adding delays to our HTTP requests
 import time
 # Import for sending and handling HTTP requests
@@ -47,8 +49,8 @@ def make_api_call(api_url: str, api_type: str) -> requests.Response:
             data_response = requests.get(
                 api_url, params=get_needed_params(api_type))
     except requests.exceptions.RequestException as error:
-        print('Requests encountered an error:')
-        print(error)
+        logging.error('Requests encountered an error:')
+        logging.error(error)
         return None
 
     # See if we got a valid response
@@ -60,24 +62,24 @@ def make_api_call(api_url: str, api_type: str) -> requests.Response:
         # If so, use it
         if 'Retry-After' in data_response.headers:
             retry_time = data_response.headers['Retry-After']
-            print(
+            logging.warning(
                 f'Too many requests. Trying again in {retry_time} seconds.')
             time.sleep(retry_time)
             return make_api_call(api_url)
         # If not, use 30 seconds, as it is half the rate limit reset time
         else:
-            print('Too many requests. Trying again in 30 seconds.')
+            logging.warning('Too many requests. Trying again in 30 seconds.')
             time.sleep(30)
             return make_api_call(api_url)
     # Else, we got an unknown error so return None
     else:
         if api_type == constants.API_GITHUB:
-            print('Unable to get data from GitHub.')
-            print(f'Error: {data_response.status_code}')
+            logging.error(
+                f'Unable to get data from GitHub: {data_response.status_code}')
             return None
         elif api_type == constants.API_LIBRARIES:
-            print('Unable to get data from Libraries.io')
-            print(f'Error: {data_response.status_code}')
+            logging.error(
+                f'Unable to get data from Libraries.io: {data_response.status_code}')
             return None
 
 

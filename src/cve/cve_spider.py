@@ -10,6 +10,8 @@ in order to scrape wanted data-points from the CVE website.
     bar = foo.get_cve_vulnerability_count('name')
 """
 
+# Import for improved logging
+import logging
 # Import for handing JSON objects
 import json
 # Import for sending and handling HTTP requests
@@ -175,8 +177,8 @@ class CVESpider:
             affected_version_start = data['rangeStartVersion']
             affected_version_end = data['rangeEndVersion']
         except Exception as e:
-            print('Could not find affected versions.')
-            print(e)
+            logging.error('Could not find affected versions.')
+            logging.error(e)
 
         # Put the extracted data into a dictionary
         cve_data = {
@@ -209,16 +211,15 @@ class CVESpider:
                 raise requests.exceptions.RequestException(
                     'Could not load the webpage')
         except requests.exceptions.RequestException as e:
-            print('Error loading webpage.')
-            print(e)
+            logging.error(e)
             return None
 
         try:
             # Convert the raw HTML into a BeautifulSoup object
             soup = BeautifulSoup(html.text, 'html.parser')
         except Exception as e:
-            print('Error parsing the webpage.')
-            print(e)
+            logging.error('Could not parse the webpage.')
+            logging.error(e)
             return None
 
         # Return the BeautifulSoup object

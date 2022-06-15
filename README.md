@@ -138,7 +138,7 @@ input_json = {
   'libraries_token': 'jdf9328bf87831bfdjs0823'
 }
 
-response = requests.post('http://localhost:5000/set_tokens', headers={'Content-type':'application/json'}, json=json_input)
+response = requests.post('http://localhost:5000/set_tokens', headers={'Content-type':'application/json'}, json=input_json)
 
 print(response.text)
 ```
