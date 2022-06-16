@@ -349,7 +349,7 @@ class Controller:
             else:
                 logging.warning(f"CVE: Invalid data point {data_point}")
 
-            # Update the dictonairy
+            # Update the dictionary
             return_data.update({data_point: value})
 
         # Return the requested data-points

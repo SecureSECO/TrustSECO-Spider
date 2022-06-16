@@ -73,7 +73,7 @@ def set_tokens() -> Response:
     Uses the given JSON to set the tokens.
 
     Returns:
-        responses.Respons: HTTP response informing the user which keys were set using plain/text
+        responses.Response: HTTP response informing the user which keys were set using plain/text
     """
 
     # Try to get the input json
@@ -138,7 +138,7 @@ def try_get_json_input() -> Tuple[bool, Response | dict]:
     Tries to get the JSON input from the request.
 
     Returns:
-        Tuple[bool, responses.Response | dict]: A tuple containg a bool that denotes whether or not the JSON input was valid,
+        Tuple[bool, responses.Response | dict]: A tuple containing a bool that denotes whether or not the JSON input was valid,
         and either an HTTP response informing the user that something went wrong or the actual JSON input
     """
 

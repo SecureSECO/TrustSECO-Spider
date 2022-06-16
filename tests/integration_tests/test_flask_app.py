@@ -28,6 +28,9 @@ class TestSetTokens:
     def test_set_keys(self, json_input, return_value):
         """
         Function for testing the set_tokens function.
+
+        The test is done by examining the returned text
+        to see if it matches our expectations.
         """
 
         # Send a post request to the client
@@ -44,6 +47,11 @@ class TestGetTokens:
     def test_get_tokens(self):
         """
         Function for testing the get_tokens function.
+
+        The test is done by actually reading the .env file
+        for the currently stored tokens. We can do this as
+        the tests for set_tokens create and update the
+        .env file.
         """
 
         # Send a get request to the client
@@ -70,7 +78,15 @@ class TestGetData:
 
     @mock.patch('controller.Controller')
     def test_get_data(self, mock_controller: mock.Mock):
-        """"""
+        """
+        Function for testing the get_data function.
+
+        The test is done by setting the return value of Controller.run() to a
+        predetermined value. Then, we assert that the final returned value is
+        equal to this predetermined value, as that means that the run()
+        function has been called, and it's return value has been returned
+        correctly.
+        """
 
         # Set the return value of the run() function to a predetermined value
         mock_controller.return_value.run.return_value = {'returned': 'value'}

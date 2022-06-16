@@ -17,7 +17,7 @@ def numpy_demo(scan_viruses: bool) -> None:
     Function containing the code for the numpy demo.
 
     Parameters:
-        scan_virusses (bool): Boolean denoting if we also want to scan for viruses
+        scan_viruses (bool): Boolean denoting if we also want to scan for viruses
     """
 
     # Set the input JSON
@@ -81,7 +81,7 @@ def afnetworking_demo(scan_viruses: bool) -> None:
     Function containing the code for the AFNetworking demo.
 
     Parameters:
-        scan_virusses (bool): Boolean denoting if we also want to scan for viruses
+        scan_viruses (bool): Boolean denoting if we also want to scan for viruses
     """
 
     # Set the input JSON

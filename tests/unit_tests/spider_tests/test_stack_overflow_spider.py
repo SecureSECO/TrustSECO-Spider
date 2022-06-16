@@ -9,7 +9,7 @@ from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 
 
 class TestTrends:
-    """Class for testing Stack Overflow trend responces
+    """Class for testing Stack Overflow trend responses
 
     To test this function, we shall test the following scenarios:
     1. The input parameters are valid
