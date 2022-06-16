@@ -146,16 +146,9 @@ class Controller:
                 logging.info('-------------------')
                 logging.info('Scanning for viruses...')
 
-                # Get the links that need to be scanned
-                links_to_scan = self.gh_api.get_release_download_links(
-                    owner, repo_name, release)
-
-                # Actually scan the files
-                scan_result = {
-                    'virus_ratio': self.vs_comm.get_virus_ratio(links_to_scan)}
-
-                # Add the results to the output
-                output_json.update({'virus_scanning': scan_result})
+                # Actually request the data
+                output_json.update(self.get_virus_data(
+                    owner, repo_name, release, input_json["virus_scanning"]))
 
             logging.info('-------------------')
 
@@ -382,6 +375,48 @@ class Controller:
             else:
                 logging.warning(
                     f"StackOverflow: Invalid data point {data_point}"
+                )
+
+            # Update the dictionary
+            return_data.update({data_point: value})
+
+        # Return the requested data-points
+        return return_data
+
+    def get_virus_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
+        """
+        Get the virus data from the ClamAV container.
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo_name (str): The name of the repository
+            release (str): The release name
+            wanted_data (list): The list of data points to be returned
+
+        Returns:
+            dict: The requested virus data
+        """
+
+        # Create a JSON object to store the data
+        return_data = {}
+
+        # Get the download links for the files that we need to scan
+        download_links = self.gh_api.get_release_download_links(
+            owner, repo_name, release
+        )
+
+        # Loop through all the wanted data points
+        for data_point in wanted_data:
+            # Initialise the value variable
+            value = None
+
+            if data_point == 'virus_ratio':
+                value = self.vs_comm.get_virus_ratio(
+                    download_links
+                )
+            else:
+                logging.warning(
+                    f"Virus scanning: Invalid data point {data_point}"
                 )
 
             # Update the dictionary

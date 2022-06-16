@@ -40,7 +40,35 @@ class TestController:
         Test for when we only request Stack Overflow data.
         """
 
-    def test_run_virus(self):
+    @mock.patch('controller.Controller.get_virus_data')
+    def test_run_virus(self, mock_virus_data):
         """
         Test for when we only request virus data.
         """
+
+        # Set the input JSON
+        input_json = {
+            "project_info": {
+                "project_platform": "Pypi",
+                "project_owner": "numpy",
+                "project_name": "numpy",
+                "project_release": "v1.22.1",
+                "project_year": 2021
+            },
+            "virus_scanning": [
+                "virus_ratio"
+            ]
+        }
+
+        # Set the expected values
+        virus_ratio_ev = {'virus_ratio': 3}
+
+        # Set the mock return value for the get_virus_data method
+        mock_virus_data.return_value = virus_ratio_ev
+
+        # Run the controller with the input JSON
+        result = Controller().run(input_json)
+
+        # Assert that the returned dictionary only contains the virus ratio
+        # and that the value of that ratio is equal to the one we specified
+        assert result == virus_ratio_ev
