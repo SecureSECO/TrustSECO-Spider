@@ -9,7 +9,7 @@ import responses
 # GitHub spider imports
 from src.github.github_spider import GitHubSpider
 # FileIO import
-from tests.spider_tests.file_io import FileIOForGHSpiderTests
+from tests.unit_tests.spider_tests.file_io import FileIOForGHSpiderTests
 
 # Spider object initialisation
 spider = GitHubSpider()

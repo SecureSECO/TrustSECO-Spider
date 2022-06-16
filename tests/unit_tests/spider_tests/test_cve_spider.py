@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from typing import List
 # CVE spider imports
 from src.cve.cve_spider import CVESpider
-from tests.spider_tests.file_io import FileIOForCVETests
+from tests.unit_tests.spider_tests.file_io import FileIOForCVETests
 
 
 class TestVulnerabilityCount:
