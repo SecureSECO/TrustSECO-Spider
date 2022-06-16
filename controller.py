@@ -14,6 +14,7 @@ import os
 from dotenv import set_key, load_dotenv
 # Import for improved logging
 import logging
+
 # Import the data-getting modules
 # API calls
 from src.github.github_api_calls import GitHubAPICall
@@ -24,6 +25,7 @@ from src.cve.cve_spider import CVESpider
 from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 # Virus scanning
 from src.clamav.clamav_scanner import ClamAVScanner
+
 # Imports for utilities
 import src.utils.constants as constants
 # Import for setting parameter types
@@ -183,48 +185,66 @@ class Controller:
 
         # Loop through the wanted data list and retrieve the data
         for data_point in wanted_data:
+            # Initialise the value variable
+            value = None
+
             if data_point == "gh_contributor_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_repository_contributor_count(owner, repo_name)})
+                value = self.gh_api.get_repository_contributor_count(
+                    owner, repo_name
+                )
             elif data_point == "gh_user_count":
-                return_data.update(
-                    {data_point: self.gh_spider.get_repository_user_count(owner, repo_name)})
+                value = self.gh_spider.get_repository_user_count(
+                    owner, repo_name
+                )
             elif data_point == "gh_total_download_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_total_download_count(owner, repo_name)})
+                value = self.gh_api.get_total_download_count(
+                    owner, repo_name
+                )
             elif data_point == "gh_release_download_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_release_download_count(owner, repo_name, release)})
+                value = self.gh_api.get_release_download_count(
+                    owner, repo_name, release
+                )
             elif data_point == "gh_yearly_commit_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_yearly_commit_count(owner, repo_name)})
+                value = self.gh_api.get_yearly_commit_count(
+                    owner, repo_name
+                )
             elif data_point == "gh_repository_language":
-                return_data.update(
-                    {data_point: self.gh_api.get_repository_language(owner, repo_name)})
+                value = self.gh_api.get_repository_language(
+                    owner, repo_name
+                )
             elif data_point == "gh_gitstar_ranking":
-                return_data.update(
-                    {data_point: self.gh_api.get_gitstar_ranking(owner, repo_name)})
+                value = self.gh_api.get_gitstar_ranking(
+                    owner, repo_name
+                )
             elif data_point == "gh_open_issues_count":
-                return_data.update(
-                    {data_point: self.gh_spider.get_repository_open_issue_count(owner, repo_name)})
+                value = self.gh_spider.get_repository_open_issue_count(
+                    owner, repo_name
+                )
             elif data_point == "gh_zero_response_issues_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_zero_responses_issue_count(owner, repo_name)})
+                value = self.gh_api.get_zero_responses_issue_count(
+                    owner, repo_name
+                )
             elif data_point == "gh_release_issues_count":
-                return_data.update(
-                    {data_point: self.gh_api.issue_count_per_release(owner, repo_name, release)})
+                value = self.gh_api.issue_count_per_release(
+                    owner, repo_name, release
+                )
             elif data_point == "gh_issue_ratio":
-                return_data.update(
-                    {data_point: self.gh_spider.get_repository_issue_ratio(owner, repo_name)})
+                value = self.gh_spider.get_repository_issue_ratio(
+                    owner, repo_name
+                )
             elif data_point == "gh_average_resolution_time":
-                return_data.update(
-                    {data_point: self.gh_api.get_average_issue_resolution_time(owner, repo_name)})
+                value = self.gh_api.get_average_issue_resolution_time(
+                    owner, repo_name
+                )
             elif data_point == "gh_owner_stargazer_count":
-                return_data.update(
-                    {data_point: self.gh_api.get_owner_stargazer_count(owner)})
+                value = self.gh_api.get_owner_stargazer_count(
+                    owner
+                )
             else:
                 logging.warning(f"GitHub: Invalid data point {data_point}")
-                return_data.update({data_point: None})
+
+            # Update the dictionary
+            return_data.update({data_point: value})
 
         # Return the requested data-points
         return return_data
@@ -249,34 +269,48 @@ class Controller:
 
         # Loop through the wanted data list and retrieve the data
         for data_point in wanted_data:
+            # Initialise the value variable
+            value = None
+
             if data_point == "lib_release_frequency":
-                return_data.update(
-                    {data_point: self.lib_api.get_release_frequency(platform, repo_name)})
+                value = self.lib_api.get_release_frequency(
+                    platform, repo_name
+                )
             elif data_point == "lib_contributor_count":
-                return_data.update(
-                    {data_point: self.lib_api.get_contributors_count(owner, repo_name)})
+                value = self.lib_api.get_contributors_count(
+                    owner, repo_name
+                )
             elif data_point == "lib_dependency_count":
-                return_data.update(
-                    {data_point: self.lib_api.get_dependency_count(platform, repo_name, release)})
+                value = self.lib_api.get_dependency_count(
+                    platform, repo_name, release
+                )
             elif data_point == "lib_dependent_count":
-                return_data.update(
-                    {data_point: self.lib_api.get_dependent_count(platform, repo_name)})
+                value = self.lib_api.get_dependent_count(
+                    platform, repo_name
+                )
             elif data_point == "lib_latest_release_date":
-                return_data.update(
-                    {data_point: self.lib_api.get_latest_release_date(platform, repo_name)})
+                value = self.lib_api.get_latest_release_date(
+                    platform, repo_name
+                )
             elif data_point == "lib_first_release_date":
-                return_data.update(
-                    {data_point: self.lib_api.get_first_release_date(platform, repo_name)})
+                value = self.lib_api.get_first_release_date(
+                    platform, repo_name
+                )
             elif data_point == "lib_release_count":
-                return_data.update(
-                    {data_point: self.lib_api.get_release_count(platform, repo_name)})
+                value = self.lib_api.get_release_count(
+                    platform, repo_name
+                )
             elif data_point == "lib_sourcerank":
-                return_data.update(
-                    {data_point: self.lib_api.get_sourcerank(platform, repo_name)})
+                value = self.lib_api.get_sourcerank(
+                    platform, repo_name
+                )
             else:
                 logging.warning(
-                    f"Libraries.io: Invalid data point {data_point}")
-                return_data.update({data_point: None})
+                    f"Libraries.io: Invalid data point {data_point}"
+                )
+
+            # Update the dictionary
+            return_data.update({data_point: value})
 
         # Return the requested data-points
         return return_data
@@ -297,18 +331,26 @@ class Controller:
         return_data = {}
 
         for data_point in wanted_data:
+            # Initialise the value variable
+            value = None
+
             if data_point == "cve_count":
-                return_data.update(
-                    {data_point: self.cve_spider.get_cve_vulnerability_count(repo_name)})
+                value = self.cve_spider.get_cve_vulnerability_count(
+                    repo_name
+                )
             elif data_point == "cve_vulnerabilities":
-                return_data.update(
-                    {data_point: self.cve_spider.get_all_cve_data(repo_name)})
+                value = self.cve_spider.get_all_cve_data(
+                    repo_name
+                )
             elif data_point == "cve_codes":
-                return_data.update(
-                    {data_point: self.cve_spider.get_cve_codes(repo_name)})
+                value = self.cve_spider.get_cve_codes(
+                    repo_name
+                )
             else:
                 logging.warning(f"CVE: Invalid data point {data_point}")
-                return_data.update({data_point: None})
+
+            # Update the dictionary
+            return_data.update({data_point: value})
 
         # Return the requested data-points
         return return_data
@@ -328,14 +370,22 @@ class Controller:
         # Create a JSON object to store the data
         return_data = {}
 
+        # Loop through all the wanted data points
         for data_point in wanted_data:
+            # Initialise the value variable
+            value = None
+
             if data_point == "so_popularity":
-                return_data.update(
-                    {data_point: self.so_spider.get_monthly_popularity(repo_name)})
+                value = self.so_spider.get_monthly_popularity(
+                    repo_name
+                )
             else:
                 logging.warning(
-                    f"StackOverflow: Invalid data point {data_point}")
-                return_data.update({data_point: None})
+                    f"StackOverflow: Invalid data point {data_point}"
+                )
+
+            # Update the dictionary
+            return_data.update({data_point: value})
 
         # Return the requested data-points
         return return_data
