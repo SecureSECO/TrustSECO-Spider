@@ -89,15 +89,22 @@ def set_tokens() -> Response:
     # Initialize an output string
     output = ''
 
+    # Make sure the needed key is present
+    if 'tokens' not in input_json:
+        response = make_response(
+            'Could not find the key "tokens" in the JSON input')
+        response.headers.set('Content-Type', 'text/plain')
+        return response
+
     # If the github token is given, set it
-    if 'github_token' in input_json:
+    if 'github_token' in input_json['tokens']:
         github_token = input_json['github_token']
 
         controller.update_token_gh(github_token)
         output += 'Github token set. '
 
     # If the library token is given, set it
-    if 'libraries_token' in input_json:
+    if 'libraries_token' in input_json['tokens']:
         libraries_token = input_json['libraries_token']
 
         controller.update_token_lib(libraries_token)

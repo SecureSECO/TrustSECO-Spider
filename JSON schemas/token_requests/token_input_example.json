@@ -1,5 +1,5 @@
 {
-    "wanted_tokens": [
+    "tokens": [
         "github_token",
         "libraries_token"
     ]
