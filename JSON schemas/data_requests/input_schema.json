@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "TrustSECO-Spider input",
-    "description": "JSON schema for communicating with the TrustSECO-Spider",
+    "title": "TrustSECO-Spider get_data input",
+    "description": "JSON schema for the TrustSECO-Spider get_data input",
     "type": "object",
     "properties": {
         "project_info": {

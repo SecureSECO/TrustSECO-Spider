@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "TrustSECO-Spider token input",
+    "title": "TrustSECO-Spider set_tokens input",
     "description": "JSON schema for the TrustSECO-Spider set_tokens input",
     "type": "object",
     "properties": {

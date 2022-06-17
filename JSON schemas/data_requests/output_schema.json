@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "TrustSECO-Spider output",
-    "description": "JSON schema for the TrustSECO-Spider output",
+    "title": "TrustSECO-Spider get_data output",
+    "description": "JSON schema for the TrustSECO-Spider get_data output",
     "type": "object",
     "properties": {
         "gh_contributor_count": {
