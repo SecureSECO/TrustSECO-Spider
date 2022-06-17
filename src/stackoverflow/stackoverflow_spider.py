@@ -76,7 +76,12 @@ class StackOverflowSpider:
                         return None
                 else:
                     logging.info('Package not in response')
-                    return (response['Month'][-1], response['Year'][-1], 0)
+
+                    return {
+                        "month": response['Month'][-1],
+                        "year": response['Year'][-1],
+                        "popularity": 0
+                    }
 
         logging.warning(
             'Monthly popularity: Did not get valid response (missing data)')
