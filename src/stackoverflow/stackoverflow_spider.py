@@ -14,8 +14,6 @@ in order to scrape wanted data-points from the Stack Overflow website.
 import logging
 # Import for sending and handling HTTP requests
 import requests
-# Import for setting parameter types
-from typing import Tuple
 
 
 class StackOverflowSpider:
@@ -25,7 +23,7 @@ class StackOverflowSpider:
     It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
     """
 
-    def get_monthly_popularity(self, package: str) -> Tuple:
+    def get_monthly_popularity(self, package: str) -> dict:
         """
         Get the monthly popularity of the given package.
 
@@ -63,7 +61,14 @@ class StackOverflowSpider:
 
                     # Return the latest popularity with the corresponding year and month
                     try:
-                        return list(zip(months, years, popularity, strict=True))[-1]
+                        latest_data = list(
+                            zip(months, years, popularity, strict=True))[-1]
+
+                        return {
+                            "month": latest_data[0],
+                            "year": latest_data[1],
+                            "popularity": latest_data[2]
+                        }
                     except ValueError as e:
                         logging.error(
                             'Monthly popularity: One of the lists was not of the same length')

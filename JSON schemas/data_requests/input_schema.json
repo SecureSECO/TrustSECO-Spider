@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "TrustSECO-Spider input",
+    "description": "JSON schema for communicating with the TrustSECO-Spider",
+    "type": "object",
+    "properties": {
+        "project_info": {
+            "type": "object",
+            "description": "Project information",
+            "properties": {
+                "project_platform": {
+                    "type": "string",
+                    "description": "Project platform"
+                },
+                "project_owner": {
+                    "type": "string",
+                    "description": "Project owner"
+                },
+                "project_name": {
+                    "type": "string",
+                    "description": "Project name"
+                },
+                "project_release": {
+                    "type": "string",
+                    "description": "Project release"
+                }
+            },
+            "required": [
+                "project_platform",
+                "project_owner",
+                "project_name",
+                "project_release"
+            ]
+        },
+        "gh_data_points": {
+            "type": "array",
+            "description": "Wanted GitHub data points",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "gh_contributor_count",
+                    "gh_user_count",
+                    "gh_total_download_count",
+                    "gh_release_download_count",
+                    "gh_yearly_commit_count",
+                    "gh_repository_language",
+                    "gh_gitstar_ranking",
+                    "gh_open_issues_count",
+                    "gh_zero_response_issues_count",
+                    "gh_release_issues_count",
+                    "gh_issue_ratio",
+                    "gh_average_resolution_time",
+                    "gh_owner_stargazer_count"
+                ]
+            }
+        },
+        "lib_data_points": {
+            "type": "array",
+            "description": "Wanted Libraries.io data points",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "lib_release_frequency",
+                    "lib_contributor_count",
+                    "lib_dependency_count",
+                    "lib_dependent_count",
+                    "lib_latest_release_date",
+                    "lib_first_release_date",
+                    "lib_release_count",
+                    "lib_sourcerank"
+                ]
+            }
+        },
+        "cve_data_points": {
+            "type": "array",
+            "description": "Wanted CVE data points",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "cve_count",
+                    "cve_vulnerabilities",
+                    "cve_codes"
+                ]
+            }
+        },
+        "so_data_points": {
+            "type": "array",
+            "description": "Wanted Stack Overflow data points",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "so_popularity"
+                ]
+            }
+        },
+        "virus_scanning": {
+            "type": "array",
+            "description": "Wanted virus scanning data points",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "virus_ratio"
+                ]
+            }
+        }
+    },
+    "required": [
+        "project_info"
+    ]
+}

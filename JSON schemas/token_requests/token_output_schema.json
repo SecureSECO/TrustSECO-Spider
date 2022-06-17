@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "github_token": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "libraries_token": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    },
+    "required": [
+        "github_token",
+        "libraries_token"
+    ]
+}
