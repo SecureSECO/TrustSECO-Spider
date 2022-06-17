@@ -3,8 +3,7 @@
         "project_platform": "Pypi",
         "project_owner": "numpy",
         "project_name": "numpy",
-        "project_release": "v1.22.1",
-        "project_year": 2021
+        "project_release": "v1.22.1"
     },
     "gh_data_points": [
         "gh_contributor_count",

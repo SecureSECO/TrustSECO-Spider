@@ -44,7 +44,7 @@ class ClamAVScanner:
 
         # Initialize a counter for the number of infected links found
         infected_links = 0
-        counter = 0
+        counter = 1
 
         # Iterate through the links
         for link in links:
