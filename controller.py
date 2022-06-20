@@ -156,7 +156,7 @@ class Controller:
             return output_json
         else:
             logging.error('Missing project information')
-            return 'Error: missing project information'
+            return {'Error': 'missing project information'}
 
     def get_github_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
