@@ -173,7 +173,6 @@ class Controller:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
-            year (str): The year
             wanted_data (list): The list of data points to be returned
 
         Returns:
