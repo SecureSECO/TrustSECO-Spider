@@ -189,15 +189,108 @@ class TestControllerRun:
 
 
 class TestControllerData:
-    def test_get_github_data(self) -> None:
+
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_repository_contributor_count')
+    @mock.patch('src.github.github_spider.GitHubSpider.get_repository_user_count')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_total_download_count')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_release_download_count')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_yearly_commit_count')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_repository_language')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_gitstar_ranking')
+    @mock.patch('src.github.github_spider.GitHubSpider.get_repository_open_issue_count')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_zero_responses_issue_count')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.issue_count_per_release')
+    @mock.patch('src.github.github_spider.GitHubSpider.get_repository_issue_ratio')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_average_issue_resolution_time')
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_owner_stargazer_count')
+    def test_get_github_data(self, mock_owner_stargazer_count: mock.Mock, mock_average_issue_resolution_time: mock.Mock, mock_repo_issue_ratio: mock.Mock,
+                             mock_issue_count_per_release: mock.Mock, mock_zero_responses_issue_count: mock.Mock, mock_repo_open_issue_count: mock.Mock,
+                             mock_gitstar_ranking: mock.Mock, mock_repo_language: mock.Mock, mock_yearly_commit_count: mock.Mock,
+                             mock_release_download_count: mock.Mock, mock_total_download_count: mock.Mock, mock_repo_user_count: mock.Mock,
+                             mock_repo_contributor_count: mock.Mock) -> None:
         """
-        Test for the get_github_data function.
+        Test for when we only request Github data.
         """
 
-    def test_get_libraries_data(self) -> None:
+        # Set the required inputs
+        owner = "numpy"
+        repo_name = "numpy"
+        release = "v1.22.1"
+        wanted_data = ["gh_contributor_count", "gh_user_count", "gh_total_download_count",
+                       "gh_release_download_count", "gh_yearly_commit_count", "gh_repository_language",
+                       "gh_gitstar_ranking", "gh_open_issues_count", "gh_zero_response_issues_count",
+                       "gh_release_issues_count", "gh_issue_ratio", "gh_average_resolution_time",
+                       "gh_owner_stargazer_count", "unknown"]
+
+        # Set the mock return values for the functions we are testing
+        mock_repo_contributor_count.return_value = 3
+        mock_repo_user_count.return_value = 20
+        mock_total_download_count.return_value = 23
+        mock_release_download_count.return_value = 11
+        mock_yearly_commit_count.return_value = 50
+        mock_repo_language.return_value = "python"
+        mock_gitstar_ranking.return_value = 4
+        mock_repo_open_issue_count.return_value = 3
+        mock_zero_responses_issue_count.return_value = 2
+        mock_issue_count_per_release.return_value = 5
+        mock_repo_issue_ratio.return_value = 0.6
+        mock_average_issue_resolution_time.return_value = 300
+        mock_owner_stargazer_count.return_value = 2
+
+        # Run the controller with the input JSON
+        result = Controller().get_github_data(owner, repo_name, release, wanted_data)
+
+        # Assert that the returned dictionary only contains the Github data
+        # and that the value is equal to the one we specified
+        assert result == {"gh_contributor_count": 3, "gh_user_count": 20, "gh_total_download_count": 23,
+                          "gh_release_download_count": 11, "gh_yearly_commit_count": 50, "gh_repository_language": "python",
+                          "gh_gitstar_ranking": 4, "gh_open_issues_count": 3, "gh_zero_response_issues_count": 2,
+                          "gh_release_issues_count": 5, "gh_issue_ratio": 0.6, "gh_average_resolution_time": 300,
+                          "gh_owner_stargazer_count": 2, "unknown": None}
+
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_release_frequency')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_contributors_count')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_dependency_count')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_dependent_count')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_latest_release_date')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_first_release_date')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_release_count')
+    @mock.patch('src.libraries_io.libraries_io_api_calls.LibrariesAPICall.get_sourcerank')
+    def test_get_libraries_data(self, mock_sourcerank: mock.Mock, mock_release_count: mock.Mock, mock_first_release_date: mock.Mock,
+                                mock_latest_release_date: mock.Mock, mock_dependent_count: mock.Mock, mock_dependency_count: mock.Mock,
+                                mock_contributors_count: mock.Mock, mock_release_frequency: mock.Mock) -> None:
         """
         Test for the get_libraries_data function.
         """
+
+        # Set the required inputs
+        platform = "Pypi"
+        owner = "numpy"
+        repo_name = "numpy"
+        release = "v1.22.1"
+        wanted_data = ["lib_release_frequency", "lib_contributor_count", "lib_dependency_count", "lib_dependent_count",
+                       "lib_latest_release_date", "lib_first_release_date", "lib_release_count", "lib_sourcerank", "unknown"]
+
+        # Set the mock return values for the functions we are testing
+        mock_release_frequency.return_value = 1
+        mock_contributors_count.return_value = 5
+        mock_dependency_count.return_value = 3
+        mock_dependent_count.return_value = 2
+        mock_latest_release_date.return_value = "2016-04-20T04:09:15.000Z"
+        mock_first_release_date.return_value = "2016-04-19T04:09:15.000Z"
+        mock_release_count.return_value = 2
+        mock_sourcerank.return_value = 5
+
+        # Run the function we are testing
+        result = Controller().get_libraries_data(
+            platform, owner, repo_name, release, wanted_data)
+
+        # Assert that the returned dictionary only contains the Libraries.io data
+        # and that the value is equal to the one we specified
+        assert result == {"lib_release_frequency": 1, "lib_contributor_count": 5, "lib_dependency_count": 3,
+                          "lib_dependent_count": 2, "lib_latest_release_date": "2016-04-20T04:09:15.000Z",
+                          "lib_first_release_date": "2016-04-19T04:09:15.000Z", "lib_release_count": 2,
+                          "lib_sourcerank": 5, "unknown": None}
 
     @mock.patch('src.cve.cve_spider.CVESpider.get_cve_vulnerability_count')
     @mock.patch('src.cve.cve_spider.CVESpider.get_all_cve_data')
