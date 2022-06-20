@@ -10,13 +10,7 @@ from controller import Controller
 class TestControllerRun:
     """Class containing the unit tests for the controller module."""
 
-    # create global variables for the input JSONs
-    platform = 'Pypi'
-    owner = 'numpy'
-    repo_name = 'numpy'
-    release = 'v1.22.1'
-
-    def test_run_no_proj_info(self):
+    def test_run_no_proj_info(self) -> None:
         """
         Test for when the project information is missing from the input JSON.
         """
@@ -29,25 +23,37 @@ class TestControllerRun:
         # Check that the response is correct
         assert result == {'Error': 'Error: no project information found'}
 
-    @pytest.mark.parametrize('input_json', [
-        {"project_info": {
-            "project_owner": owner,
-            "project_name": repo_name,
-            "project_release": release}},
-        {"project_info": {
-            "project_platform": platform,
-            "project_name": repo_name,
-            "project_release": release}},
-        {"project_info": {
-            "project_platform": platform,
-            "project_owner": owner,
-            "project_release": release}},
-        {"project_info": {
-            "project_platform": platform,
-            "project_owner": owner,
-            "project_name": repo_name}}
+    @pytest.mark.parametrize('input_json, return_value', [
+        (
+            {"project_info": {
+                "project_owner": 'numpy',
+                "project_name": 'numpy',
+                "project_release": 'v1.22.1'}},
+            {'Error': 'missing project information (project_platform)'}
+        ),
+        (
+            {"project_info": {
+                "project_platform": 'Pypi',
+                "project_name": 'numpy',
+                "project_release": 'v1.22.1'}},
+            {'Error': 'missing project information (project_owner)'}
+        ),
+        (
+            {"project_info": {
+                "project_platform": 'Pypi',
+                "project_owner": 'numpy',
+                "project_release": 'v1.22.1'}},
+            {'Error': 'missing project information (project_name)'}
+        ),
+        (
+            {"project_info": {
+                "project_platform": 'Pypi',
+                "project_owner": 'numpy',
+                "project_name": 'numpy'}},
+            {'Error': 'missing project information (project_release)'}
+        )
     ])
-    def test_run_missing_info(self, input_json: dict) -> None:
+    def test_run_missing_info(self, input_json: dict, return_value: dict) -> None:
         """
         Test for when a required field within the project information is missing from the input JSON.
 
@@ -59,22 +65,24 @@ class TestControllerRun:
         response_data = Controller().run(input_json)
 
         # Assert that the returned error is equal to the defined error in the controller
-        assert response_data == {'Error': 'missing project information'}
+        assert response_data == return_value
 
     @mock.patch('controller.Controller.get_github_data', new=mock.Mock(return_value={"gh": "mock"}))
-    def test_run_gh(self):
+    def test_run_gh(self) -> None:
         """
         Test for when we only request GitHub data.
         """
 
         # make an input JSON with only requesting GitHub data
-        input_json = {"project_info": {
-            "project_platform": "Pypi",
-            "project_owner": "numpy",
-            "project_name": "numpy",
-            "project_release": "v1.22.1",
-            "project_year": 2021},
-            "gh_data_points": ["gh_contributor_count"]}
+        input_json = {
+            "project_info": {
+                "project_platform": "Pypi",
+                "project_owner": "numpy",
+                "project_name": "numpy",
+                "project_release": "v1.22.1"
+            },
+            "gh_data_points": []
+        }
 
         # Run the controller with the input JSON
         result = Controller().run(input_json)
@@ -84,19 +92,21 @@ class TestControllerRun:
         assert result == {"gh": "mock"}
 
     @mock.patch('controller.Controller.get_libraries_data', new=mock.Mock(return_value={"lb": "mock"}))
-    def test_run_lib(self):
+    def test_run_lib(self) -> None:
         """
         Test for when we only request Libraries.io data.
         """
 
         # make an input JSON with only requesting Libraries.io data
-        input_json = {"project_info": {
-            "project_platform": "Pypi",
-            "project_owner": "numpy",
-            "project_name": "numpy",
-            "project_release": "v1.22.1",
-            "project_year": 2021},
-            "lib_data_points": ["lib_release_frequency"]}
+        input_json = {
+            "project_info": {
+                "project_platform": "Pypi",
+                "project_owner": "numpy",
+                "project_name": "numpy",
+                "project_release": "v1.22.1"
+            },
+            "lib_data_points": []
+        }
 
         # Run the controller with the input JSON
         result = Controller().run(input_json)
@@ -106,19 +116,21 @@ class TestControllerRun:
         assert result == {"lb": "mock"}
 
     @mock.patch('controller.Controller.get_cve_data', new=mock.Mock(return_value={"cve": "mock"}))
-    def test_run_cve(self):
+    def test_run_cve(self) -> None:
         """
         Test for when we only request CVE data.
         """
 
         # make an input JSON with only requesting CVE data
-        input_json = {"project_info": {
-            "project_platform": "Pypi",
-            "project_owner": "numpy",
-            "project_name": "numpy",
-            "project_release": "v1.22.1",
-            "project_year": 2021},
-            "cve_data_points": ["cve_count"]}
+        input_json = {
+            "project_info": {
+                "project_platform": "Pypi",
+                "project_owner": "numpy",
+                "project_name": "numpy",
+                "project_release": "v1.22.1"
+            },
+            "cve_data_points": []
+        }
 
         # Run the controller with the input JSON
         result = Controller().run(input_json)
@@ -128,19 +140,21 @@ class TestControllerRun:
         assert result == {"cve": "mock"}
 
     @mock.patch('controller.Controller.get_so_data', new=mock.Mock(return_value={"so": "mock"}))
-    def test_run_so(self):
+    def test_run_so(self) -> None:
         """
         Test for when we only request Stack Overflow data.
         """
 
         # make an input JSON with only requesting Stack Overflow data
-        input_json = {"project_info": {
-            "project_platform": "Pypi",
-            "project_owner": "numpy",
-            "project_name": "numpy",
-            "project_release": "v1.22.1",
-            "project_year": 2021},
-            "so_data_points": ["so_popularity"]}
+        input_json = {
+            "project_info": {
+                "project_platform": "Pypi",
+                "project_owner": "numpy",
+                "project_name": "numpy",
+                "project_release": "v1.22.1",
+            },
+            "so_data_points": []
+        }
 
         # Run the controller with the input JSON
         result = Controller().run(input_json)
@@ -150,19 +164,21 @@ class TestControllerRun:
         assert result == {"so": "mock"}
 
     @mock.patch('controller.Controller.get_virus_data', new=mock.Mock(return_value={"virus": "mock"}))
-    def test_run_virus(self):
+    def test_run_virus(self) -> None:
         """
         Test for when we only request virus scan data.
         """
 
         # make an input JSON with only requesting virus scan data
-        input_json = {"project_info": {
-            "project_platform": "Pypi",
-            "project_owner": "numpy",
-            "project_name": "numpy",
-            "project_release": "v1.22.1",
-            "project_year": 2021},
-            "virus_scanning": ["virus_ratio"]}
+        input_json = {
+            "project_info": {
+                "project_platform": "Pypi",
+                "project_owner": "numpy",
+                "project_name": "numpy",
+                "project_release": "v1.22.1"
+            },
+            "virus_scanning": []
+        }
 
         # Run the controller with the input JSON
         result = Controller().run(input_json)
@@ -173,12 +189,12 @@ class TestControllerRun:
 
 
 class TestControllerData:
-    def test_get_github_data(self):
+    def test_get_github_data(self) -> None:
         """
         Test for the get_github_data function.
         """
 
-    def test_get_libraries_data(self):
+    def test_get_libraries_data(self) -> None:
         """
         Test for the get_libraries_data function.
         """
@@ -186,7 +202,7 @@ class TestControllerData:
     @mock.patch('src.cve.cve_spider.CVESpider.get_cve_vulnerability_count')
     @mock.patch('src.cve.cve_spider.CVESpider.get_all_cve_data')
     @mock.patch('src.cve.cve_spider.CVESpider.get_cve_codes')
-    def test_get_cve_data(self, mock_codes, mock_all_data, mock_vulnerability_count):
+    def test_get_cve_data(self, mock_codes: mock.Mock, mock_all_data: mock.Mock, mock_vulnerability_count: mock.Mock) -> None:
         """
         Test for the get_cve_data function.
         """
@@ -209,7 +225,7 @@ class TestControllerData:
             1, 2, 3, 4], "cve_codes": [1, 2, 3], "unknown": None}
 
     @mock.patch('src.stackoverflow.stackoverflow_spider.StackOverflowSpider.get_monthly_popularity')
-    def test_get_so_data(self, mock_stackoverflow):
+    def test_get_so_data(self, mock_stackoverflow: mock.Mock) -> None:
         """
         Test for the get_so_data function.
         """
@@ -229,7 +245,7 @@ class TestControllerData:
 
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_release_download_links')
     @mock.patch('src.clamav.clamav_scanner.ClamAVScanner.get_virus_ratio')
-    def test_get_virus_data(self, mock_clamav, mock_github):
+    def test_get_virus_data(self, mock_clamav: mock.Mock, mock_github: mock.Mock) -> None:
         """
         Test for the get_virus_data function.
         """

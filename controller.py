@@ -84,79 +84,91 @@ class Controller:
             return {'Error': 'Error: no project information found'}
 
         # Make sure all of the wanted project information is available
-        if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' in input_json["project_info"]:
-            # Retrieve the project information
-            platform = input_json["project_info"]["project_platform"]
-            owner = input_json["project_info"]["project_owner"]
-            repo_name = input_json["project_info"]["project_name"]
-            release = input_json["project_info"]["project_release"]
+        if 'project_platform' not in input_json['project_info']:
+            logging.error('Missing project information (project_platform)')
+            return {'Error': 'missing project information (project_platform)'}
 
-            # Create an output JSON object
-            output_json = {}
+        if 'project_owner' not in input_json['project_info']:
+            logging.error('Missing project information (project_owner)')
+            return {'Error': 'missing project information (project_owner)'}
 
-            # Request the data from GitHub
-            if 'gh_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting GitHub data...')
+        if 'project_name' not in input_json['project_info']:
+            logging.error('Missing project information (project_name)')
+            return {'Error': 'missing project information (project_name)'}
 
-                # Actually request the data
-                output_json.update(self.get_github_data(
-                    owner, repo_name, release, input_json["gh_data_points"]))
+        if 'project_release' not in input_json['project_info']:
+            logging.error('Missing project information (project_release)')
+            return {'Error': 'missing project information (project_release)'}
 
-            # Request the data from Libraries.IO
-            if 'lib_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting Libraries.IO data...')
+        # Retrieve the project information
+        platform = input_json['project_info']['project_platform']
+        owner = input_json['project_info']['project_owner']
+        repo_name = input_json['project_info']['project_name']
+        release = input_json['project_info']['project_release']
 
-                # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
-                if release[0].lower() == 'v':
-                    lib_release = release[1:]
-                else:
-                    lib_release = release
+        # Create an output JSON object
+        output_json = {}
 
-                # Actually request the data
-                output_json.update(self.get_libraries_data(
-                    platform, owner, repo_name, lib_release, input_json["lib_data_points"]))
-
-            # Request the data from the CVE website
-            if 'cve_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting CVE data...')
-
-                # Actually request the data
-                output_json.update(self.get_cve_data(
-                    repo_name, input_json["cve_data_points"]))
-
-            # Request the data from the StackOverflow website
-            if 'so_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting StackOverflow data...')
-
-                # Actually request the data
-                output_json.update(self.get_so_data(
-                    repo_name, input_json["so_data_points"]))
-
-            # Scan the release's files for viruses
-            if 'virus_scanning' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Scanning for viruses...')
-
-                # Actually request the data
-                output_json.update(self.get_virus_data(
-                    owner, repo_name, release, input_json["virus_scanning"]))
-
+        # Request the data from GitHub
+        if 'gh_data_points' in input_json:
+            # Tell the user what is going on
             logging.info('-------------------')
+            logging.info('Getting GitHub data...')
 
-            # Return the found data
-            return output_json
-        else:
-            logging.error('Missing project information')
-            return {'Error': 'missing project information'}
+            # Actually request the data
+            output_json.update(self.get_github_data(
+                owner, repo_name, release, input_json["gh_data_points"]))
+
+        # Request the data from Libraries.IO
+        if 'lib_data_points' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Getting Libraries.IO data...')
+
+            # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
+            if release[0].lower() == 'v':
+                lib_release = release[1:]
+            else:
+                lib_release = release
+
+            # Actually request the data
+            output_json.update(self.get_libraries_data(
+                platform, owner, repo_name, lib_release, input_json["lib_data_points"]))
+
+        # Request the data from the CVE website
+        if 'cve_data_points' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Getting CVE data...')
+
+            # Actually request the data
+            output_json.update(self.get_cve_data(
+                repo_name, input_json["cve_data_points"]))
+
+        # Request the data from the StackOverflow website
+        if 'so_data_points' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Getting StackOverflow data...')
+
+            # Actually request the data
+            output_json.update(self.get_so_data(
+                repo_name, input_json["so_data_points"]))
+
+        # Scan the release's files for viruses
+        if 'virus_scanning' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Scanning for viruses...')
+
+            # Actually request the data
+            output_json.update(self.get_virus_data(
+                owner, repo_name, release, input_json["virus_scanning"]))
+
+        logging.info('-------------------')
+
+        # Return the found data
+        return output_json
 
     def get_github_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
