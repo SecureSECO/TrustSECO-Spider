@@ -178,7 +178,7 @@ class Controller:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested GitHub data
@@ -192,57 +192,57 @@ class Controller:
             # Initialise the value variable
             value = None
 
-            if data_point == "gh_contributor_count":
+            if data_point == "gh_average_resolution_time":
+                value = self.gh_api.get_average_issue_resolution_time(
+                    owner, repo_name
+                )
+            elif data_point == "gh_contributor_count":
                 value = self.gh_api.get_repository_contributor_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_user_count":
-                value = self.gh_spider.get_repository_user_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_total_download_count":
-                value = self.gh_api.get_total_download_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_release_download_count":
-                value = self.gh_api.get_release_download_count(
-                    owner, repo_name, release
-                )
-            elif data_point == "gh_yearly_commit_count":
-                value = self.gh_api.get_yearly_commit_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_repository_language":
-                value = self.gh_api.get_repository_language(
                     owner, repo_name
                 )
             elif data_point == "gh_gitstar_ranking":
                 value = self.gh_api.get_gitstar_ranking(
                     owner, repo_name
                 )
-            elif data_point == "gh_open_issues_count":
-                value = self.gh_spider.get_repository_open_issue_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_zero_response_issues_count":
-                value = self.gh_api.get_zero_responses_issue_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_release_issues_count":
-                value = self.gh_api.issue_count_per_release(
-                    owner, repo_name, release
-                )
             elif data_point == "gh_issue_ratio":
                 value = self.gh_spider.get_repository_issue_ratio(
                     owner, repo_name
                 )
-            elif data_point == "gh_average_resolution_time":
-                value = self.gh_api.get_average_issue_resolution_time(
+            elif data_point == "gh_open_issues_count":
+                value = self.gh_spider.get_repository_open_issue_count(
                     owner, repo_name
                 )
             elif data_point == "gh_owner_stargazer_count":
                 value = self.gh_api.get_owner_stargazer_count(
                     owner
+                )
+            elif data_point == "gh_release_download_count":
+                value = self.gh_api.get_release_download_count(
+                    owner, repo_name, release
+                )
+            elif data_point == "gh_release_issues_count":
+                value = self.gh_api.get_issue_count_per_release(
+                    owner, repo_name, release
+                )
+            elif data_point == "gh_repository_language":
+                value = self.gh_api.get_repository_language(
+                    owner, repo_name
+                )
+            elif data_point == "gh_total_download_count":
+                value = self.gh_api.get_total_download_count(
+                    owner, repo_name
+                )
+            elif data_point == "gh_user_count":
+                value = self.gh_spider.get_repository_user_count(
+                    owner, repo_name
+                )
+            elif data_point == "gh_yearly_commit_count":
+                value = self.gh_api.get_yearly_commit_count(
+                    owner, repo_name
+                )
+            elif data_point == "gh_zero_response_issues_count":
+                value = self.gh_api.get_zero_responses_issue_count(
+                    owner, repo_name
                 )
             else:
                 logging.warning(f"GitHub: Invalid data point {data_point}")
@@ -262,7 +262,7 @@ class Controller:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested Libraries.IO data
@@ -276,11 +276,7 @@ class Controller:
             # Initialise the value variable
             value = None
 
-            if data_point == "lib_release_frequency":
-                value = self.lib_api.get_release_frequency(
-                    platform, repo_name
-                )
-            elif data_point == "lib_contributor_count":
+            if data_point == "lib_contributor_count":
                 value = self.lib_api.get_contributors_count(
                     owner, repo_name
                 )
@@ -292,16 +288,20 @@ class Controller:
                 value = self.lib_api.get_dependent_count(
                     platform, repo_name
                 )
-            elif data_point == "lib_latest_release_date":
-                value = self.lib_api.get_latest_release_date(
-                    platform, repo_name
-                )
             elif data_point == "lib_first_release_date":
                 value = self.lib_api.get_first_release_date(
                     platform, repo_name
                 )
+            elif data_point == "lib_latest_release_date":
+                value = self.lib_api.get_latest_release_date(
+                    platform, repo_name
+                )
             elif data_point == "lib_release_count":
                 value = self.lib_api.get_release_count(
+                    platform, repo_name
+                )
+            elif data_point == "lib_release_frequency":
+                value = self.lib_api.get_release_frequency(
                     platform, repo_name
                 )
             elif data_point == "lib_sourcerank":
@@ -325,7 +325,7 @@ class Controller:
 
         Parameters:
             repo_name (str): The name of the repository
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested CVE data
@@ -338,16 +338,16 @@ class Controller:
             # Initialise the value variable
             value = None
 
-            if data_point == "cve_count":
+            if data_point == "cve_codes":
+                value = self.cve_spider.get_cve_codes(
+                    repo_name
+                )
+            elif data_point == "cve_count":
                 value = self.cve_spider.get_cve_vulnerability_count(
                     repo_name
                 )
             elif data_point == "cve_vulnerabilities":
                 value = self.cve_spider.get_all_cve_data(
-                    repo_name
-                )
-            elif data_point == "cve_codes":
-                value = self.cve_spider.get_cve_codes(
                     repo_name
                 )
             else:
@@ -365,7 +365,7 @@ class Controller:
 
         Parameters:
             repo_name (str): The name of the repository
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested Stack Overflow data
@@ -402,7 +402,7 @@ class Controller:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested virus data
