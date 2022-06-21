@@ -551,7 +551,7 @@ class GitHubAPICall:
         # Return the average resolution time
         return total_resolution_time / len(all_issues)
 
-    def issue_count_per_release(self, owner: str, repo: str, release: str) -> int:
+    def get_issue_count_per_release(self, owner: str, repo: str, release: str) -> int:
         """
         Get the amount of issues that were posted between the given release and the release after it
 

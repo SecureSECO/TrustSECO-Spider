@@ -1,0 +1,50 @@
+name: pdoc
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Security: restrict permissions
+permissions:
+  contents: read
+
+jobs:
+  # Build the documentation and upload the static HTML files as an artifact
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+
+      # Install pdoc
+      - run: pip install pdoc
+
+      # Actually run pdoc
+      # Temporary option
+      - run: pdoc -o docs/ app.py controller.py demo.py src/utils/api_calls.py src/stackoverflow/stackoverflow_spider.py src/libraries_io/libraries_io_api_calls.py src/github/github_api_calls.py src/github/github_spider.py src/cve/cve_spider.py src/clamav/clamav_scanner.py
+
+      # Upload the newly created docs to GitHub pages
+      - run: tar --directory docs/ -hcf artifact.tar .
+      - uses: actions/upload-artifact@v3
+        with:
+          name: github-pages
+          path: ./artifact.tar
+
+  # Deploy the artifact to GitHub pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v1

@@ -9,7 +9,7 @@ from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 
 
 class TestTrends:
-    """Class for testing Stack Overflow trend responces
+    """Class for testing Stack Overflow trend responses
 
     To test this function, we shall test the following scenarios:
     1. The input parameters are valid
@@ -23,12 +23,27 @@ class TestTrends:
 
     @responses.activate
     @pytest.mark.parametrize('return_json, expected_value', [
-        ({"Year": [2022], "Month": [5], "TagPercents": {
-         "numpy": [2.1022945]}}, (5, 2022, 0)),
-        ({"Month": [5], "TagPercents": {"numpy": [2.1022945]}}, None),
-        ({"Year": [2022], "TagPercents": {"numpy": [2.1022945]}}, None),
-        ({"Year": [2022], "Month": [5]}, None),
-        ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
+        (
+            {"Year": [2022], "Month": [5],
+                "TagPercents": {"numpy": [2.1022945]}},
+            {"month": 5, "year": 2022, "popularity": 0}
+        ),
+        (
+            {"Month": [5], "TagPercents": {"numpy": [2.1022945]}},
+            None
+        ),
+        (
+            {"Year": [2022], "TagPercents": {"numpy": [2.1022945]}},
+            None
+        ),
+        (
+            {"Year": [2022], "Month": [5]},
+            None
+        ),
+        (
+            {"Year": [2022], "Month": [5], "TagPercents": None},
+            None
+        )
     ])
     def test_unknown_package(self, return_json: dict, expected_value: tuple) -> None:
         """
@@ -54,12 +69,27 @@ class TestTrends:
 
     @responses.activate
     @pytest.mark.parametrize('return_json, expected_value', [
-        ({"Year": [2022], "Month": [5], "TagPercents": {
-         "numpy": [2.1022945]}}, (5, 2022, 2.1022945)),
-        ({"Month": [5], "TagPercents": {"numpy": [2.1022945]}}, None),
-        ({"Year": [2022], "TagPercents": {"numpy": [2.1022945]}}, None),
-        ({"Year": [2022], "Month": [5]}, None),
-        ({"Year": [2022], "Month": [5], "TagPercents": None}, None)
+        (
+            {"Year": [2022], "Month": [5],
+                "TagPercents": {"numpy": [2.1022945]}},
+            {"month": 5, "year": 2022, "popularity": 2.1022945}
+        ),
+        (
+            {"Month": [5], "TagPercents": {"numpy": [2.1022945]}},
+            None
+        ),
+        (
+            {"Year": [2022], "TagPercents": {"numpy": [2.1022945]}},
+            None
+        ),
+        (
+            {"Year": [2022], "Month": [5]},
+            None
+        ),
+        (
+            {"Year": [2022], "Month": [5], "TagPercents": None},
+            None
+        )
     ])
     def test_valid_package(self, return_json: dict, expected_value: tuple) -> None:
         """

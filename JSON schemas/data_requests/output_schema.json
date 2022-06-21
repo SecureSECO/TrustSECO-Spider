@@ -1,0 +1,214 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "TrustSECO-Spider get_data output",
+    "description": "JSON schema for the TrustSECO-Spider get_data output",
+    "type": "object",
+    "properties": {
+        "gh_contributor_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_user_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_total_download_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_release_download_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_yearly_commit_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_repository_language": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "gh_open_issues_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_zero_response_issues_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "gh_issue_ratio": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "gh_average_resolution_time": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "gh_owner_stargazer_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "lib_release_frequency": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "lib_contributor_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "lib_dependency_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "lib_dependent_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "lib_latest_release_date": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "lib_first_release_date": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "lib_release_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "lib_sourcerank": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "cve_count": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "cve_vulnerabilities": {
+            "type": "array",
+            "items": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "CVE_ID": {
+                            "type": "string"
+                        },
+                        "CVE_score": {
+                            "type": [
+                                "number",
+                                "null"
+                            ]
+                        },
+                        "CVE_affected_version_start_type": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "CVE_affected_version_start": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "CVE_affected_version_end_type": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "CVE_affected_version_end": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "CVE_ID",
+                        "CVE_score",
+                        "CVE_affected_version_start_type",
+                        "CVE_affected_version_start",
+                        "CVE_affected_version_end_type",
+                        "CVE_affected_version_end"
+                    ]
+                }
+            ]
+        },
+        "cve_codes": {
+            "type": "array",
+            "items": [
+                {
+                    "type": [
+                        "string"
+                    ]
+                }
+            ]
+        },
+        "so_popularity": {
+            "type": "object",
+            "properties": {
+                "month": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "string"
+                },
+                "popularity": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "month",
+                "year",
+                "popularity"
+            ]
+        },
+        "virus_ratio": {
+            "type": [
+                "number",
+                "null"
+            ]
+        }
+    }
+}
