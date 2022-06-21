@@ -84,86 +84,91 @@ class Controller:
             return {'Error': 'Error: no project information found'}
 
         # Make sure all of the wanted project information is available
-        if 'project_platform' and 'project_owner' and 'project_name' and 'project_release' in input_json["project_info"]:
-            # Retrieve the project information
-            platform = input_json["project_info"]["project_platform"]
-            owner = input_json["project_info"]["project_owner"]
-            repo_name = input_json["project_info"]["project_name"]
-            release = input_json["project_info"]["project_release"]
+        if 'project_platform' not in input_json['project_info']:
+            logging.error('Missing project information (project_platform)')
+            return {'Error': 'missing project information (project_platform)'}
 
-            # Create an output JSON object
-            output_json = {}
+        if 'project_owner' not in input_json['project_info']:
+            logging.error('Missing project information (project_owner)')
+            return {'Error': 'missing project information (project_owner)'}
 
-            # Request the data from GitHub
-            if 'gh_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting GitHub data...')
+        if 'project_name' not in input_json['project_info']:
+            logging.error('Missing project information (project_name)')
+            return {'Error': 'missing project information (project_name)'}
 
-                # Actually request the data
-                output_json.update(self.get_github_data(
-                    owner, repo_name, release, input_json["gh_data_points"]))
+        if 'project_release' not in input_json['project_info']:
+            logging.error('Missing project information (project_release)')
+            return {'Error': 'missing project information (project_release)'}
 
-            # Request the data from Libraries.IO
-            if 'lib_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting Libraries.IO data...')
+        # Retrieve the project information
+        platform = input_json['project_info']['project_platform']
+        owner = input_json['project_info']['project_owner']
+        repo_name = input_json['project_info']['project_name']
+        release = input_json['project_info']['project_release']
 
-                # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
-                if release[0].lower() == 'v':
-                    lib_release = release[1:]
-                else:
-                    lib_release = release
+        # Create an output JSON object
+        output_json = {}
 
-                # Actually request the data
-                output_json.update(self.get_libraries_data(
-                    platform, owner, repo_name, lib_release, input_json["lib_data_points"]))
-
-            # Request the data from the CVE website
-            if 'cve_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting CVE data...')
-
-                # Actually request the data
-                output_json.update(self.get_cve_data(
-                    repo_name, input_json["cve_data_points"]))
-
-            # Request the data from the StackOverflow website
-            if 'so_data_points' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Getting StackOverflow data...')
-
-                # Actually request the data
-                output_json.update(self.get_so_data(
-                    repo_name, input_json["so_data_points"]))
-
-            # Scan the release's files for viruses
-            if 'virus_scanning' in input_json:
-                # Tell the user what is going on
-                logging.info('-------------------')
-                logging.info('Scanning for viruses...')
-
-                # Get the links that need to be scanned
-                links_to_scan = self.gh_api.get_release_download_links(
-                    owner, repo_name, release)
-
-                # Actually scan the files
-                scan_result = {
-                    'virus_ratio': self.vs_comm.get_virus_ratio(links_to_scan)}
-
-                # Add the results to the output
-                output_json.update({'virus_scanning': scan_result})
-
+        # Request the data from GitHub
+        if 'gh_data_points' in input_json:
+            # Tell the user what is going on
             logging.info('-------------------')
+            logging.info('Getting GitHub data...')
 
-            # Return the found data
-            return output_json
-        else:
-            logging.error('Missing project information')
-            return 'Error: missing project information'
+            # Actually request the data
+            output_json.update(self.get_github_data(
+                owner, repo_name, release, input_json["gh_data_points"]))
+
+        # Request the data from Libraries.IO
+        if 'lib_data_points' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Getting Libraries.IO data...')
+
+            # Libraries.io does not use 'v' in their version numbers, so we need to remove it if it is there
+            if release[0].lower() == 'v':
+                lib_release = release[1:]
+            else:
+                lib_release = release
+
+            # Actually request the data
+            output_json.update(self.get_libraries_data(
+                platform, owner, repo_name, lib_release, input_json["lib_data_points"]))
+
+        # Request the data from the CVE website
+        if 'cve_data_points' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Getting CVE data...')
+
+            # Actually request the data
+            output_json.update(self.get_cve_data(
+                repo_name, input_json["cve_data_points"]))
+
+        # Request the data from the StackOverflow website
+        if 'so_data_points' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Getting StackOverflow data...')
+
+            # Actually request the data
+            output_json.update(self.get_so_data(
+                repo_name, input_json["so_data_points"]))
+
+        # Scan the release's files for viruses
+        if 'virus_scanning' in input_json:
+            # Tell the user what is going on
+            logging.info('-------------------')
+            logging.info('Scanning for viruses...')
+
+            # Actually request the data
+            output_json.update(self.get_virus_data(
+                owner, repo_name, release, input_json["virus_scanning"]))
+
+        logging.info('-------------------')
+
+        # Return the found data
+        return output_json
 
     def get_github_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
         """
@@ -173,7 +178,7 @@ class Controller:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested GitHub data
@@ -187,57 +192,57 @@ class Controller:
             # Initialise the value variable
             value = None
 
-            if data_point == "gh_contributor_count":
+            if data_point == "gh_average_resolution_time":
+                value = self.gh_api.get_average_issue_resolution_time(
+                    owner, repo_name
+                )
+            elif data_point == "gh_contributor_count":
                 value = self.gh_api.get_repository_contributor_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_user_count":
-                value = self.gh_spider.get_repository_user_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_total_download_count":
-                value = self.gh_api.get_total_download_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_release_download_count":
-                value = self.gh_api.get_release_download_count(
-                    owner, repo_name, release
-                )
-            elif data_point == "gh_yearly_commit_count":
-                value = self.gh_api.get_yearly_commit_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_repository_language":
-                value = self.gh_api.get_repository_language(
                     owner, repo_name
                 )
             elif data_point == "gh_gitstar_ranking":
                 value = self.gh_api.get_gitstar_ranking(
                     owner, repo_name
                 )
-            elif data_point == "gh_open_issues_count":
-                value = self.gh_spider.get_repository_open_issue_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_zero_response_issues_count":
-                value = self.gh_api.get_zero_responses_issue_count(
-                    owner, repo_name
-                )
-            elif data_point == "gh_release_issues_count":
-                value = self.gh_api.issue_count_per_release(
-                    owner, repo_name, release
-                )
             elif data_point == "gh_issue_ratio":
                 value = self.gh_spider.get_repository_issue_ratio(
                     owner, repo_name
                 )
-            elif data_point == "gh_average_resolution_time":
-                value = self.gh_api.get_average_issue_resolution_time(
+            elif data_point == "gh_open_issues_count":
+                value = self.gh_spider.get_repository_open_issue_count(
                     owner, repo_name
                 )
             elif data_point == "gh_owner_stargazer_count":
                 value = self.gh_api.get_owner_stargazer_count(
                     owner
+                )
+            elif data_point == "gh_release_download_count":
+                value = self.gh_api.get_release_download_count(
+                    owner, repo_name, release
+                )
+            elif data_point == "gh_release_issues_count":
+                value = self.gh_api.get_issue_count_per_release(
+                    owner, repo_name, release
+                )
+            elif data_point == "gh_repository_language":
+                value = self.gh_api.get_repository_language(
+                    owner, repo_name
+                )
+            elif data_point == "gh_total_download_count":
+                value = self.gh_api.get_total_download_count(
+                    owner, repo_name
+                )
+            elif data_point == "gh_user_count":
+                value = self.gh_spider.get_repository_user_count(
+                    owner, repo_name
+                )
+            elif data_point == "gh_yearly_commit_count":
+                value = self.gh_api.get_yearly_commit_count(
+                    owner, repo_name
+                )
+            elif data_point == "gh_zero_response_issues_count":
+                value = self.gh_api.get_zero_responses_issue_count(
+                    owner, repo_name
                 )
             else:
                 logging.warning(f"GitHub: Invalid data point {data_point}")
@@ -257,7 +262,7 @@ class Controller:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested Libraries.IO data
@@ -271,11 +276,7 @@ class Controller:
             # Initialise the value variable
             value = None
 
-            if data_point == "lib_release_frequency":
-                value = self.lib_api.get_release_frequency(
-                    platform, repo_name
-                )
-            elif data_point == "lib_contributor_count":
+            if data_point == "lib_contributor_count":
                 value = self.lib_api.get_contributors_count(
                     owner, repo_name
                 )
@@ -287,16 +288,20 @@ class Controller:
                 value = self.lib_api.get_dependent_count(
                     platform, repo_name
                 )
-            elif data_point == "lib_latest_release_date":
-                value = self.lib_api.get_latest_release_date(
-                    platform, repo_name
-                )
             elif data_point == "lib_first_release_date":
                 value = self.lib_api.get_first_release_date(
                     platform, repo_name
                 )
+            elif data_point == "lib_latest_release_date":
+                value = self.lib_api.get_latest_release_date(
+                    platform, repo_name
+                )
             elif data_point == "lib_release_count":
                 value = self.lib_api.get_release_count(
+                    platform, repo_name
+                )
+            elif data_point == "lib_release_frequency":
+                value = self.lib_api.get_release_frequency(
                     platform, repo_name
                 )
             elif data_point == "lib_sourcerank":
@@ -320,7 +325,7 @@ class Controller:
 
         Parameters:
             repo_name (str): The name of the repository
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested CVE data
@@ -333,16 +338,16 @@ class Controller:
             # Initialise the value variable
             value = None
 
-            if data_point == "cve_count":
+            if data_point == "cve_codes":
+                value = self.cve_spider.get_cve_codes(
+                    repo_name
+                )
+            elif data_point == "cve_count":
                 value = self.cve_spider.get_cve_vulnerability_count(
                     repo_name
                 )
             elif data_point == "cve_vulnerabilities":
                 value = self.cve_spider.get_all_cve_data(
-                    repo_name
-                )
-            elif data_point == "cve_codes":
-                value = self.cve_spider.get_cve_codes(
                     repo_name
                 )
             else:
@@ -360,7 +365,7 @@ class Controller:
 
         Parameters:
             repo_name (str): The name of the repository
-            wanted_data (list): The list of data points to be returned
+            wanted_data (List[str]): The list of data points to be returned
 
         Returns:
             dict: The requested Stack Overflow data
@@ -381,6 +386,48 @@ class Controller:
             else:
                 logging.warning(
                     f"StackOverflow: Invalid data point {data_point}"
+                )
+
+            # Update the dictionary
+            return_data.update({data_point: value})
+
+        # Return the requested data-points
+        return return_data
+
+    def get_virus_data(self, owner: str, repo_name: str, release: str, wanted_data: List[str]) -> dict:
+        """
+        Get the virus data from the ClamAV container.
+
+        Parameters:
+            owner (str): The owner of the repository
+            repo_name (str): The name of the repository
+            release (str): The release name
+            wanted_data (List[str]): The list of data points to be returned
+
+        Returns:
+            dict: The requested virus data
+        """
+
+        # Create a JSON object to store the data
+        return_data = {}
+
+        # Get the download links for the files that we need to scan
+        download_links = self.gh_api.get_release_download_links(
+            owner, repo_name, release
+        )
+
+        # Loop through all the wanted data points
+        for data_point in wanted_data:
+            # Initialise the value variable
+            value = None
+
+            if data_point == 'virus_ratio':
+                value = self.vs_comm.get_virus_ratio(
+                    download_links
+                )
+            else:
+                logging.warning(
+                    f"Virus scanning: Invalid data point {data_point}"
                 )
 
             # Update the dictionary
