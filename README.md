@@ -238,16 +238,7 @@ This project also contains a small demo file (demo.py) which can demo basic func
 
 **IMPORTANT: The Flask service must be started before running the demo, and the tokens must be set in the .env file beforehand too!!!**
 
-Depending on the given arguments, the demo will grab all of the available GitHub and Libraries.io data-points, and print them to the console.
-Current commands:
-
-- `python .\demo.py numpy` -> Gets all the data-points for the numpy package/repository
-- `python .\demo.py afnetworking` -> Gets all the data-points for the AFNetworking package/repository
-- `python .\demo.py all` -> Gets all the data-points for both numpy and AFNetworking
-
-Another available argument is `virus`. Passing this will allow the demo to also demonstrate the virus scanning capabilities.
-
-**MAKE SURE THE VIRUS SCANNER IS RUNNING BEFORE PASSING THIS COMMAND**
+**MAKE SURE THE VIRUS SCANNER IS RUNNING BEFORE ASKING FOR VIRUS-SCAN DATA**
 
 ### Unit tests
 
