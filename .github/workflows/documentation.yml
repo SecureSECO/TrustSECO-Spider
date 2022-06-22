@@ -26,7 +26,7 @@ jobs:
 
       # Actually run pdoc
       # Temporary option
-      - run: pdoc -o docs/ app.py controller.py demo.py src/utils/api_calls.py src/stackoverflow/stackoverflow_spider.py src/libraries_io/libraries_io_api_calls.py src/github/github_api_calls.py src/github/github_spider.py src/cve/cve_spider.py src/clamav/clamav_scanner.py
+      - run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
       # Upload the newly created docs to GitHub pages
       - run: tar --directory docs/ -hcf artifact.tar .
