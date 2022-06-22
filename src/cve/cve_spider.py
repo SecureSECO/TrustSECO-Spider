@@ -31,7 +31,7 @@ class CVESpider:
         """
         Gets the amount of known vulnerabilities of a given package
 
-        Parameters:
+        Args:
             name (str): The name of the package
 
         Returns:
@@ -51,7 +51,7 @@ class CVESpider:
         """
         Get all the available CVE data for a given package
 
-        Parameters:
+        Args:
             name (str): The name of the package
 
         Returns:
@@ -80,7 +80,7 @@ class CVESpider:
         """
         Get all the CVE codes of vulnerabilities that affect the given package
 
-        Parameters:
+        Args:
             name (str): The name of the package
 
         Returns:
@@ -121,7 +121,7 @@ class CVESpider:
         """
         Extracts the data from a given CVE link
 
-        Parameters:
+        Args:
             cve_code (str): The CVE code of the vulnerability
 
         Returns:
@@ -197,7 +197,7 @@ class CVESpider:
         """
         Gets a BeautifulSoup object of the webpage at the given URL
 
-        Parameters:
+        Args:
             url (str): The URL of the webpage
 
         Returns:

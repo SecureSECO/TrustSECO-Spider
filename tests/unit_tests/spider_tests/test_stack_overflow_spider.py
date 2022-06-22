@@ -49,7 +49,7 @@ class TestTrends:
         """
         Test for when the function receives an unknown package name
 
-        Parameters:
+        Args:
             return_json (dict): The json to return from the API call
             expected_value (tuple): The expected value of the function
         """
@@ -95,7 +95,7 @@ class TestTrends:
         """
         Test for when the function receives a known package name.
 
-        Parameters:
+        Args:
             return_json (dict): The json to return from the API call
             expected_value (tuple): The expected value of the function
         """

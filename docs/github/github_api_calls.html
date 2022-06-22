@@ -168,7 +168,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="sd">        Get the basic information about the given repository</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">        Args:</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>
@@ -194,7 +194,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        Get the language of the given repository</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        Args:</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>
@@ -219,7 +219,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">        Get the stargazer count of the given repository</span>
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">        Args:</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
@@ -244,7 +244,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">        Get information about a specific release/release of a repository</span>
 </span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">        Args:</span>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="sd">            release (str): The release name</span>
@@ -270,7 +270,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">        Get the basic information about the repository owner</span>
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="sd">        Args:</span>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">        Returns:</span>
@@ -294,7 +294,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">        Get the amount of contributors of the given repository</span>
 </span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">        Args:</span>
 </span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>
@@ -344,7 +344,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="sd">        Get the GitStar ranking of the given repository</span>
 </span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>
-</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">        Args:</span>
 </span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>
@@ -453,7 +453,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-330"><a href="#L-330"><span class="linenos">330</span></a><span class="sd">        Get the amount of commits in the last year</span>
 </span><span id="L-331"><a href="#L-331"><span class="linenos">331</span></a><span class="sd">        This &#39;last year&#39; is counted from the current date</span>
 </span><span id="L-332"><a href="#L-332"><span class="linenos">332</span></a>
-</span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a><span class="sd">        Args:</span>
 </span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a>
@@ -485,7 +485,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-362"><a href="#L-362"><span class="linenos">362</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-363"><a href="#L-363"><span class="linenos">363</span></a><span class="sd">        Get the total amount of downloads of this repository</span>
 </span><span id="L-364"><a href="#L-364"><span class="linenos">364</span></a>
-</span><span id="L-365"><a href="#L-365"><span class="linenos">365</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-365"><a href="#L-365"><span class="linenos">365</span></a><span class="sd">        Args:</span>
 </span><span id="L-366"><a href="#L-366"><span class="linenos">366</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-367"><a href="#L-367"><span class="linenos">367</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-368"><a href="#L-368"><span class="linenos">368</span></a>
@@ -532,7 +532,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-409"><a href="#L-409"><span class="linenos">409</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-410"><a href="#L-410"><span class="linenos">410</span></a><span class="sd">        Get the total amount of downloads of a specific release</span>
 </span><span id="L-411"><a href="#L-411"><span class="linenos">411</span></a>
-</span><span id="L-412"><a href="#L-412"><span class="linenos">412</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-412"><a href="#L-412"><span class="linenos">412</span></a><span class="sd">        Args:</span>
 </span><span id="L-413"><a href="#L-413"><span class="linenos">413</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-415"><a href="#L-415"><span class="linenos">415</span></a><span class="sd">            release (str): The release name</span>
@@ -565,7 +565,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-442"><a href="#L-442"><span class="linenos">442</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-443"><a href="#L-443"><span class="linenos">443</span></a><span class="sd">        Get the total amount of issues that have no responses</span>
 </span><span id="L-444"><a href="#L-444"><span class="linenos">444</span></a>
-</span><span id="L-445"><a href="#L-445"><span class="linenos">445</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-445"><a href="#L-445"><span class="linenos">445</span></a><span class="sd">        Args:</span>
 </span><span id="L-446"><a href="#L-446"><span class="linenos">446</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-447"><a href="#L-447"><span class="linenos">447</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-448"><a href="#L-448"><span class="linenos">448</span></a>
@@ -618,7 +618,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-495"><a href="#L-495"><span class="linenos">495</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-496"><a href="#L-496"><span class="linenos">496</span></a><span class="sd">        Get the average resolution time of the last 200 issues</span>
 </span><span id="L-497"><a href="#L-497"><span class="linenos">497</span></a>
-</span><span id="L-498"><a href="#L-498"><span class="linenos">498</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-498"><a href="#L-498"><span class="linenos">498</span></a><span class="sd">        Args:</span>
 </span><span id="L-499"><a href="#L-499"><span class="linenos">499</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-500"><a href="#L-500"><span class="linenos">500</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-501"><a href="#L-501"><span class="linenos">501</span></a>
@@ -678,7 +678,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-555"><a href="#L-555"><span class="linenos">555</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-556"><a href="#L-556"><span class="linenos">556</span></a><span class="sd">        Get the amount of issues that were posted between the given release and the release after it</span>
 </span><span id="L-557"><a href="#L-557"><span class="linenos">557</span></a>
-</span><span id="L-558"><a href="#L-558"><span class="linenos">558</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-558"><a href="#L-558"><span class="linenos">558</span></a><span class="sd">        Args:</span>
 </span><span id="L-559"><a href="#L-559"><span class="linenos">559</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-560"><a href="#L-560"><span class="linenos">560</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-561"><a href="#L-561"><span class="linenos">561</span></a><span class="sd">            release (str): The release to get the issues for</span>
@@ -723,7 +723,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-600"><a href="#L-600"><span class="linenos">600</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-601"><a href="#L-601"><span class="linenos">601</span></a><span class="sd">        Get the publish date of the given release and the release after it (if it exists)</span>
 </span><span id="L-602"><a href="#L-602"><span class="linenos">602</span></a>
-</span><span id="L-603"><a href="#L-603"><span class="linenos">603</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-603"><a href="#L-603"><span class="linenos">603</span></a><span class="sd">        Args:</span>
 </span><span id="L-604"><a href="#L-604"><span class="linenos">604</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-605"><a href="#L-605"><span class="linenos">605</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-606"><a href="#L-606"><span class="linenos">606</span></a><span class="sd">            release (str): The release to get the publish dates for</span>
@@ -784,7 +784,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-661"><a href="#L-661"><span class="linenos">661</span></a><span class="sd">        Get the stargazer count of the given owner</span>
 </span><span id="L-662"><a href="#L-662"><span class="linenos">662</span></a><span class="sd">        Can take a lot of API calls and time, as an owner can have a lot of repositories</span>
 </span><span id="L-663"><a href="#L-663"><span class="linenos">663</span></a>
-</span><span id="L-664"><a href="#L-664"><span class="linenos">664</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-664"><a href="#L-664"><span class="linenos">664</span></a><span class="sd">        Args:</span>
 </span><span id="L-665"><a href="#L-665"><span class="linenos">665</span></a><span class="sd">            owner (str): The owner to get the stargazer count for</span>
 </span><span id="L-666"><a href="#L-666"><span class="linenos">666</span></a>
 </span><span id="L-667"><a href="#L-667"><span class="linenos">667</span></a><span class="sd">        Returns:</span>
@@ -827,7 +827,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-704"><a href="#L-704"><span class="linenos">704</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-705"><a href="#L-705"><span class="linenos">705</span></a><span class="sd">        Gets the release data of the given repo, and extracts the download link from it</span>
 </span><span id="L-706"><a href="#L-706"><span class="linenos">706</span></a>
-</span><span id="L-707"><a href="#L-707"><span class="linenos">707</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-707"><a href="#L-707"><span class="linenos">707</span></a><span class="sd">        Args:</span>
 </span><span id="L-708"><a href="#L-708"><span class="linenos">708</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="L-709"><a href="#L-709"><span class="linenos">709</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="L-710"><a href="#L-710"><span class="linenos">710</span></a><span class="sd">            release (str): The release to get the release download link for</span>
@@ -861,7 +861,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-738"><a href="#L-738"><span class="linenos">738</span></a><span class="sd">        If successful, returns the response</span>
 </span><span id="L-739"><a href="#L-739"><span class="linenos">739</span></a><span class="sd">        If not, returns None</span>
 </span><span id="L-740"><a href="#L-740"><span class="linenos">740</span></a>
-</span><span id="L-741"><a href="#L-741"><span class="linenos">741</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-741"><a href="#L-741"><span class="linenos">741</span></a><span class="sd">        Args:</span>
 </span><span id="L-742"><a href="#L-742"><span class="linenos">742</span></a><span class="sd">            api_url (str): The URL to perform the API call on</span>
 </span><span id="L-743"><a href="#L-743"><span class="linenos">743</span></a><span class="sd">            call_type (str): The type of API call to perform</span>
 </span><span id="L-744"><a href="#L-744"><span class="linenos">744</span></a>
@@ -887,7 +887,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="L-764"><a href="#L-764"><span class="linenos">764</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-765"><a href="#L-765"><span class="linenos">765</span></a><span class="sd">        Function to check if a rate limit has been reached</span>
 </span><span id="L-766"><a href="#L-766"><span class="linenos">766</span></a>
-</span><span id="L-767"><a href="#L-767"><span class="linenos">767</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-767"><a href="#L-767"><span class="linenos">767</span></a><span class="sd">        Args:</span>
 </span><span id="L-768"><a href="#L-768"><span class="linenos">768</span></a><span class="sd">            call_type (str): The type of API call to perform</span>
 </span><span id="L-769"><a href="#L-769"><span class="linenos">769</span></a>
 </span><span id="L-770"><a href="#L-770"><span class="linenos">770</span></a><span class="sd">        Returns:</span>
@@ -988,7 +988,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-46"><a href="#GitHubAPICall-46"><span class="linenos"> 46</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-47"><a href="#GitHubAPICall-47"><span class="linenos"> 47</span></a><span class="sd">        Get the basic information about the given repository</span>
 </span><span id="GitHubAPICall-48"><a href="#GitHubAPICall-48"><span class="linenos"> 48</span></a>
-</span><span id="GitHubAPICall-49"><a href="#GitHubAPICall-49"><span class="linenos"> 49</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-49"><a href="#GitHubAPICall-49"><span class="linenos"> 49</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-50"><a href="#GitHubAPICall-50"><span class="linenos"> 50</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-51"><a href="#GitHubAPICall-51"><span class="linenos"> 51</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-52"><a href="#GitHubAPICall-52"><span class="linenos"> 52</span></a>
@@ -1014,7 +1014,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-72"><a href="#GitHubAPICall-72"><span class="linenos"> 72</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-73"><a href="#GitHubAPICall-73"><span class="linenos"> 73</span></a><span class="sd">        Get the language of the given repository</span>
 </span><span id="GitHubAPICall-74"><a href="#GitHubAPICall-74"><span class="linenos"> 74</span></a>
-</span><span id="GitHubAPICall-75"><a href="#GitHubAPICall-75"><span class="linenos"> 75</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-75"><a href="#GitHubAPICall-75"><span class="linenos"> 75</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-76"><a href="#GitHubAPICall-76"><span class="linenos"> 76</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-77"><a href="#GitHubAPICall-77"><span class="linenos"> 77</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-78"><a href="#GitHubAPICall-78"><span class="linenos"> 78</span></a>
@@ -1039,7 +1039,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-97"><a href="#GitHubAPICall-97"><span class="linenos"> 97</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-98"><a href="#GitHubAPICall-98"><span class="linenos"> 98</span></a><span class="sd">        Get the stargazer count of the given repository</span>
 </span><span id="GitHubAPICall-99"><a href="#GitHubAPICall-99"><span class="linenos"> 99</span></a>
-</span><span id="GitHubAPICall-100"><a href="#GitHubAPICall-100"><span class="linenos">100</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-100"><a href="#GitHubAPICall-100"><span class="linenos">100</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-101"><a href="#GitHubAPICall-101"><span class="linenos">101</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-102"><a href="#GitHubAPICall-102"><span class="linenos">102</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-103"><a href="#GitHubAPICall-103"><span class="linenos">103</span></a>
@@ -1064,7 +1064,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-122"><a href="#GitHubAPICall-122"><span class="linenos">122</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-123"><a href="#GitHubAPICall-123"><span class="linenos">123</span></a><span class="sd">        Get information about a specific release/release of a repository</span>
 </span><span id="GitHubAPICall-124"><a href="#GitHubAPICall-124"><span class="linenos">124</span></a>
-</span><span id="GitHubAPICall-125"><a href="#GitHubAPICall-125"><span class="linenos">125</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-125"><a href="#GitHubAPICall-125"><span class="linenos">125</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-126"><a href="#GitHubAPICall-126"><span class="linenos">126</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-127"><a href="#GitHubAPICall-127"><span class="linenos">127</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-128"><a href="#GitHubAPICall-128"><span class="linenos">128</span></a><span class="sd">            release (str): The release name</span>
@@ -1090,7 +1090,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-148"><a href="#GitHubAPICall-148"><span class="linenos">148</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-149"><a href="#GitHubAPICall-149"><span class="linenos">149</span></a><span class="sd">        Get the basic information about the repository owner</span>
 </span><span id="GitHubAPICall-150"><a href="#GitHubAPICall-150"><span class="linenos">150</span></a>
-</span><span id="GitHubAPICall-151"><a href="#GitHubAPICall-151"><span class="linenos">151</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-151"><a href="#GitHubAPICall-151"><span class="linenos">151</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-152"><a href="#GitHubAPICall-152"><span class="linenos">152</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-153"><a href="#GitHubAPICall-153"><span class="linenos">153</span></a>
 </span><span id="GitHubAPICall-154"><a href="#GitHubAPICall-154"><span class="linenos">154</span></a><span class="sd">        Returns:</span>
@@ -1114,7 +1114,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-172"><a href="#GitHubAPICall-172"><span class="linenos">172</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-173"><a href="#GitHubAPICall-173"><span class="linenos">173</span></a><span class="sd">        Get the amount of contributors of the given repository</span>
 </span><span id="GitHubAPICall-174"><a href="#GitHubAPICall-174"><span class="linenos">174</span></a>
-</span><span id="GitHubAPICall-175"><a href="#GitHubAPICall-175"><span class="linenos">175</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-175"><a href="#GitHubAPICall-175"><span class="linenos">175</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-176"><a href="#GitHubAPICall-176"><span class="linenos">176</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-177"><a href="#GitHubAPICall-177"><span class="linenos">177</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-178"><a href="#GitHubAPICall-178"><span class="linenos">178</span></a>
@@ -1164,7 +1164,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-222"><a href="#GitHubAPICall-222"><span class="linenos">222</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-223"><a href="#GitHubAPICall-223"><span class="linenos">223</span></a><span class="sd">        Get the GitStar ranking of the given repository</span>
 </span><span id="GitHubAPICall-224"><a href="#GitHubAPICall-224"><span class="linenos">224</span></a>
-</span><span id="GitHubAPICall-225"><a href="#GitHubAPICall-225"><span class="linenos">225</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-225"><a href="#GitHubAPICall-225"><span class="linenos">225</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-226"><a href="#GitHubAPICall-226"><span class="linenos">226</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-227"><a href="#GitHubAPICall-227"><span class="linenos">227</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-228"><a href="#GitHubAPICall-228"><span class="linenos">228</span></a>
@@ -1273,7 +1273,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-331"><a href="#GitHubAPICall-331"><span class="linenos">331</span></a><span class="sd">        Get the amount of commits in the last year</span>
 </span><span id="GitHubAPICall-332"><a href="#GitHubAPICall-332"><span class="linenos">332</span></a><span class="sd">        This &#39;last year&#39; is counted from the current date</span>
 </span><span id="GitHubAPICall-333"><a href="#GitHubAPICall-333"><span class="linenos">333</span></a>
-</span><span id="GitHubAPICall-334"><a href="#GitHubAPICall-334"><span class="linenos">334</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-334"><a href="#GitHubAPICall-334"><span class="linenos">334</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-335"><a href="#GitHubAPICall-335"><span class="linenos">335</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-336"><a href="#GitHubAPICall-336"><span class="linenos">336</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-337"><a href="#GitHubAPICall-337"><span class="linenos">337</span></a>
@@ -1305,7 +1305,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-363"><a href="#GitHubAPICall-363"><span class="linenos">363</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-364"><a href="#GitHubAPICall-364"><span class="linenos">364</span></a><span class="sd">        Get the total amount of downloads of this repository</span>
 </span><span id="GitHubAPICall-365"><a href="#GitHubAPICall-365"><span class="linenos">365</span></a>
-</span><span id="GitHubAPICall-366"><a href="#GitHubAPICall-366"><span class="linenos">366</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-366"><a href="#GitHubAPICall-366"><span class="linenos">366</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-367"><a href="#GitHubAPICall-367"><span class="linenos">367</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-368"><a href="#GitHubAPICall-368"><span class="linenos">368</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-369"><a href="#GitHubAPICall-369"><span class="linenos">369</span></a>
@@ -1352,7 +1352,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-410"><a href="#GitHubAPICall-410"><span class="linenos">410</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-411"><a href="#GitHubAPICall-411"><span class="linenos">411</span></a><span class="sd">        Get the total amount of downloads of a specific release</span>
 </span><span id="GitHubAPICall-412"><a href="#GitHubAPICall-412"><span class="linenos">412</span></a>
-</span><span id="GitHubAPICall-413"><a href="#GitHubAPICall-413"><span class="linenos">413</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-413"><a href="#GitHubAPICall-413"><span class="linenos">413</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-414"><a href="#GitHubAPICall-414"><span class="linenos">414</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-415"><a href="#GitHubAPICall-415"><span class="linenos">415</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-416"><a href="#GitHubAPICall-416"><span class="linenos">416</span></a><span class="sd">            release (str): The release name</span>
@@ -1385,7 +1385,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-443"><a href="#GitHubAPICall-443"><span class="linenos">443</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-444"><a href="#GitHubAPICall-444"><span class="linenos">444</span></a><span class="sd">        Get the total amount of issues that have no responses</span>
 </span><span id="GitHubAPICall-445"><a href="#GitHubAPICall-445"><span class="linenos">445</span></a>
-</span><span id="GitHubAPICall-446"><a href="#GitHubAPICall-446"><span class="linenos">446</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-446"><a href="#GitHubAPICall-446"><span class="linenos">446</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-447"><a href="#GitHubAPICall-447"><span class="linenos">447</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-448"><a href="#GitHubAPICall-448"><span class="linenos">448</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-449"><a href="#GitHubAPICall-449"><span class="linenos">449</span></a>
@@ -1438,7 +1438,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-496"><a href="#GitHubAPICall-496"><span class="linenos">496</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-497"><a href="#GitHubAPICall-497"><span class="linenos">497</span></a><span class="sd">        Get the average resolution time of the last 200 issues</span>
 </span><span id="GitHubAPICall-498"><a href="#GitHubAPICall-498"><span class="linenos">498</span></a>
-</span><span id="GitHubAPICall-499"><a href="#GitHubAPICall-499"><span class="linenos">499</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-499"><a href="#GitHubAPICall-499"><span class="linenos">499</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-500"><a href="#GitHubAPICall-500"><span class="linenos">500</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-501"><a href="#GitHubAPICall-501"><span class="linenos">501</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-502"><a href="#GitHubAPICall-502"><span class="linenos">502</span></a>
@@ -1498,7 +1498,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-556"><a href="#GitHubAPICall-556"><span class="linenos">556</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-557"><a href="#GitHubAPICall-557"><span class="linenos">557</span></a><span class="sd">        Get the amount of issues that were posted between the given release and the release after it</span>
 </span><span id="GitHubAPICall-558"><a href="#GitHubAPICall-558"><span class="linenos">558</span></a>
-</span><span id="GitHubAPICall-559"><a href="#GitHubAPICall-559"><span class="linenos">559</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-559"><a href="#GitHubAPICall-559"><span class="linenos">559</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-560"><a href="#GitHubAPICall-560"><span class="linenos">560</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-561"><a href="#GitHubAPICall-561"><span class="linenos">561</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-562"><a href="#GitHubAPICall-562"><span class="linenos">562</span></a><span class="sd">            release (str): The release to get the issues for</span>
@@ -1543,7 +1543,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-601"><a href="#GitHubAPICall-601"><span class="linenos">601</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-602"><a href="#GitHubAPICall-602"><span class="linenos">602</span></a><span class="sd">        Get the publish date of the given release and the release after it (if it exists)</span>
 </span><span id="GitHubAPICall-603"><a href="#GitHubAPICall-603"><span class="linenos">603</span></a>
-</span><span id="GitHubAPICall-604"><a href="#GitHubAPICall-604"><span class="linenos">604</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-604"><a href="#GitHubAPICall-604"><span class="linenos">604</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-605"><a href="#GitHubAPICall-605"><span class="linenos">605</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-606"><a href="#GitHubAPICall-606"><span class="linenos">606</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-607"><a href="#GitHubAPICall-607"><span class="linenos">607</span></a><span class="sd">            release (str): The release to get the publish dates for</span>
@@ -1604,7 +1604,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-662"><a href="#GitHubAPICall-662"><span class="linenos">662</span></a><span class="sd">        Get the stargazer count of the given owner</span>
 </span><span id="GitHubAPICall-663"><a href="#GitHubAPICall-663"><span class="linenos">663</span></a><span class="sd">        Can take a lot of API calls and time, as an owner can have a lot of repositories</span>
 </span><span id="GitHubAPICall-664"><a href="#GitHubAPICall-664"><span class="linenos">664</span></a>
-</span><span id="GitHubAPICall-665"><a href="#GitHubAPICall-665"><span class="linenos">665</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-665"><a href="#GitHubAPICall-665"><span class="linenos">665</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-666"><a href="#GitHubAPICall-666"><span class="linenos">666</span></a><span class="sd">            owner (str): The owner to get the stargazer count for</span>
 </span><span id="GitHubAPICall-667"><a href="#GitHubAPICall-667"><span class="linenos">667</span></a>
 </span><span id="GitHubAPICall-668"><a href="#GitHubAPICall-668"><span class="linenos">668</span></a><span class="sd">        Returns:</span>
@@ -1647,7 +1647,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-705"><a href="#GitHubAPICall-705"><span class="linenos">705</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-706"><a href="#GitHubAPICall-706"><span class="linenos">706</span></a><span class="sd">        Gets the release data of the given repo, and extracts the download link from it</span>
 </span><span id="GitHubAPICall-707"><a href="#GitHubAPICall-707"><span class="linenos">707</span></a>
-</span><span id="GitHubAPICall-708"><a href="#GitHubAPICall-708"><span class="linenos">708</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-708"><a href="#GitHubAPICall-708"><span class="linenos">708</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-709"><a href="#GitHubAPICall-709"><span class="linenos">709</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall-710"><a href="#GitHubAPICall-710"><span class="linenos">710</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall-711"><a href="#GitHubAPICall-711"><span class="linenos">711</span></a><span class="sd">            release (str): The release to get the release download link for</span>
@@ -1681,7 +1681,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-739"><a href="#GitHubAPICall-739"><span class="linenos">739</span></a><span class="sd">        If successful, returns the response</span>
 </span><span id="GitHubAPICall-740"><a href="#GitHubAPICall-740"><span class="linenos">740</span></a><span class="sd">        If not, returns None</span>
 </span><span id="GitHubAPICall-741"><a href="#GitHubAPICall-741"><span class="linenos">741</span></a>
-</span><span id="GitHubAPICall-742"><a href="#GitHubAPICall-742"><span class="linenos">742</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-742"><a href="#GitHubAPICall-742"><span class="linenos">742</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-743"><a href="#GitHubAPICall-743"><span class="linenos">743</span></a><span class="sd">            api_url (str): The URL to perform the API call on</span>
 </span><span id="GitHubAPICall-744"><a href="#GitHubAPICall-744"><span class="linenos">744</span></a><span class="sd">            call_type (str): The type of API call to perform</span>
 </span><span id="GitHubAPICall-745"><a href="#GitHubAPICall-745"><span class="linenos">745</span></a>
@@ -1707,7 +1707,7 @@ bar = foo.get_repository_data('owner', 'name')
 </span><span id="GitHubAPICall-765"><a href="#GitHubAPICall-765"><span class="linenos">765</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall-766"><a href="#GitHubAPICall-766"><span class="linenos">766</span></a><span class="sd">        Function to check if a rate limit has been reached</span>
 </span><span id="GitHubAPICall-767"><a href="#GitHubAPICall-767"><span class="linenos">767</span></a>
-</span><span id="GitHubAPICall-768"><a href="#GitHubAPICall-768"><span class="linenos">768</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall-768"><a href="#GitHubAPICall-768"><span class="linenos">768</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall-769"><a href="#GitHubAPICall-769"><span class="linenos">769</span></a><span class="sd">            call_type (str): The type of API call to perform</span>
 </span><span id="GitHubAPICall-770"><a href="#GitHubAPICall-770"><span class="linenos">770</span></a>
 </span><span id="GitHubAPICall-771"><a href="#GitHubAPICall-771"><span class="linenos">771</span></a><span class="sd">        Returns:</span>
@@ -1772,9 +1772,12 @@ bar = foo.get_repository_data('owner', 'name')
 API calls are made to the GitHub API and the data is returned.
 If needed, it performs calculations to get the data.</p>
 
-<p>Attributes:
-    core_remaining (int): The number of remaining API calls for the core API
-    search_remaining (int): The number of remaining API calls for the search API</p>
+<h6 id="attributes">Attributes</h6>
+
+<ul>
+<li><strong>core_remaining (int):</strong>  The number of remaining API calls for the core API</li>
+<li><strong>search_remaining (int):</strong>  The number of remaining API calls for the search API</li>
+</ul>
 </div>
 
 
@@ -1818,7 +1821,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_basic_repository_data-46"><a href="#GitHubAPICall.get_basic_repository_data-46"><span class="linenos">46</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_basic_repository_data-47"><a href="#GitHubAPICall.get_basic_repository_data-47"><span class="linenos">47</span></a><span class="sd">        Get the basic information about the given repository</span>
 </span><span id="GitHubAPICall.get_basic_repository_data-48"><a href="#GitHubAPICall.get_basic_repository_data-48"><span class="linenos">48</span></a>
-</span><span id="GitHubAPICall.get_basic_repository_data-49"><a href="#GitHubAPICall.get_basic_repository_data-49"><span class="linenos">49</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_basic_repository_data-49"><a href="#GitHubAPICall.get_basic_repository_data-49"><span class="linenos">49</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_basic_repository_data-50"><a href="#GitHubAPICall.get_basic_repository_data-50"><span class="linenos">50</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_basic_repository_data-51"><a href="#GitHubAPICall.get_basic_repository_data-51"><span class="linenos">51</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_basic_repository_data-52"><a href="#GitHubAPICall.get_basic_repository_data-52"><span class="linenos">52</span></a>
@@ -1844,12 +1847,18 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get the basic information about the given repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    dict: The basic repository data</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>dict: The basic repository data</p>
+</blockquote>
 </div>
 
 
@@ -1869,7 +1878,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_repository_language-72"><a href="#GitHubAPICall.get_repository_language-72"><span class="linenos">72</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_repository_language-73"><a href="#GitHubAPICall.get_repository_language-73"><span class="linenos">73</span></a><span class="sd">        Get the language of the given repository</span>
 </span><span id="GitHubAPICall.get_repository_language-74"><a href="#GitHubAPICall.get_repository_language-74"><span class="linenos">74</span></a>
-</span><span id="GitHubAPICall.get_repository_language-75"><a href="#GitHubAPICall.get_repository_language-75"><span class="linenos">75</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_repository_language-75"><a href="#GitHubAPICall.get_repository_language-75"><span class="linenos">75</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_repository_language-76"><a href="#GitHubAPICall.get_repository_language-76"><span class="linenos">76</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_repository_language-77"><a href="#GitHubAPICall.get_repository_language-77"><span class="linenos">77</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_repository_language-78"><a href="#GitHubAPICall.get_repository_language-78"><span class="linenos">78</span></a>
@@ -1894,12 +1903,18 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get the language of the given repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    str: The language of the repository</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>str: The language of the repository</p>
+</blockquote>
 </div>
 
 
@@ -1919,7 +1934,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_repository_stargazer_count-97"><a href="#GitHubAPICall.get_repository_stargazer_count-97"><span class="linenos"> 97</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_repository_stargazer_count-98"><a href="#GitHubAPICall.get_repository_stargazer_count-98"><span class="linenos"> 98</span></a><span class="sd">        Get the stargazer count of the given repository</span>
 </span><span id="GitHubAPICall.get_repository_stargazer_count-99"><a href="#GitHubAPICall.get_repository_stargazer_count-99"><span class="linenos"> 99</span></a>
-</span><span id="GitHubAPICall.get_repository_stargazer_count-100"><a href="#GitHubAPICall.get_repository_stargazer_count-100"><span class="linenos">100</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_repository_stargazer_count-100"><a href="#GitHubAPICall.get_repository_stargazer_count-100"><span class="linenos">100</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_repository_stargazer_count-101"><a href="#GitHubAPICall.get_repository_stargazer_count-101"><span class="linenos">101</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_repository_stargazer_count-102"><a href="#GitHubAPICall.get_repository_stargazer_count-102"><span class="linenos">102</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_repository_stargazer_count-103"><a href="#GitHubAPICall.get_repository_stargazer_count-103"><span class="linenos">103</span></a>
@@ -1944,12 +1959,18 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get the stargazer count of the given repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The stargazer count</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The stargazer count</p>
+</blockquote>
 </div>
 
 
@@ -1969,7 +1990,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_release_data-122"><a href="#GitHubAPICall.get_release_data-122"><span class="linenos">122</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_release_data-123"><a href="#GitHubAPICall.get_release_data-123"><span class="linenos">123</span></a><span class="sd">        Get information about a specific release/release of a repository</span>
 </span><span id="GitHubAPICall.get_release_data-124"><a href="#GitHubAPICall.get_release_data-124"><span class="linenos">124</span></a>
-</span><span id="GitHubAPICall.get_release_data-125"><a href="#GitHubAPICall.get_release_data-125"><span class="linenos">125</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_release_data-125"><a href="#GitHubAPICall.get_release_data-125"><span class="linenos">125</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_release_data-126"><a href="#GitHubAPICall.get_release_data-126"><span class="linenos">126</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_release_data-127"><a href="#GitHubAPICall.get_release_data-127"><span class="linenos">127</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_release_data-128"><a href="#GitHubAPICall.get_release_data-128"><span class="linenos">128</span></a><span class="sd">            release (str): The release name</span>
@@ -1995,13 +2016,19 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get information about a specific release/release of a repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name
-    release (str): The release name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    dict: The release data</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+<li><strong>release (str):</strong>  The release name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>dict: The release data</p>
+</blockquote>
 </div>
 
 
@@ -2021,7 +2048,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_owner_data-148"><a href="#GitHubAPICall.get_owner_data-148"><span class="linenos">148</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_owner_data-149"><a href="#GitHubAPICall.get_owner_data-149"><span class="linenos">149</span></a><span class="sd">        Get the basic information about the repository owner</span>
 </span><span id="GitHubAPICall.get_owner_data-150"><a href="#GitHubAPICall.get_owner_data-150"><span class="linenos">150</span></a>
-</span><span id="GitHubAPICall.get_owner_data-151"><a href="#GitHubAPICall.get_owner_data-151"><span class="linenos">151</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_owner_data-151"><a href="#GitHubAPICall.get_owner_data-151"><span class="linenos">151</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_owner_data-152"><a href="#GitHubAPICall.get_owner_data-152"><span class="linenos">152</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_owner_data-153"><a href="#GitHubAPICall.get_owner_data-153"><span class="linenos">153</span></a>
 </span><span id="GitHubAPICall.get_owner_data-154"><a href="#GitHubAPICall.get_owner_data-154"><span class="linenos">154</span></a><span class="sd">        Returns:</span>
@@ -2045,11 +2072,17 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get the basic information about the repository owner</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    dict: The owner data</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>dict: The owner data</p>
+</blockquote>
 </div>
 
 
@@ -2069,7 +2102,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_repository_contributor_count-172"><a href="#GitHubAPICall.get_repository_contributor_count-172"><span class="linenos">172</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_repository_contributor_count-173"><a href="#GitHubAPICall.get_repository_contributor_count-173"><span class="linenos">173</span></a><span class="sd">        Get the amount of contributors of the given repository</span>
 </span><span id="GitHubAPICall.get_repository_contributor_count-174"><a href="#GitHubAPICall.get_repository_contributor_count-174"><span class="linenos">174</span></a>
-</span><span id="GitHubAPICall.get_repository_contributor_count-175"><a href="#GitHubAPICall.get_repository_contributor_count-175"><span class="linenos">175</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_repository_contributor_count-175"><a href="#GitHubAPICall.get_repository_contributor_count-175"><span class="linenos">175</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_repository_contributor_count-176"><a href="#GitHubAPICall.get_repository_contributor_count-176"><span class="linenos">176</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_repository_contributor_count-177"><a href="#GitHubAPICall.get_repository_contributor_count-177"><span class="linenos">177</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_repository_contributor_count-178"><a href="#GitHubAPICall.get_repository_contributor_count-178"><span class="linenos">178</span></a>
@@ -2119,12 +2152,18 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get the amount of contributors of the given repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The amount of contributors</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The amount of contributors</p>
+</blockquote>
 </div>
 
 
@@ -2144,7 +2183,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_gitstar_ranking-222"><a href="#GitHubAPICall.get_gitstar_ranking-222"><span class="linenos">222</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_gitstar_ranking-223"><a href="#GitHubAPICall.get_gitstar_ranking-223"><span class="linenos">223</span></a><span class="sd">        Get the GitStar ranking of the given repository</span>
 </span><span id="GitHubAPICall.get_gitstar_ranking-224"><a href="#GitHubAPICall.get_gitstar_ranking-224"><span class="linenos">224</span></a>
-</span><span id="GitHubAPICall.get_gitstar_ranking-225"><a href="#GitHubAPICall.get_gitstar_ranking-225"><span class="linenos">225</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_gitstar_ranking-225"><a href="#GitHubAPICall.get_gitstar_ranking-225"><span class="linenos">225</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_gitstar_ranking-226"><a href="#GitHubAPICall.get_gitstar_ranking-226"><span class="linenos">226</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_gitstar_ranking-227"><a href="#GitHubAPICall.get_gitstar_ranking-227"><span class="linenos">227</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_gitstar_ranking-228"><a href="#GitHubAPICall.get_gitstar_ranking-228"><span class="linenos">228</span></a>
@@ -2252,12 +2291,18 @@ If needed, it performs calculations to get the data.</p>
 
             <div class="docstring"><p>Get the GitStar ranking of the given repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The GitStar ranking</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The GitStar ranking</p>
+</blockquote>
 </div>
 
 
@@ -2278,7 +2323,7 @@ If needed, it performs calculations to get the data.</p>
 </span><span id="GitHubAPICall.get_yearly_commit_count-331"><a href="#GitHubAPICall.get_yearly_commit_count-331"><span class="linenos">331</span></a><span class="sd">        Get the amount of commits in the last year</span>
 </span><span id="GitHubAPICall.get_yearly_commit_count-332"><a href="#GitHubAPICall.get_yearly_commit_count-332"><span class="linenos">332</span></a><span class="sd">        This &#39;last year&#39; is counted from the current date</span>
 </span><span id="GitHubAPICall.get_yearly_commit_count-333"><a href="#GitHubAPICall.get_yearly_commit_count-333"><span class="linenos">333</span></a>
-</span><span id="GitHubAPICall.get_yearly_commit_count-334"><a href="#GitHubAPICall.get_yearly_commit_count-334"><span class="linenos">334</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_yearly_commit_count-334"><a href="#GitHubAPICall.get_yearly_commit_count-334"><span class="linenos">334</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_yearly_commit_count-335"><a href="#GitHubAPICall.get_yearly_commit_count-335"><span class="linenos">335</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_yearly_commit_count-336"><a href="#GitHubAPICall.get_yearly_commit_count-336"><span class="linenos">336</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_yearly_commit_count-337"><a href="#GitHubAPICall.get_yearly_commit_count-337"><span class="linenos">337</span></a>
@@ -2311,12 +2356,18 @@ If needed, it performs calculations to get the data.</p>
             <div class="docstring"><p>Get the amount of commits in the last year
 This 'last year' is counted from the current date</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The amount of commits in the last year</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The amount of commits in the last year</p>
+</blockquote>
 </div>
 
 
@@ -2336,7 +2387,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_total_download_count-363"><a href="#GitHubAPICall.get_total_download_count-363"><span class="linenos">363</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_total_download_count-364"><a href="#GitHubAPICall.get_total_download_count-364"><span class="linenos">364</span></a><span class="sd">        Get the total amount of downloads of this repository</span>
 </span><span id="GitHubAPICall.get_total_download_count-365"><a href="#GitHubAPICall.get_total_download_count-365"><span class="linenos">365</span></a>
-</span><span id="GitHubAPICall.get_total_download_count-366"><a href="#GitHubAPICall.get_total_download_count-366"><span class="linenos">366</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_total_download_count-366"><a href="#GitHubAPICall.get_total_download_count-366"><span class="linenos">366</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_total_download_count-367"><a href="#GitHubAPICall.get_total_download_count-367"><span class="linenos">367</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_total_download_count-368"><a href="#GitHubAPICall.get_total_download_count-368"><span class="linenos">368</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_total_download_count-369"><a href="#GitHubAPICall.get_total_download_count-369"><span class="linenos">369</span></a>
@@ -2383,12 +2434,18 @@ This 'last year' is counted from the current date</p>
 
             <div class="docstring"><p>Get the total amount of downloads of this repository</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The total amount of downloads of this repository</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The total amount of downloads of this repository</p>
+</blockquote>
 </div>
 
 
@@ -2408,7 +2465,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_release_download_count-410"><a href="#GitHubAPICall.get_release_download_count-410"><span class="linenos">410</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_release_download_count-411"><a href="#GitHubAPICall.get_release_download_count-411"><span class="linenos">411</span></a><span class="sd">        Get the total amount of downloads of a specific release</span>
 </span><span id="GitHubAPICall.get_release_download_count-412"><a href="#GitHubAPICall.get_release_download_count-412"><span class="linenos">412</span></a>
-</span><span id="GitHubAPICall.get_release_download_count-413"><a href="#GitHubAPICall.get_release_download_count-413"><span class="linenos">413</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_release_download_count-413"><a href="#GitHubAPICall.get_release_download_count-413"><span class="linenos">413</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_release_download_count-414"><a href="#GitHubAPICall.get_release_download_count-414"><span class="linenos">414</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_release_download_count-415"><a href="#GitHubAPICall.get_release_download_count-415"><span class="linenos">415</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_release_download_count-416"><a href="#GitHubAPICall.get_release_download_count-416"><span class="linenos">416</span></a><span class="sd">            release (str): The release name</span>
@@ -2441,13 +2498,19 @@ This 'last year' is counted from the current date</p>
 
             <div class="docstring"><p>Get the total amount of downloads of a specific release</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name
-    release (str): The release name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The total amount of downloads of the given release</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+<li><strong>release (str):</strong>  The release name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The total amount of downloads of the given release</p>
+</blockquote>
 </div>
 
 
@@ -2467,7 +2530,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_zero_responses_issue_count-443"><a href="#GitHubAPICall.get_zero_responses_issue_count-443"><span class="linenos">443</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_zero_responses_issue_count-444"><a href="#GitHubAPICall.get_zero_responses_issue_count-444"><span class="linenos">444</span></a><span class="sd">        Get the total amount of issues that have no responses</span>
 </span><span id="GitHubAPICall.get_zero_responses_issue_count-445"><a href="#GitHubAPICall.get_zero_responses_issue_count-445"><span class="linenos">445</span></a>
-</span><span id="GitHubAPICall.get_zero_responses_issue_count-446"><a href="#GitHubAPICall.get_zero_responses_issue_count-446"><span class="linenos">446</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_zero_responses_issue_count-446"><a href="#GitHubAPICall.get_zero_responses_issue_count-446"><span class="linenos">446</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_zero_responses_issue_count-447"><a href="#GitHubAPICall.get_zero_responses_issue_count-447"><span class="linenos">447</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_zero_responses_issue_count-448"><a href="#GitHubAPICall.get_zero_responses_issue_count-448"><span class="linenos">448</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_zero_responses_issue_count-449"><a href="#GitHubAPICall.get_zero_responses_issue_count-449"><span class="linenos">449</span></a>
@@ -2520,12 +2583,18 @@ This 'last year' is counted from the current date</p>
 
             <div class="docstring"><p>Get the total amount of issues that have no responses</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The total amount of issues that have no responses</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The total amount of issues that have no responses</p>
+</blockquote>
 </div>
 
 
@@ -2545,7 +2614,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_average_issue_resolution_time-496"><a href="#GitHubAPICall.get_average_issue_resolution_time-496"><span class="linenos">496</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_average_issue_resolution_time-497"><a href="#GitHubAPICall.get_average_issue_resolution_time-497"><span class="linenos">497</span></a><span class="sd">        Get the average resolution time of the last 200 issues</span>
 </span><span id="GitHubAPICall.get_average_issue_resolution_time-498"><a href="#GitHubAPICall.get_average_issue_resolution_time-498"><span class="linenos">498</span></a>
-</span><span id="GitHubAPICall.get_average_issue_resolution_time-499"><a href="#GitHubAPICall.get_average_issue_resolution_time-499"><span class="linenos">499</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_average_issue_resolution_time-499"><a href="#GitHubAPICall.get_average_issue_resolution_time-499"><span class="linenos">499</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_average_issue_resolution_time-500"><a href="#GitHubAPICall.get_average_issue_resolution_time-500"><span class="linenos">500</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_average_issue_resolution_time-501"><a href="#GitHubAPICall.get_average_issue_resolution_time-501"><span class="linenos">501</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_average_issue_resolution_time-502"><a href="#GitHubAPICall.get_average_issue_resolution_time-502"><span class="linenos">502</span></a>
@@ -2605,12 +2674,18 @@ This 'last year' is counted from the current date</p>
 
             <div class="docstring"><p>Get the average resolution time of the last 200 issues</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The average resolution time of the last 200 issues (in seconds)</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The average resolution time of the last 200 issues (in seconds)</p>
+</blockquote>
 </div>
 
 
@@ -2630,7 +2705,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_issue_count_per_release-556"><a href="#GitHubAPICall.get_issue_count_per_release-556"><span class="linenos">556</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_issue_count_per_release-557"><a href="#GitHubAPICall.get_issue_count_per_release-557"><span class="linenos">557</span></a><span class="sd">        Get the amount of issues that were posted between the given release and the release after it</span>
 </span><span id="GitHubAPICall.get_issue_count_per_release-558"><a href="#GitHubAPICall.get_issue_count_per_release-558"><span class="linenos">558</span></a>
-</span><span id="GitHubAPICall.get_issue_count_per_release-559"><a href="#GitHubAPICall.get_issue_count_per_release-559"><span class="linenos">559</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_issue_count_per_release-559"><a href="#GitHubAPICall.get_issue_count_per_release-559"><span class="linenos">559</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_issue_count_per_release-560"><a href="#GitHubAPICall.get_issue_count_per_release-560"><span class="linenos">560</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_issue_count_per_release-561"><a href="#GitHubAPICall.get_issue_count_per_release-561"><span class="linenos">561</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_issue_count_per_release-562"><a href="#GitHubAPICall.get_issue_count_per_release-562"><span class="linenos">562</span></a><span class="sd">            release (str): The release to get the issues for</span>
@@ -2675,13 +2750,19 @@ This 'last year' is counted from the current date</p>
 
             <div class="docstring"><p>Get the amount of issues that were posted between the given release and the release after it</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name
-    release (str): The release to get the issues for</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The amount of issues that were posted between the release and the release after it</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+<li><strong>release (str):</strong>  The release to get the issues for</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The amount of issues that were posted between the release and the release after it</p>
+</blockquote>
 </div>
 
 
@@ -2701,7 +2782,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_release_dates-601"><a href="#GitHubAPICall.get_release_dates-601"><span class="linenos">601</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_release_dates-602"><a href="#GitHubAPICall.get_release_dates-602"><span class="linenos">602</span></a><span class="sd">        Get the publish date of the given release and the release after it (if it exists)</span>
 </span><span id="GitHubAPICall.get_release_dates-603"><a href="#GitHubAPICall.get_release_dates-603"><span class="linenos">603</span></a>
-</span><span id="GitHubAPICall.get_release_dates-604"><a href="#GitHubAPICall.get_release_dates-604"><span class="linenos">604</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_release_dates-604"><a href="#GitHubAPICall.get_release_dates-604"><span class="linenos">604</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_release_dates-605"><a href="#GitHubAPICall.get_release_dates-605"><span class="linenos">605</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_release_dates-606"><a href="#GitHubAPICall.get_release_dates-606"><span class="linenos">606</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_release_dates-607"><a href="#GitHubAPICall.get_release_dates-607"><span class="linenos">607</span></a><span class="sd">            release (str): The release to get the publish dates for</span>
@@ -2761,13 +2842,19 @@ This 'last year' is counted from the current date</p>
 
             <div class="docstring"><p>Get the publish date of the given release and the release after it (if it exists)</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name
-    release (str): The release to get the publish dates for</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    tuple: The publish dates of the given release and the release after it (if it exists)</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+<li><strong>release (str):</strong>  The release to get the publish dates for</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>tuple: The publish dates of the given release and the release after it (if it exists)</p>
+</blockquote>
 </div>
 
 
@@ -2788,7 +2875,7 @@ This 'last year' is counted from the current date</p>
 </span><span id="GitHubAPICall.get_owner_stargazer_count-662"><a href="#GitHubAPICall.get_owner_stargazer_count-662"><span class="linenos">662</span></a><span class="sd">        Get the stargazer count of the given owner</span>
 </span><span id="GitHubAPICall.get_owner_stargazer_count-663"><a href="#GitHubAPICall.get_owner_stargazer_count-663"><span class="linenos">663</span></a><span class="sd">        Can take a lot of API calls and time, as an owner can have a lot of repositories</span>
 </span><span id="GitHubAPICall.get_owner_stargazer_count-664"><a href="#GitHubAPICall.get_owner_stargazer_count-664"><span class="linenos">664</span></a>
-</span><span id="GitHubAPICall.get_owner_stargazer_count-665"><a href="#GitHubAPICall.get_owner_stargazer_count-665"><span class="linenos">665</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_owner_stargazer_count-665"><a href="#GitHubAPICall.get_owner_stargazer_count-665"><span class="linenos">665</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_owner_stargazer_count-666"><a href="#GitHubAPICall.get_owner_stargazer_count-666"><span class="linenos">666</span></a><span class="sd">            owner (str): The owner to get the stargazer count for</span>
 </span><span id="GitHubAPICall.get_owner_stargazer_count-667"><a href="#GitHubAPICall.get_owner_stargazer_count-667"><span class="linenos">667</span></a>
 </span><span id="GitHubAPICall.get_owner_stargazer_count-668"><a href="#GitHubAPICall.get_owner_stargazer_count-668"><span class="linenos">668</span></a><span class="sd">        Returns:</span>
@@ -2832,11 +2919,17 @@ This 'last year' is counted from the current date</p>
             <div class="docstring"><p>Get the stargazer count of the given owner
 Can take a lot of API calls and time, as an owner can have a lot of repositories</p>
 
-<p>Parameters:
-    owner (str): The owner to get the stargazer count for</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The stargazer count of the given owner</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner to get the stargazer count for</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The stargazer count of the given owner</p>
+</blockquote>
 </div>
 
 
@@ -2856,7 +2949,7 @@ Can take a lot of API calls and time, as an owner can have a lot of repositories
 </span><span id="GitHubAPICall.get_release_download_links-705"><a href="#GitHubAPICall.get_release_download_links-705"><span class="linenos">705</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.get_release_download_links-706"><a href="#GitHubAPICall.get_release_download_links-706"><span class="linenos">706</span></a><span class="sd">        Gets the release data of the given repo, and extracts the download link from it</span>
 </span><span id="GitHubAPICall.get_release_download_links-707"><a href="#GitHubAPICall.get_release_download_links-707"><span class="linenos">707</span></a>
-</span><span id="GitHubAPICall.get_release_download_links-708"><a href="#GitHubAPICall.get_release_download_links-708"><span class="linenos">708</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.get_release_download_links-708"><a href="#GitHubAPICall.get_release_download_links-708"><span class="linenos">708</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.get_release_download_links-709"><a href="#GitHubAPICall.get_release_download_links-709"><span class="linenos">709</span></a><span class="sd">            owner (str): The owner of the repository</span>
 </span><span id="GitHubAPICall.get_release_download_links-710"><a href="#GitHubAPICall.get_release_download_links-710"><span class="linenos">710</span></a><span class="sd">            repo (str): The repository name</span>
 </span><span id="GitHubAPICall.get_release_download_links-711"><a href="#GitHubAPICall.get_release_download_links-711"><span class="linenos">711</span></a><span class="sd">            release (str): The release to get the release download link for</span>
@@ -2887,13 +2980,19 @@ Can take a lot of API calls and time, as an owner can have a lot of repositories
 
             <div class="docstring"><p>Gets the release data of the given repo, and extracts the download link from it</p>
 
-<p>Parameters:
-    owner (str): The owner of the repository
-    repo (str): The repository name
-    release (str): The release to get the release download link for</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    List[str]: The download link of the given release</p>
+<ul>
+<li><strong>owner (str):</strong>  The owner of the repository</li>
+<li><strong>repo (str):</strong>  The repository name</li>
+<li><strong>release (str):</strong>  The release to get the release download link for</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>List[str]: The download link of the given release</p>
+</blockquote>
 </div>
 
 
@@ -2916,7 +3015,7 @@ Can take a lot of API calls and time, as an owner can have a lot of repositories
 </span><span id="GitHubAPICall.try_perform_api_call-739"><a href="#GitHubAPICall.try_perform_api_call-739"><span class="linenos">739</span></a><span class="sd">        If successful, returns the response</span>
 </span><span id="GitHubAPICall.try_perform_api_call-740"><a href="#GitHubAPICall.try_perform_api_call-740"><span class="linenos">740</span></a><span class="sd">        If not, returns None</span>
 </span><span id="GitHubAPICall.try_perform_api_call-741"><a href="#GitHubAPICall.try_perform_api_call-741"><span class="linenos">741</span></a>
-</span><span id="GitHubAPICall.try_perform_api_call-742"><a href="#GitHubAPICall.try_perform_api_call-742"><span class="linenos">742</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.try_perform_api_call-742"><a href="#GitHubAPICall.try_perform_api_call-742"><span class="linenos">742</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.try_perform_api_call-743"><a href="#GitHubAPICall.try_perform_api_call-743"><span class="linenos">743</span></a><span class="sd">            api_url (str): The URL to perform the API call on</span>
 </span><span id="GitHubAPICall.try_perform_api_call-744"><a href="#GitHubAPICall.try_perform_api_call-744"><span class="linenos">744</span></a><span class="sd">            call_type (str): The type of API call to perform</span>
 </span><span id="GitHubAPICall.try_perform_api_call-745"><a href="#GitHubAPICall.try_perform_api_call-745"><span class="linenos">745</span></a>
@@ -2945,12 +3044,18 @@ Can take a lot of API calls and time, as an owner can have a lot of repositories
 <p>If successful, returns the response
 If not, returns None</p>
 
-<p>Parameters:
-    api_url (str): The URL to perform the API call on
-    call_type (str): The type of API call to perform</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    requests.Response: The response from the API call</p>
+<ul>
+<li><strong>api_url (str):</strong>  The URL to perform the API call on</li>
+<li><strong>call_type (str):</strong>  The type of API call to perform</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>requests.Response: The response from the API call</p>
+</blockquote>
 </div>
 
 
@@ -2970,7 +3075,7 @@ If not, returns None</p>
 </span><span id="GitHubAPICall.check_rate_limit-765"><a href="#GitHubAPICall.check_rate_limit-765"><span class="linenos">765</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GitHubAPICall.check_rate_limit-766"><a href="#GitHubAPICall.check_rate_limit-766"><span class="linenos">766</span></a><span class="sd">        Function to check if a rate limit has been reached</span>
 </span><span id="GitHubAPICall.check_rate_limit-767"><a href="#GitHubAPICall.check_rate_limit-767"><span class="linenos">767</span></a>
-</span><span id="GitHubAPICall.check_rate_limit-768"><a href="#GitHubAPICall.check_rate_limit-768"><span class="linenos">768</span></a><span class="sd">        Parameters:</span>
+</span><span id="GitHubAPICall.check_rate_limit-768"><a href="#GitHubAPICall.check_rate_limit-768"><span class="linenos">768</span></a><span class="sd">        Args:</span>
 </span><span id="GitHubAPICall.check_rate_limit-769"><a href="#GitHubAPICall.check_rate_limit-769"><span class="linenos">769</span></a><span class="sd">            call_type (str): The type of API call to perform</span>
 </span><span id="GitHubAPICall.check_rate_limit-770"><a href="#GitHubAPICall.check_rate_limit-770"><span class="linenos">770</span></a>
 </span><span id="GitHubAPICall.check_rate_limit-771"><a href="#GitHubAPICall.check_rate_limit-771"><span class="linenos">771</span></a><span class="sd">        Returns:</span>
@@ -3001,11 +3106,17 @@ If not, returns None</p>
 
             <div class="docstring"><p>Function to check if a rate limit has been reached</p>
 
-<p>Parameters:
-    call_type (str): The type of API call to perform</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    bool: Whether or not we can continue with the API call</p>
+<ul>
+<li><strong>call_type (str):</strong>  The type of API call to perform</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>bool: Whether or not we can continue with the API call</p>
+</blockquote>
 </div>
 
 
@@ -3055,8 +3166,11 @@ If not, returns None</p>
 
             <div class="docstring"><p>Makes an API call in order to get (and update) the rate limit data</p>
 
-<p>Returns:
-    bool: Whether or not the rate limit data was updated successfully</p>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>bool: Whether or not the rate limit data was updated successfully</p>
+</blockquote>
 </div>
 
 

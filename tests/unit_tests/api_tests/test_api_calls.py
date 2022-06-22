@@ -31,7 +31,7 @@ class TestMakeAPICall_gh:
         """
         Test the function making an API call with a valid API key
 
-        Parameters:
+        Args:
             api_url: The url to make the API call to
             return_value: The return value of the API call
         """
@@ -51,7 +51,7 @@ class TestMakeAPICall_gh:
         """
         Test the function making an API call with an invalid API key
 
-        Parameters:
+        Args:
             api_url: The url to make the API call to
             return_value: The return value of the API call
         """
@@ -82,7 +82,7 @@ class TestMakeAPICall_lib:
         """
         Test the function making an API call with a valid API key
 
-        Parameters:
+        Args:
             api_url: The url to make the API call to
             return_value: The return value of the API call
         """
@@ -103,7 +103,7 @@ class TestMakeAPICall_lib:
         """
         Test the function making an API call with an invalid API key
 
-        Parameters:
+        Args:
             api_url: The url to make the API call to
             return_value: The return value of the API call
         """
@@ -129,7 +129,7 @@ class TestGetNeededHeaders:
         """
         Test the function that gets the needed headers for the API calls
 
-        Parameters:
+        Args:
             api_type: The type of API call to make
         """
 
@@ -157,7 +157,7 @@ class TestGetNeededParams:
         """
         Test the function that gets the needed parameters for the API calls
 
-        Parameters:
+        Args:
             api_type: The type of API call to make
         """
 

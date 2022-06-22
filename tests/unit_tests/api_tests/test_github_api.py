@@ -88,7 +88,7 @@ class TestCheckRateLimit:
         """
         Test the function checking the rate limit counts with both counts greater than zero
 
-        Parameters:
+        Args:
             call_type (str): The type of call to check the rate limit for
         """
 
@@ -110,7 +110,7 @@ class TestCheckRateLimit:
         """
         Test the function checking the rate limit counts with core count == 0 and search count > 0
 
-        Parameters:
+        Args:
             call_type (str): The type of call to check the rate limit for
             return_value (bool): The value to return from the mock patch
         """
@@ -142,7 +142,7 @@ class TestCheckRateLimit:
         """
         Test the function checking the rate limit counts with core count > 0 and search count == 0
 
-        Parameters:
+        Args:
             call_type (str): The type of call to check the rate limit for
             return_value (bool): The value to return from the mock patch
         """
@@ -174,7 +174,7 @@ class TestCheckRateLimit:
         """
         Test the function checking the rate limit counts with core count == 0 and search count == 0
 
-        Parameters:
+        Args:
             call_type (str): The type of call to check the rate limit for
             return_value (bool): The value to return from the mock patch
         """
@@ -217,7 +217,7 @@ class TestTryAPICall:
         """
         Test the function making an API call with a valid rate limit
 
-        Parameters:
+        Args:
             call_type (str): The type of call to make
         """
 
@@ -245,7 +245,7 @@ class TestTryAPICall:
         """
         Test the function making an API call with an invalid rate limit
 
-        Parameters:
+        Args:
             call_type (str): The type of call to make
         """
 

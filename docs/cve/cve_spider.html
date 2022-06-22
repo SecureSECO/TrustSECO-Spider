@@ -114,7 +114,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="sd">        Gets the amount of known vulnerabilities of a given package</span>
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd">        Args:</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="sd">        Returns:</span>
@@ -134,7 +134,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">        Get all the available CVE data for a given package</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">        Args:</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">        Returns:</span>
@@ -163,7 +163,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">        Get all the CVE codes of vulnerabilities that affect the given package</span>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">        Args:</span>
 </span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">        Returns:</span>
@@ -204,7 +204,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">        Extracts the data from a given CVE link</span>
 </span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">        Args:</span>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">            cve_code (str): The CVE code of the vulnerability</span>
 </span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="sd">        Returns:</span>
@@ -280,7 +280,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="sd">        Gets a BeautifulSoup object of the webpage at the given URL</span>
 </span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>
-</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="sd">        Args:</span>
 </span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="sd">            url (str): The URL of the webpage</span>
 </span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>
 </span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="sd">        Returns:</span>
@@ -339,7 +339,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="CVESpider-32"><a href="#CVESpider-32"><span class="linenos"> 32</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider-33"><a href="#CVESpider-33"><span class="linenos"> 33</span></a><span class="sd">        Gets the amount of known vulnerabilities of a given package</span>
 </span><span id="CVESpider-34"><a href="#CVESpider-34"><span class="linenos"> 34</span></a>
-</span><span id="CVESpider-35"><a href="#CVESpider-35"><span class="linenos"> 35</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider-35"><a href="#CVESpider-35"><span class="linenos"> 35</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider-36"><a href="#CVESpider-36"><span class="linenos"> 36</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="CVESpider-37"><a href="#CVESpider-37"><span class="linenos"> 37</span></a>
 </span><span id="CVESpider-38"><a href="#CVESpider-38"><span class="linenos"> 38</span></a><span class="sd">        Returns:</span>
@@ -359,7 +359,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="CVESpider-52"><a href="#CVESpider-52"><span class="linenos"> 52</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider-53"><a href="#CVESpider-53"><span class="linenos"> 53</span></a><span class="sd">        Get all the available CVE data for a given package</span>
 </span><span id="CVESpider-54"><a href="#CVESpider-54"><span class="linenos"> 54</span></a>
-</span><span id="CVESpider-55"><a href="#CVESpider-55"><span class="linenos"> 55</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider-55"><a href="#CVESpider-55"><span class="linenos"> 55</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider-56"><a href="#CVESpider-56"><span class="linenos"> 56</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="CVESpider-57"><a href="#CVESpider-57"><span class="linenos"> 57</span></a>
 </span><span id="CVESpider-58"><a href="#CVESpider-58"><span class="linenos"> 58</span></a><span class="sd">        Returns:</span>
@@ -388,7 +388,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="CVESpider-81"><a href="#CVESpider-81"><span class="linenos"> 81</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider-82"><a href="#CVESpider-82"><span class="linenos"> 82</span></a><span class="sd">        Get all the CVE codes of vulnerabilities that affect the given package</span>
 </span><span id="CVESpider-83"><a href="#CVESpider-83"><span class="linenos"> 83</span></a>
-</span><span id="CVESpider-84"><a href="#CVESpider-84"><span class="linenos"> 84</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider-84"><a href="#CVESpider-84"><span class="linenos"> 84</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider-85"><a href="#CVESpider-85"><span class="linenos"> 85</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="CVESpider-86"><a href="#CVESpider-86"><span class="linenos"> 86</span></a>
 </span><span id="CVESpider-87"><a href="#CVESpider-87"><span class="linenos"> 87</span></a><span class="sd">        Returns:</span>
@@ -429,7 +429,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="CVESpider-122"><a href="#CVESpider-122"><span class="linenos">122</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider-123"><a href="#CVESpider-123"><span class="linenos">123</span></a><span class="sd">        Extracts the data from a given CVE link</span>
 </span><span id="CVESpider-124"><a href="#CVESpider-124"><span class="linenos">124</span></a>
-</span><span id="CVESpider-125"><a href="#CVESpider-125"><span class="linenos">125</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider-125"><a href="#CVESpider-125"><span class="linenos">125</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider-126"><a href="#CVESpider-126"><span class="linenos">126</span></a><span class="sd">            cve_code (str): The CVE code of the vulnerability</span>
 </span><span id="CVESpider-127"><a href="#CVESpider-127"><span class="linenos">127</span></a>
 </span><span id="CVESpider-128"><a href="#CVESpider-128"><span class="linenos">128</span></a><span class="sd">        Returns:</span>
@@ -505,7 +505,7 @@ bar = foo.get_cve_vulnerability_count('name')
 </span><span id="CVESpider-198"><a href="#CVESpider-198"><span class="linenos">198</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider-199"><a href="#CVESpider-199"><span class="linenos">199</span></a><span class="sd">        Gets a BeautifulSoup object of the webpage at the given URL</span>
 </span><span id="CVESpider-200"><a href="#CVESpider-200"><span class="linenos">200</span></a>
-</span><span id="CVESpider-201"><a href="#CVESpider-201"><span class="linenos">201</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider-201"><a href="#CVESpider-201"><span class="linenos">201</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider-202"><a href="#CVESpider-202"><span class="linenos">202</span></a><span class="sd">            url (str): The URL of the webpage</span>
 </span><span id="CVESpider-203"><a href="#CVESpider-203"><span class="linenos">203</span></a>
 </span><span id="CVESpider-204"><a href="#CVESpider-204"><span class="linenos">204</span></a><span class="sd">        Returns:</span>
@@ -569,7 +569,7 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 </span><span id="CVESpider.get_cve_vulnerability_count-32"><a href="#CVESpider.get_cve_vulnerability_count-32"><span class="linenos">32</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider.get_cve_vulnerability_count-33"><a href="#CVESpider.get_cve_vulnerability_count-33"><span class="linenos">33</span></a><span class="sd">        Gets the amount of known vulnerabilities of a given package</span>
 </span><span id="CVESpider.get_cve_vulnerability_count-34"><a href="#CVESpider.get_cve_vulnerability_count-34"><span class="linenos">34</span></a>
-</span><span id="CVESpider.get_cve_vulnerability_count-35"><a href="#CVESpider.get_cve_vulnerability_count-35"><span class="linenos">35</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider.get_cve_vulnerability_count-35"><a href="#CVESpider.get_cve_vulnerability_count-35"><span class="linenos">35</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider.get_cve_vulnerability_count-36"><a href="#CVESpider.get_cve_vulnerability_count-36"><span class="linenos">36</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="CVESpider.get_cve_vulnerability_count-37"><a href="#CVESpider.get_cve_vulnerability_count-37"><span class="linenos">37</span></a>
 </span><span id="CVESpider.get_cve_vulnerability_count-38"><a href="#CVESpider.get_cve_vulnerability_count-38"><span class="linenos">38</span></a><span class="sd">        Returns:</span>
@@ -589,11 +589,17 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 
             <div class="docstring"><p>Gets the amount of known vulnerabilities of a given package</p>
 
-<p>Parameters:
-    name (str): The name of the package</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    int: The amount of known vulnerabilities of the given package</p>
+<ul>
+<li><strong>name (str):</strong>  The name of the package</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>int: The amount of known vulnerabilities of the given package</p>
+</blockquote>
 </div>
 
 
@@ -613,7 +619,7 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 </span><span id="CVESpider.get_all_cve_data-52"><a href="#CVESpider.get_all_cve_data-52"><span class="linenos">52</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider.get_all_cve_data-53"><a href="#CVESpider.get_all_cve_data-53"><span class="linenos">53</span></a><span class="sd">        Get all the available CVE data for a given package</span>
 </span><span id="CVESpider.get_all_cve_data-54"><a href="#CVESpider.get_all_cve_data-54"><span class="linenos">54</span></a>
-</span><span id="CVESpider.get_all_cve_data-55"><a href="#CVESpider.get_all_cve_data-55"><span class="linenos">55</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider.get_all_cve_data-55"><a href="#CVESpider.get_all_cve_data-55"><span class="linenos">55</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider.get_all_cve_data-56"><a href="#CVESpider.get_all_cve_data-56"><span class="linenos">56</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="CVESpider.get_all_cve_data-57"><a href="#CVESpider.get_all_cve_data-57"><span class="linenos">57</span></a>
 </span><span id="CVESpider.get_all_cve_data-58"><a href="#CVESpider.get_all_cve_data-58"><span class="linenos">58</span></a><span class="sd">        Returns:</span>
@@ -642,11 +648,17 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 
             <div class="docstring"><p>Get all the available CVE data for a given package</p>
 
-<p>Parameters:
-    name (str): The name of the package</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    list: A list of all the CVE data for the given package</p>
+<ul>
+<li><strong>name (str):</strong>  The name of the package</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>list: A list of all the CVE data for the given package</p>
+</blockquote>
 </div>
 
 
@@ -666,7 +678,7 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 </span><span id="CVESpider.get_cve_codes-81"><a href="#CVESpider.get_cve_codes-81"><span class="linenos"> 81</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider.get_cve_codes-82"><a href="#CVESpider.get_cve_codes-82"><span class="linenos"> 82</span></a><span class="sd">        Get all the CVE codes of vulnerabilities that affect the given package</span>
 </span><span id="CVESpider.get_cve_codes-83"><a href="#CVESpider.get_cve_codes-83"><span class="linenos"> 83</span></a>
-</span><span id="CVESpider.get_cve_codes-84"><a href="#CVESpider.get_cve_codes-84"><span class="linenos"> 84</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider.get_cve_codes-84"><a href="#CVESpider.get_cve_codes-84"><span class="linenos"> 84</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider.get_cve_codes-85"><a href="#CVESpider.get_cve_codes-85"><span class="linenos"> 85</span></a><span class="sd">            name (str): The name of the package</span>
 </span><span id="CVESpider.get_cve_codes-86"><a href="#CVESpider.get_cve_codes-86"><span class="linenos"> 86</span></a>
 </span><span id="CVESpider.get_cve_codes-87"><a href="#CVESpider.get_cve_codes-87"><span class="linenos"> 87</span></a><span class="sd">        Returns:</span>
@@ -707,11 +719,17 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 
             <div class="docstring"><p>Get all the CVE codes of vulnerabilities that affect the given package</p>
 
-<p>Parameters:
-    name (str): The name of the package</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    list: A list of CVE codes for vulnerabilities affecting the given package</p>
+<ul>
+<li><strong>name (str):</strong>  The name of the package</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>list: A list of CVE codes for vulnerabilities affecting the given package</p>
+</blockquote>
 </div>
 
 
@@ -731,7 +749,7 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 </span><span id="CVESpider.extract_cve_data-122"><a href="#CVESpider.extract_cve_data-122"><span class="linenos">122</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider.extract_cve_data-123"><a href="#CVESpider.extract_cve_data-123"><span class="linenos">123</span></a><span class="sd">        Extracts the data from a given CVE link</span>
 </span><span id="CVESpider.extract_cve_data-124"><a href="#CVESpider.extract_cve_data-124"><span class="linenos">124</span></a>
-</span><span id="CVESpider.extract_cve_data-125"><a href="#CVESpider.extract_cve_data-125"><span class="linenos">125</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider.extract_cve_data-125"><a href="#CVESpider.extract_cve_data-125"><span class="linenos">125</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider.extract_cve_data-126"><a href="#CVESpider.extract_cve_data-126"><span class="linenos">126</span></a><span class="sd">            cve_code (str): The CVE code of the vulnerability</span>
 </span><span id="CVESpider.extract_cve_data-127"><a href="#CVESpider.extract_cve_data-127"><span class="linenos">127</span></a>
 </span><span id="CVESpider.extract_cve_data-128"><a href="#CVESpider.extract_cve_data-128"><span class="linenos">128</span></a><span class="sd">        Returns:</span>
@@ -807,21 +825,31 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 
             <div class="docstring"><p>Extracts the data from a given CVE link</p>
 
-<p>Parameters:
-    cve_code (str): The CVE code of the vulnerability</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    dict: A dictionary containing the extracted data</p>
+<ul>
+<li><strong>cve_code (str):</strong>  The CVE code of the vulnerability</li>
+</ul>
 
-<pre><code>The data we extract is:
-- CVE code
-- CVE score
-- Affected versions:
-    - Start version type
-    - Start version
-    - End version type
-    - End version
-</code></pre>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>dict: A dictionary containing the extracted data</p>
+  
+  <p>The data we extract is:</p>
+  
+  <ul>
+  <li>CVE code</li>
+  <li>CVE score</li>
+  <li>Affected versions:
+  <ul>
+  <li>Start version type</li>
+  <li>Start version</li>
+  <li>End version type</li>
+  <li>End version</li>
+  </ul></li>
+  </ul>
+</blockquote>
 </div>
 
 
@@ -841,7 +869,7 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 </span><span id="CVESpider.get_and_parse_webpage-198"><a href="#CVESpider.get_and_parse_webpage-198"><span class="linenos">198</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CVESpider.get_and_parse_webpage-199"><a href="#CVESpider.get_and_parse_webpage-199"><span class="linenos">199</span></a><span class="sd">        Gets a BeautifulSoup object of the webpage at the given URL</span>
 </span><span id="CVESpider.get_and_parse_webpage-200"><a href="#CVESpider.get_and_parse_webpage-200"><span class="linenos">200</span></a>
-</span><span id="CVESpider.get_and_parse_webpage-201"><a href="#CVESpider.get_and_parse_webpage-201"><span class="linenos">201</span></a><span class="sd">        Parameters:</span>
+</span><span id="CVESpider.get_and_parse_webpage-201"><a href="#CVESpider.get_and_parse_webpage-201"><span class="linenos">201</span></a><span class="sd">        Args:</span>
 </span><span id="CVESpider.get_and_parse_webpage-202"><a href="#CVESpider.get_and_parse_webpage-202"><span class="linenos">202</span></a><span class="sd">            url (str): The URL of the webpage</span>
 </span><span id="CVESpider.get_and_parse_webpage-203"><a href="#CVESpider.get_and_parse_webpage-203"><span class="linenos">203</span></a>
 </span><span id="CVESpider.get_and_parse_webpage-204"><a href="#CVESpider.get_and_parse_webpage-204"><span class="linenos">204</span></a><span class="sd">        Returns:</span>
@@ -873,11 +901,17 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 
             <div class="docstring"><p>Gets a BeautifulSoup object of the webpage at the given URL</p>
 
-<p>Parameters:
-    url (str): The URL of the webpage</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    BeautifulSoup: A BeautifulSoup object of the webpage</p>
+<ul>
+<li><strong>url (str):</strong>  The URL of the webpage</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>BeautifulSoup: A BeautifulSoup object of the webpage</p>
+</blockquote>
 </div>
 
 

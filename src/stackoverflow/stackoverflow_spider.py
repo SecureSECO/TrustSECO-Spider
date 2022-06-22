@@ -27,7 +27,7 @@ class StackOverflowSpider:
         """
         Get the monthly popularity of the given package.
 
-        Parameters:
+        Args:
             package (str): The name of the package
 
         Returns:

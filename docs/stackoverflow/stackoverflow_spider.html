@@ -98,7 +98,7 @@ bar = foo.get_monthly_popularity('package')
 </span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">        Get the monthly popularity of the given package.</span>
 </span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">        Args:</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">            package (str): The name of the package</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">        Returns:</span>
@@ -189,7 +189,7 @@ bar = foo.get_monthly_popularity('package')
 </span><span id="StackOverflowSpider-28"><a href="#StackOverflowSpider-28"><span class="linenos">28</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="StackOverflowSpider-29"><a href="#StackOverflowSpider-29"><span class="linenos">29</span></a><span class="sd">        Get the monthly popularity of the given package.</span>
 </span><span id="StackOverflowSpider-30"><a href="#StackOverflowSpider-30"><span class="linenos">30</span></a>
-</span><span id="StackOverflowSpider-31"><a href="#StackOverflowSpider-31"><span class="linenos">31</span></a><span class="sd">        Parameters:</span>
+</span><span id="StackOverflowSpider-31"><a href="#StackOverflowSpider-31"><span class="linenos">31</span></a><span class="sd">        Args:</span>
 </span><span id="StackOverflowSpider-32"><a href="#StackOverflowSpider-32"><span class="linenos">32</span></a><span class="sd">            package (str): The name of the package</span>
 </span><span id="StackOverflowSpider-33"><a href="#StackOverflowSpider-33"><span class="linenos">33</span></a>
 </span><span id="StackOverflowSpider-34"><a href="#StackOverflowSpider-34"><span class="linenos">34</span></a><span class="sd">        Returns:</span>
@@ -285,7 +285,7 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 </span><span id="StackOverflowSpider.get_monthly_popularity-28"><a href="#StackOverflowSpider.get_monthly_popularity-28"><span class="linenos">28</span></a>        <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="StackOverflowSpider.get_monthly_popularity-29"><a href="#StackOverflowSpider.get_monthly_popularity-29"><span class="linenos">29</span></a><span class="sd">        Get the monthly popularity of the given package.</span>
 </span><span id="StackOverflowSpider.get_monthly_popularity-30"><a href="#StackOverflowSpider.get_monthly_popularity-30"><span class="linenos">30</span></a>
-</span><span id="StackOverflowSpider.get_monthly_popularity-31"><a href="#StackOverflowSpider.get_monthly_popularity-31"><span class="linenos">31</span></a><span class="sd">        Parameters:</span>
+</span><span id="StackOverflowSpider.get_monthly_popularity-31"><a href="#StackOverflowSpider.get_monthly_popularity-31"><span class="linenos">31</span></a><span class="sd">        Args:</span>
 </span><span id="StackOverflowSpider.get_monthly_popularity-32"><a href="#StackOverflowSpider.get_monthly_popularity-32"><span class="linenos">32</span></a><span class="sd">            package (str): The name of the package</span>
 </span><span id="StackOverflowSpider.get_monthly_popularity-33"><a href="#StackOverflowSpider.get_monthly_popularity-33"><span class="linenos">33</span></a>
 </span><span id="StackOverflowSpider.get_monthly_popularity-34"><a href="#StackOverflowSpider.get_monthly_popularity-34"><span class="linenos">34</span></a><span class="sd">        Returns:</span>
@@ -349,14 +349,19 @@ It uses requests to get the webpage, and BeautifulSoup to parse and traverse it.
 
             <div class="docstring"><p>Get the monthly popularity of the given package.</p>
 
-<p>Parameters:
-    package (str): The name of the package</p>
+<h6 id="args">Args</h6>
 
-<p>Returns:
-    Tuple: The monthly popularity of the given package</p>
+<ul>
+<li><strong>package (str):</strong>  The name of the package</li>
+</ul>
 
-<pre><code>This popularity is the percentage of questions posted that were about the given package.
-</code></pre>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>Tuple: The monthly popularity of the given package</p>
+  
+  <p>This popularity is the percentage of questions posted that were about the given package.</p>
+</blockquote>
 </div>
 
 

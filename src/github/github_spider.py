@@ -27,7 +27,7 @@ class GitHubSpider:
         """
         Get the number of users of a given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository
 
@@ -73,7 +73,7 @@ class GitHubSpider:
         """
         Get the amount of open issues of a given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository
 
@@ -117,7 +117,7 @@ class GitHubSpider:
         """
         Get the amount of closed issues of a given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository
 
@@ -161,7 +161,7 @@ class GitHubSpider:
         """
         Get the issue ratio of a given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository
 

@@ -28,7 +28,7 @@ class TestVulnerabilityCount:
         """
         Tests all of the possible scenarios using mocking to change the output of the get_cve_codes function.
 
-        Parameters:
+        Args:
             return_value (List[str]): The value that the get_cve_codes function will return.
             expected_value (int): The expected value that the get_cve_codes function will return.
         """
@@ -62,7 +62,7 @@ class TestGetAllCVEData:
         """
         Tests all of the possible scenarios using mocking to change the output of the get_cve_codes and extract_cve_data functions.
 
-        Parameters:
+        Args:
             get_cve_codes_rv (List[str]): The value that the get_cve_codes function will return.
             extract_cve_data_rv (dict): The value that the extract_cve_data function will return.
         """
@@ -249,7 +249,7 @@ class TestGetParseWebsite:
         """
         Tests the scenario where the url is invalid.
 
-        Parameters:
+        Args:
             given_url (str): The url to test
             expected_value (str): The expected return value
         """

@@ -22,11 +22,13 @@
 </svg>                &nbsp;
                 Module Index
             </a>
-          
+
             <img src="https://avatars.githubusercontent.com/u/100304333" class="logo" alt="project logo"/>
 
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
+
+
 
         <h2>Documentation</h2>
             <ul class="memberlist">
@@ -43,6 +45,8 @@
                     <a class="function" href="#try_get_json_input">try_get_json_input</a>
             </li>
     </ul>
+
+
 </div>
     </nav>
     <main class="pdoc">
@@ -296,8 +300,11 @@ app    </h1>
 
             <div class="docstring"><p>Uses the given JSON to get the wanted data-points.</p>
 
-<p>Returns:
-    responses.Response: HTTP response containing the requested data as JSON</p>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>responses.Response: HTTP response containing the requested data as JSON</p>
+</blockquote>
 </div>
 
 
@@ -365,8 +372,11 @@ app    </h1>
 
             <div class="docstring"><p>Uses the given JSON to set the tokens.</p>
 
-<p>Returns:
-    responses.Response: HTTP response informing the user which keys were set using plain/text</p>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>responses.Response: HTTP response informing the user which keys were set using plain/text</p>
+</blockquote>
 </div>
 
 
@@ -404,8 +414,11 @@ app    </h1>
 
             <div class="docstring"><p>Returns the tokens currently stored in the .env file</p>
 
-<p>Returns:
-    responses.Response: HTTP request containing a JSON object with the TrustSECO-Spider's API tokens</p>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>responses.Response: HTTP request containing a JSON object with the TrustSECO-Spider's API tokens</p>
+</blockquote>
 </div>
 
 
@@ -456,9 +469,12 @@ app    </h1>
 
             <div class="docstring"><p>Tries to get the JSON input from the request.</p>
 
-<p>Returns:
-    Tuple[bool, responses.Response | dict]: A tuple containing a bool that denotes whether or not the JSON input was valid,
-    and either an HTTP response informing the user that something went wrong or the actual JSON input</p>
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>Tuple[bool, responses.Response | dict]: A tuple containing a bool that denotes whether or not the JSON input was valid,
+  and either an HTTP response informing the user that something went wrong or the actual JSON input</p>
+</blockquote>
 </div>
 
 

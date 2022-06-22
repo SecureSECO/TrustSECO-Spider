@@ -9,7 +9,6 @@ import responses
 from src.libraries_io.libraries_io_api_calls import LibrariesAPICall
 
 
-# region API calling functions
 class TestProjectInformation:
     """Class for testing the API call for getting the project information.
 
@@ -174,10 +173,8 @@ class TestProjectRepository:
 
         # Check that the response is correct
         assert response_data is None
-# endregion
 
 
-# region calculation functions
 class TestReleaseFrequency:
     """Class for testing the get_release_frequency function.
 
@@ -201,7 +198,7 @@ class TestReleaseFrequency:
         """
         Tests all of the possible scenarios
 
-        Parameters:
+        Args:
             latest_release_date (str): The latest release date
             first_release_date (str): The first release date
             release_count (str): The number of releases
@@ -250,7 +247,7 @@ class TestDependencyCount:
         """
         Tests all of the possible scenarios
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_dependencies function
             expected_result (int): The expected result
         """
@@ -295,7 +292,7 @@ class TestFirstReleaseDate:
         """
         Tests all of the possible scenarios
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_information function
             expected_result (str): The expected result
         """
@@ -313,10 +310,8 @@ class TestFirstReleaseDate:
 
             # Check that the response is correct
             assert result == expected_result
-# endregion
 
 
-# region look-up functions
 class TestLookUp:
     """Class for testing the simple functions in the LibrariesAPICall class.
 
@@ -340,7 +335,7 @@ class TestLookUp:
         """
         Test all of the possible scenarios for the get_contributors_count function
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_repository function
             expected_value (int): The expected value
         """
@@ -364,7 +359,7 @@ class TestLookUp:
         """
         Test all of the possible scenarios for the get_dependent_count function
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_repository function
             expected_value (int): The expected value
         """
@@ -388,7 +383,7 @@ class TestLookUp:
         """
         Test all of the possible scenarios for the get_latest_release_date function
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_repository function
             expected_value (int): The expected value
         """
@@ -413,7 +408,7 @@ class TestLookUp:
         """
         Test all of the possible scenarios for the get_release_count function
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_repository function
             expected_value (int): The expected value
         """
@@ -437,7 +432,7 @@ class TestLookUp:
         """
         Test all of the possible scenarios for the get_sourcerank function
 
-        Parameters:
+        Args:
             return_value (dict): The return value of the get_project_repository function
             expected_value (int): The expected value
         """
@@ -455,7 +450,6 @@ class TestLookUp:
 
             # Check that the response is correct
             assert response_data == expected_value
-# endregion
 
 
 """

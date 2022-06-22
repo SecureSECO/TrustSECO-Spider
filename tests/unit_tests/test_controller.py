@@ -57,7 +57,7 @@ class TestControllerRun:
         """
         Test for when a required field within the project information is missing from the input JSON.
 
-        Parameters:
+        Args:
             input_json (dict): The input json to run the controller with
             return_value (dict): The expected return value
         """
