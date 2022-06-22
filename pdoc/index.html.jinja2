@@ -39,6 +39,7 @@ A custom template could override this by setting root_module_name to false befor
             margin: 1.75rem 0;
         }
     </style>
+    <style>/*! autumn.css */{% include "autumn.css" %}</style>
 {% endblock %}
 {% block nav %}
     <h2>Available Modules</h2>
@@ -73,7 +74,9 @@ A custom template could override this by setting root_module_name to false befor
             <input type="search" placeholder="Search Documentation..." aria-label="search box">
         {% endif %}
     </header>
-    <main class="pdoc"></main>
+    <main class="pdoc">
+        {% include 'readme.html' %}
+    </main>
     {% if search %}
         {% include "search.html.jinja2" %}
     {% endif %}
