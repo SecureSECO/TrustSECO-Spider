@@ -21,12 +21,15 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
 
-      # Install pdoc
+      # Install dependencies
       - run: pip install pdoc
+      - run: pip install markdown
 
-      # Actually run pdoc
-      # Temporary option
-      - run: pdoc -o docs/ app.py controller.py demo.py src/utils/api_calls.py src/stackoverflow/stackoverflow_spider.py src/libraries_io/libraries_io_api_calls.py src/github/github_api_calls.py src/github/github_spider.py src/cve/cve_spider.py src/clamav/clamav_scanner.py
+      # Actually generate the documentation
+      # Generate the readme.html file
+      - run: python -m markdown -x fenced_code -x codehilite README.md -f pdoc/readme.html
+      # Generate the documentation
+      - run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
       # Upload the newly created docs to GitHub pages
       - run: tar --directory docs/ -hcf artifact.tar .
