@@ -43,9 +43,11 @@ A custom template could override this by setting root_module_name to false befor
 {% block nav %}
     <h2>Available Modules</h2>
     <ul>
-        {% set previous = none %}
+        {% set ns = namespace(found=false) %}
+        {% set ns.previous = '\\' %}
         {% for submodule in all_modules %}
-            {% if "._" not in submodule and not submodule.startswith("_") and previous is not none and previous not in submodule %}
+            {% if "._" not in submodule and not submodule.startswith("_") and previous is not none and ns.previous not in submodule %}
+                {% set ns.previous = submodule %}
                 <li><a href="{{ submodule.replace(".","/") }}.html">{{ submodule }}</a></li>
             {% else %}
                 <li><a href="{{ submodule.replace(".","/") }}.html">&nbsp;&nbsp;&nbsp;&nbsp;{{ submodule }}</a></li>
@@ -68,7 +70,7 @@ A custom template could override this by setting root_module_name to false befor
             {% endif %}
         {% endblock %}
         {% if search %}
-            <input type="search" placeholder="Search API Documentation..." aria-label="search box">
+            <input type="search" placeholder="Search Documentation..." aria-label="search box">
         {% endif %}
     </header>
     <main class="pdoc"></main>
