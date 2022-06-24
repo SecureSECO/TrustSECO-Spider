@@ -51,8 +51,7 @@ jobs:
 
   # Update the documentation brach with the newly generated documentation
   update-documentation:
-    permissions: 
-      contents: read|write
+    permissions: write-all
     runs-on: ubuntu-latest
     needs: create-documentation
     steps:
