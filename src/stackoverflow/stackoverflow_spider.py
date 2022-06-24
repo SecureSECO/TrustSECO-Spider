@@ -53,6 +53,11 @@ class StackOverflowSpider:
             logging.error('Could not find TagPercents in response')
             return None
 
+        # Make sure we got the correct data
+        if response['TagPercents'] is None:
+            logging.error('TagPercents is None')
+            return None
+
         # Make sure that the package is in the response
         if package not in response['TagPercents']:
             logging.warning('Package not found in response')

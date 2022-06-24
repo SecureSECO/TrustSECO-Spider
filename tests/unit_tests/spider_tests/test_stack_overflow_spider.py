@@ -8,7 +8,7 @@ import responses
 from src.stackoverflow.stackoverflow_spider import StackOverflowSpider
 
 
-class TestTrends:
+class TestSOPopularity:
     """Class for testing Stack Overflow trend responses
 
     To test this function, we shall test the following scenarios:
@@ -24,25 +24,16 @@ class TestTrends:
     @responses.activate
     @pytest.mark.parametrize('return_json, expected_value', [
         (
-            {"Year": [2022], "Month": [5],
-                "TagPercents": {"numpy": [2.1022945]}},
-            {"month": 5, "year": 2022, "popularity": 0}
-        ),
-        (
-            {"Month": [5], "TagPercents": {"numpy": [2.1022945]}},
+            {},
             None
         ),
         (
-            {"Year": [2022], "TagPercents": {"numpy": [2.1022945]}},
+            {"TagPercents": None},
             None
         ),
         (
-            {"Year": [2022], "Month": [5]},
-            None
-        ),
-        (
-            {"Year": [2022], "Month": [5], "TagPercents": None},
-            None
+            {"TagPercents": {"numpy": [2.1022945]}},
+            0
         )
     ])
     def test_unknown_package(self, return_json: dict, expected_value: tuple) -> None:
@@ -70,25 +61,20 @@ class TestTrends:
     @responses.activate
     @pytest.mark.parametrize('return_json, expected_value', [
         (
-            {"Year": [2022], "Month": [5],
-                "TagPercents": {"numpy": [2.1022945]}},
-            {"month": 5, "year": 2022, "popularity": 2.1022945}
-        ),
-        (
-            {"Month": [5], "TagPercents": {"numpy": [2.1022945]}},
+            {},
             None
         ),
         (
-            {"Year": [2022], "TagPercents": {"numpy": [2.1022945]}},
+            {"TagPercents": None},
             None
         ),
         (
-            {"Year": [2022], "Month": [5]},
-            None
+            {"TagPercents": {}},
+            0
         ),
         (
-            {"Year": [2022], "Month": [5], "TagPercents": None},
-            None
+            {"TagPercents": {"numpy": [2.1022945]}},
+            2.1022945
         )
     ])
     def test_valid_package(self, return_json: dict, expected_value: tuple) -> None:
