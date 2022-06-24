@@ -9,45 +9,55 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Set an environmental variable for the release tag
+env:
+  TAG: ${GITHUB_REF#refs/*/}
+
 # Security: restrict permissions
 permissions:
   contents: read
 
 jobs:
   # Build the documentation and upload the static HTML files as an artifact
-  build:
+  create-documentation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup python
+        uses: actions/setup-python@v3
       # Install dependencies
-      - run: pip install pdoc
-      - run: pip install markdown
+        run: pip install pdoc
+        run: pip install markdown
 
       # Actually generate the documentation
       # Generate the readme.html file
-      - run: python -m markdown -x fenced_code -x codehilite README.md -f pdoc/readme.html
-      # Generate the documentation
-      - run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
+      - name: Generate README file
+        run: python -m markdown -x fenced_code -x codehilite README.md -f pdoc/readme.html
+      
+       # Generate the documentation
+      - name: Generate documentation
+        run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
-      # Upload the newly created docs to GitHub pages
+      # Upload the newly created docs
       - run: tar --directory docs/ -hcf artifact.tar .
       - uses: actions/upload-artifact@v3
         with:
-          name: github-pages
+          name: documentation-$TAG
           path: ./artifact.tar
 
-  # Deploy the artifact to GitHub pages
-  deploy:
-    needs: build
+  # Update the documentation brach with the newly generated documentation
+  update-documentation:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    needs: create-documentation
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v1
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: documentation-$TAG
+          branch: documentation
+          path: /docs/$TAG
+      
+      - name: Test artifact download
+        run: ls -R
