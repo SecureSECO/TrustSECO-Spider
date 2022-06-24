@@ -11,8 +11,8 @@ on:
 
 # Set an environmental variable for the release tag
 env:
-  TAG: ${GITHUB_REF#refs/*/}
-  TAG_NAME: documentation-${GITHUB_REF#refs/*/}
+  TAG: ${{GITHUB_REF#refs/*/}}
+  TAG_NAME: documentation-${{GITHUB_REF#refs/*/}}
 
 # Add the actual jobs
 jobs:
