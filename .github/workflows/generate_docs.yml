@@ -25,8 +25,9 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v3
       # Install dependencies
-        run: pip install pdoc
-        run: pip install markdown
+        run: |
+          pip install pdoc
+          pip install markdown
 
       # Actually generate the documentation
       # Generate the readme.html file
