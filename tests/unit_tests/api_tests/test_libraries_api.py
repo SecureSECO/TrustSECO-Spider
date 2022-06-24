@@ -283,10 +283,13 @@ class TestFirstReleaseDate:
         (None, None),
         ({}, None),
         ({'versions': []}, None),
-        ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'}]},
-         '2016-04-20T04:09:15.000Z'),
-        ({'versions': [{'published_at': '2016-04-20T04:09:15.000Z'},
-         {'published_at': '2016-04-21T04:09:15.000Z'}]}, '2016-04-20T04:09:15.000Z')
+        ({'versions': [
+            {'published_at': '2016-04-20T04:09:15.000Z'}
+        ]}, '2016-04-20T04:09:15.000Z'),
+        ({'versions': [
+            {'published_at': '2016-04-20T04:09:15.000Z'},
+            {'published_at': '2016-04-21T04:09:15.000Z'}
+        ]}, '2016-04-20T04:09:15.000Z')
     ])
     def test_all(self, return_value: dict, expected_result: str) -> None:
         """

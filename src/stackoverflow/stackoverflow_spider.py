@@ -67,7 +67,7 @@ class StackOverflowSpider:
                         return {
                             "month": latest_data[0],
                             "year": latest_data[1],
-                            "popularity": latest_data[2]
+                            "popularity": latest_data[2],
                         }
                     except ValueError as e:
                         logging.error(
@@ -80,7 +80,7 @@ class StackOverflowSpider:
                     return {
                         "month": response['Month'][-1],
                         "year": response['Year'][-1],
-                        "popularity": 0
+                        "popularity": 0,
                     }
 
         logging.warning(
