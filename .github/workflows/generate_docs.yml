@@ -38,7 +38,7 @@ jobs:
       
        # Generate the documentation
       - name: Generate documentation
-        run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
+        run: pdoc --logo pdoc/Fides_logo.png -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
       # Upload the newly created docs
       - run: tar --directory docs/ -hcf artifact.tar .
