@@ -1,0 +1,64 @@
+name: pdoc
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Set an environmental variable for the release tag
+env:
+  TAG: ${GITHUB_REF#refs/*/}
+
+# Add the actual jobs
+jobs:
+  # Build the documentation and upload the static HTML files as an artifact
+  create-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup python
+        uses: actions/setup-python@v3
+      # Install dependencies
+        run: pip install pdoc
+        run: pip install markdown
+
+      # Actually generate the documentation
+      # Generate the readme.html file
+      - name: Generate README file
+        run: python -m markdown -x fenced_code -x codehilite README.md -f pdoc/readme.html
+      
+       # Generate the documentation
+      - name: Generate documentation
+        run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" --logo-link "https://github.com/Fides-UU" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
+
+      # Create a tar file containing the generated documentation
+      - run: tar --directory docs/ -hcf artifact.tar .
+      # Upload the newly created docs
+      - uses: actions/upload-artifact@v3
+        with:
+          name: documentation-$TAG
+          path: ./artifact.tar
+
+  # Update the documentation brach with the newly generated documentation
+  update-documentation:
+    runs-on: ubuntu-latest
+    needs: create-documentation
+    steps:
+      # Download the artifact that was just created
+      # and add it to the documentation branch
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: documentation-$TAG
+          branch: documentation
+          path: /docs/$TAG
+      
+      # Test the artifact download
+      - name: Test artifact download
+        run: ls -R
