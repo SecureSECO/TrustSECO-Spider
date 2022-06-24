@@ -186,22 +186,9 @@
             ]
         },
         "so_popularity": {
-            "type": "object",
-            "properties": {
-                "month": {
-                    "type": "string"
-                },
-                "year": {
-                    "type": "string"
-                },
-                "popularity": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "month",
-                "year",
-                "popularity"
+            "type": [
+                "number",
+                "null"
             ]
         },
         "virus_ratio": {
