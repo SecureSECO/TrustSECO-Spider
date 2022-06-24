@@ -11,8 +11,8 @@ on:
 
 # Set an environmental variable for the release tag
 env:
-  TAG: ${{GITHUB_REF#refs/*/}}
-  TAG_NAME: documentation-${{GITHUB_REF#refs/*/}}
+  TAG: ${{ github.ref_name#refs/*/ }}
+  TAG_NAME: documentation-${{ env.TAG }}
 
 # Add the actual jobs
 jobs:
@@ -45,7 +45,7 @@ jobs:
       # Upload the newly created docs
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{env.TAG_NAME}}
+          name: ${{ env.TAG_NAME }}
           path: ./artifact.tar
           retention-days: 1
 
@@ -64,8 +64,8 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{env.TAG_NAME}}
-          path: /docs/${{env.TAG}}
+          name: ${{ env.TAG_NAME }}
+          path: /docs/${{ env.TAG }}
       
       # Test the artifact download
       - name: Test artifact download
