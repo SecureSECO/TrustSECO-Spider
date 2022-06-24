@@ -25,12 +25,16 @@ client = app.test_client()
 class TestSetTokens:
     """Class for testing the set_tokens route"""
 
-    def test_set_keys(self, json_input, return_value):
+    def test_set_keys(self, json_input: dict, return_value: str) -> None:
         """
         Function for testing the set_tokens function.
 
         The test is done by examining the returned text
         to see if it matches our expectations.
+
+        Args:
+            json_input (dict): A JSON object containing the possible permutations of token keywords for the APIs
+            return_value (str): A string denoting the final result of the function
         """
 
         # Send a post request to the client
@@ -44,7 +48,7 @@ class TestSetTokens:
 class TestGetTokens:
     """Class for testing the get_tokens route"""
 
-    def test_get_tokens(self):
+    def test_get_tokens(self) -> None:
         """
         Function for testing the get_tokens function.
 
@@ -77,7 +81,7 @@ class TestGetData:
     """Class for testing the get_data route"""
 
     @mock.patch('controller.Controller')
-    def test_get_data(self, mock_controller: mock.Mock):
+    def test_get_data(self, mock_controller: mock.Mock) -> None:
         """
         Function for testing the get_data function.
 

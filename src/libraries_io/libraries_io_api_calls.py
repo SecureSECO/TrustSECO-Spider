@@ -29,7 +29,7 @@ class LibrariesAPICall:
         """
         Gets the average time per release
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 
@@ -64,7 +64,7 @@ class LibrariesAPICall:
         """
         Get the project's repository contributor count
 
-        Parameters:
+        Args:
             owner (str): The owner of the project
             name (str): The name of the project
 
@@ -90,7 +90,7 @@ class LibrariesAPICall:
         """
         Get the project's dependency count
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
             release (str): The release name
@@ -124,7 +124,7 @@ class LibrariesAPICall:
         """
         Get the amount of dependents the project has
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 
@@ -150,7 +150,7 @@ class LibrariesAPICall:
         """
         Get the time of the project's latest release
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 
@@ -176,7 +176,7 @@ class LibrariesAPICall:
         """
         Get the time of the project's latest release
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 
@@ -218,7 +218,7 @@ class LibrariesAPICall:
         """
         Get the amount of releases the project has
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 
@@ -244,7 +244,7 @@ class LibrariesAPICall:
         """
         Get the project's source rank
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 
@@ -270,7 +270,7 @@ class LibrariesAPICall:
         """
         Get the project's repository information from Libraries.io
 
-        Parameters:
+        Args:
             owner (str): The owner of the project
             name (str): The name of the project
 
@@ -297,7 +297,7 @@ class LibrariesAPICall:
         """
         Get the project's dependencies from Libraries.io
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
             release (str): The release name
@@ -325,7 +325,7 @@ class LibrariesAPICall:
         """
         Get the project information from Libraries.io
 
-        Parameters:
+        Args:
             platform (str): The platform of the project
             name (str): The name of the project
 

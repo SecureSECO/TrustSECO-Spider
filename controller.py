@@ -66,7 +66,7 @@ class Controller:
 
         It will try to read the console to see if a new command has been received.
 
-        Parameters:
+        Args:
             input_json (dict): The input JSON object
 
             This input JSON object contains information about which package is to be spidered,
@@ -174,11 +174,11 @@ class Controller:
         """
         Get the data from GitHub.
 
-        Parameters:
-            owner (str): The owner of the repository
-            repo_name (str): The name of the repository
-            release (str): The release name
-            wanted_data (List[str]): The list of data points to be returned
+        Args:
+            owner (str): The owner of the repository.
+            repo_name (str): The name of the repository.
+            release (str): The release name.
+            wanted_data (List[str]): The list of data points to be returned.
 
         Returns:
             dict: The requested GitHub data
@@ -257,7 +257,7 @@ class Controller:
         """
         Get the data from Libraries.IO.
 
-        Parameters:
+        Args:
             platform (str): The platform of the repository
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
@@ -323,7 +323,7 @@ class Controller:
         """
         Get the data from CVE website.
 
-        Parameters:
+        Args:
             repo_name (str): The name of the repository
             wanted_data (List[str]): The list of data points to be returned
 
@@ -363,7 +363,7 @@ class Controller:
         """
         Get the data from Stack Overflow.
 
-        Parameters:
+        Args:
             repo_name (str): The name of the repository
             wanted_data (List[str]): The list of data points to be returned
 
@@ -398,7 +398,7 @@ class Controller:
         """
         Get the virus data from the ClamAV container.
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo_name (str): The name of the repository
             release (str): The release name
@@ -441,7 +441,7 @@ def get_data(input_json: dict) -> dict:
     """
     This function will run the controller with the given JSON input
 
-    Parameters:
+    Args:
         input_json (dict): The received JSON input
 
     Returns:
@@ -459,7 +459,7 @@ def update_token_gh(github_token: str) -> None:
     """
     This function will update the environmental variables with the given GitHub token
 
-    Parameters:
+    Args:
         github_token (str): The user's GitHub token
     """
 
@@ -476,7 +476,7 @@ def update_token_lib(libraries_token: str) -> None:
     """
     This function will update the environmental variable with the given Libraries.io token
 
-    Parameters:
+    Args:
         libraries_token (str): The user's Libraries.io token
     """
 
