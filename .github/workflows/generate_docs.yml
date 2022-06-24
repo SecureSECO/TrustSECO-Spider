@@ -12,7 +12,7 @@ on:
 # Set an environmental variable for the release tag
 env:
   TAG: ${GITHUB_REF#refs/*/}
-  TAG_NAME: ${{join(["documentation-", ${GITHUB_REF#refs/*/}])}}
+  TAG_NAME: documentation-$TAG
 
 # Add the actual jobs
 jobs:
