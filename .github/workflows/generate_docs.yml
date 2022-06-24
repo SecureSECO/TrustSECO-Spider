@@ -25,6 +25,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v3
       # Install dependencies
+      - name: Install dependencies
         run: |
           pip install pdoc
           pip install markdown
