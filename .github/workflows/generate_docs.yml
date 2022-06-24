@@ -4,14 +4,15 @@ name: pdoc
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   release:
-    types: [published]
+    types: [released]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Set an environmental variable for the release tag
 env:
-  TAG: ${GITHUB_REF#refs/*/}
+  TAG: ${{ github.ref_name }}
+  TAG_NAME: documentation-${{ github.ref_name }}
 
 # Add the actual jobs
 jobs:
@@ -44,22 +45,27 @@ jobs:
       # Upload the newly created docs
       - uses: actions/upload-artifact@v3
         with:
-          name: documentation-$TAG
+          name: ${{ env.TAG_NAME }}
           path: ./artifact.tar
+          retention-days: 1
 
   # Update the documentation brach with the newly generated documentation
   update-documentation:
     runs-on: ubuntu-latest
     needs: create-documentation
     steps:
+      # Switch to the documentation brach
+      - uses: actions/checkout@v3
+        with:
+          ref: documentation
+
       # Download the artifact that was just created
       # and add it to the documentation branch
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: documentation-$TAG
-          branch: documentation
-          path: /docs/$TAG
+          name: ${{ env.TAG_NAME }}
+          path: /docs/${{ env.TAG }}
       
       # Test the artifact download
       - name: Test artifact download
