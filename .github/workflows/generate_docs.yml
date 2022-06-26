@@ -45,9 +45,12 @@ jobs:
       - name: Generate documentation
         run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" --logo-link "https://github.com/Fides-UU" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
-      - name: deployment
+      - name: Deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           destination_dir: ${{ env.TAG_NAME }}
+
+      - name: URL
+        run: echo "Documentation was deployed to subdirectory ${{ env.TAG_NAME }}"
