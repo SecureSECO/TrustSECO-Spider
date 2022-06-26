@@ -19,6 +19,11 @@ jobs:
   # Build the documentation and upload the static HTML files as an artifact
   create-documentation:
     runs-on: ubuntu-latest
+    # Allow the job to write to GitHub Pages
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,31 +45,9 @@ jobs:
       - name: Generate documentation
         run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" --logo-link "https://github.com/Fides-UU" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
-      # Create a tar file containing the generated documentation
-      - run: tar --directory docs/ -hcf artifact.tar .
-      # Upload the newly created docs
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.TAG_NAME }}
-          path: ./artifact.tar
-          retention-days: 1
-
-  # Deploy the artifact to GitHub pages
-  deploy-to-pages:
-    # Make sure it runs after the documentation generation
-    needs: create-documentation
-    runs-on: ubuntu-latest
-    # Allow the job to write to GitHub Pages
-    permissions:
-      pages: write
-      id-token: write
-    # Set the environment to GitHub Pages
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
+      - name: deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
           destination_dir: ${{ env.TAG_NAME }}
