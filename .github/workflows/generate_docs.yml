@@ -1,4 +1,4 @@
-name: pdoc
+name: Generate documentation
 
 # Controls when the workflow will run
 on:
@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Setup python
         uses: actions/setup-python@v3
       # Install dependencies
@@ -35,8 +35,8 @@ jobs:
       # Generate the readme.html file
       - name: Generate README file
         run: python -m markdown -x fenced_code -x codehilite README.md -f pdoc/readme.html
-      
-       # Generate the documentation
+
+        # Generate the documentation
       - name: Generate documentation
         run: pdoc --logo "https://avatars.githubusercontent.com/u/100304333" --logo-link "https://github.com/Fides-UU" -t pdoc/ -o docs/ app.py controller.py demo.py src/utils src/stackoverflow src/libraries_io src/github src/cve src/clamav
 
@@ -49,24 +49,22 @@ jobs:
           path: ./artifact.tar
           retention-days: 1
 
-  # Update the documentation brach with the newly generated documentation
-  update-documentation:
-    runs-on: ubuntu-latest
+  # Deploy the artifact to GitHub pages
+  deploy-to-pages:
+    # Make sure it runs after the documentation generation
     needs: create-documentation
+    runs-on: ubuntu-latest
+    # Allow the job to write to GitHub Pages
+    permissions:
+      pages: write
+      id-token: write
+    # Set the environment to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # Switch to the documentation brach
-      - uses: actions/checkout@v3
+      - id: deployment
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          ref: documentation
-
-      # Download the artifact that was just created
-      # and add it to the documentation branch
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.TAG_NAME }}
-          path: /docs/${{ env.TAG }}
-      
-      # Test the artifact download
-      - name: Test artifact download
-        run: ls -R
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          destination_dir: ${{ env.TAG_NAME }}
