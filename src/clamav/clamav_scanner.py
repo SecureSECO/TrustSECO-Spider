@@ -27,7 +27,7 @@ class ClamAVScanner:
         """
         Scans the given links' contents for viruses.
 
-        Parameters:
+        Args:
             links (list): List of web links to the files to scan.
 
         Returns:
@@ -71,7 +71,7 @@ class ClamAVScanner:
         """
         Scans the given link's contents for viruses.
 
-        Parameters:
+        Args:
             link (str): Web link to the file to scan.
 
         Returns:

@@ -16,7 +16,6 @@ It can currently get the following data-points from GitHub:
     - In total
   - Number of commits per year:
     - In the past year from the current date
-    - In a specific year
   - Repository language
   - GitStar ranking
 - Issues information:
@@ -175,7 +174,6 @@ input_json = {
     'project_owner': 'numpy',
     'project_name': 'numpy',
     'project_release': 'v.1.22.1',
-    'project_year': 2021
   },
   'cve_data_points': [
     'cve_count',
@@ -208,7 +206,6 @@ input_json = {
     'project_owner': 'numpy',
     'project_name': 'numpy',
     'project_release': 'v.1.22.1',
-    'project_year': 2021
   },
   "virus_scanning": [
     "virus_ratio"

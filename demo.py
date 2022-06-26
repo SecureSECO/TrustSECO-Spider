@@ -65,7 +65,7 @@ def numpy_demo(wanted_data_points: dict) -> None:
     """
     Function containing the code for the numpy demo.
 
-    Parameters:
+    Args:
         scan_viruses (bool): Boolean denoting if we also want to scan for viruses
     """
 
@@ -101,7 +101,7 @@ def afnetworking_demo(wanted_data_points: dict) -> None:
     """
     Function containing the code for the AFNetworking demo.
 
-    Parameters:
+    Args:
         scan_viruses (bool): Boolean denoting if we also want to scan for viruses
     """
 

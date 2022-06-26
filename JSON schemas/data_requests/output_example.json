@@ -104,12 +104,6 @@
         "CVE-2014-1859",
         "CVE-2014-1858"
     ],
-    "so_popularity": {
-        "month": "5",
-        "year": "2022",
-        "popularity": 0.770775266501
-    },
-    "virus_scanning": {
-        "virus_ratio": 0.0
-    }
+    "so_popularity": 0.770775266501,
+    "virus_ratio": 0.0
 }

@@ -45,7 +45,7 @@ class GitHubAPICall:
         """
         Get the basic information about the given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -71,7 +71,7 @@ class GitHubAPICall:
         """
         Get the language of the given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -96,7 +96,7 @@ class GitHubAPICall:
         """
         Get the stargazer count of the given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -121,7 +121,7 @@ class GitHubAPICall:
         """
         Get information about a specific release/release of a repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
             release (str): The release name
@@ -147,7 +147,7 @@ class GitHubAPICall:
         """
         Get the basic information about the repository owner
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
 
         Returns:
@@ -171,7 +171,7 @@ class GitHubAPICall:
         """
         Get the amount of contributors of the given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -221,7 +221,7 @@ class GitHubAPICall:
         """
         Get the GitStar ranking of the given repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -330,7 +330,7 @@ class GitHubAPICall:
         Get the amount of commits in the last year
         This 'last year' is counted from the current date
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -362,7 +362,7 @@ class GitHubAPICall:
         """
         Get the total amount of downloads of this repository
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -409,7 +409,7 @@ class GitHubAPICall:
         """
         Get the total amount of downloads of a specific release
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
             release (str): The release name
@@ -442,7 +442,7 @@ class GitHubAPICall:
         """
         Get the total amount of issues that have no responses
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -495,7 +495,7 @@ class GitHubAPICall:
         """
         Get the average resolution time of the last 200 issues
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
 
@@ -555,7 +555,7 @@ class GitHubAPICall:
         """
         Get the amount of issues that were posted between the given release and the release after it
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
             release (str): The release to get the issues for
@@ -600,7 +600,7 @@ class GitHubAPICall:
         """
         Get the publish date of the given release and the release after it (if it exists)
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
             release (str): The release to get the publish dates for
@@ -661,7 +661,7 @@ class GitHubAPICall:
         Get the stargazer count of the given owner
         Can take a lot of API calls and time, as an owner can have a lot of repositories
 
-        Parameters:
+        Args:
             owner (str): The owner to get the stargazer count for
 
         Returns:
@@ -704,7 +704,7 @@ class GitHubAPICall:
         """
         Gets the release data of the given repo, and extracts the download link from it
 
-        Parameters:
+        Args:
             owner (str): The owner of the repository
             repo (str): The repository name
             release (str): The release to get the release download link for
@@ -738,7 +738,7 @@ class GitHubAPICall:
         If successful, returns the response
         If not, returns None
 
-        Parameters:
+        Args:
             api_url (str): The URL to perform the API call on
             call_type (str): The type of API call to perform
 
@@ -764,7 +764,7 @@ class GitHubAPICall:
         """
         Function to check if a rate limit has been reached
 
-        Parameters:
+        Args:
             call_type (str): The type of API call to perform
 
         Returns:

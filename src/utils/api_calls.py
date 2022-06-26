@@ -26,7 +26,7 @@ def make_api_call(api_url: str, api_type: str) -> requests.Response:
     """
     Perform a simple GET request, based off the given URL
 
-    Parameters:
+    Args:
         api_url (str): The URL to make the GET request to
         api_type (str): The type of API to make the request to
 
@@ -87,7 +87,7 @@ def get_needed_headers(api_type: str) -> dict:
     """
     Gets the needed headers for the given API type
 
-    Parameters:
+    Args:
         api_type (str): The type of API to make the request to
 
     Returns:
@@ -110,7 +110,7 @@ def get_needed_params(api_type: str) -> dict:
     """
     Gets the needed parameters for the given API type
 
-    Parameters:
+    Args:
         api_type (str): The type of API to make the request to
 
     Returns:

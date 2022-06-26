@@ -57,7 +57,7 @@ class TestControllerRun:
         """
         Test for when a required field within the project information is missing from the input JSON.
 
-        Parameters:
+        Args:
             input_json (dict): The input json to run the controller with
             return_value (dict): The expected return value
         """
@@ -82,7 +82,7 @@ class TestControllerRun:
                 "project_name": "numpy",
                 "project_release": "v1.22.1"
             },
-            "gh_data_points": []
+            "gh_data_points": [],
         }
 
         # Run the controller with the input JSON
@@ -106,7 +106,7 @@ class TestControllerRun:
                 "project_name": "numpy",
                 "project_release": "v1.22.1"
             },
-            "lib_data_points": []
+            "lib_data_points": [],
         }
 
         # Run the controller with the input JSON
@@ -130,7 +130,7 @@ class TestControllerRun:
                 "project_name": "numpy",
                 "project_release": "v1.22.1"
             },
-            "cve_data_points": []
+            "cve_data_points": [],
         }
 
         # Run the controller with the input JSON
@@ -154,7 +154,7 @@ class TestControllerRun:
                 "project_name": "numpy",
                 "project_release": "v1.22.1",
             },
-            "so_data_points": []
+            "so_data_points": [],
         }
 
         # Run the controller with the input JSON
@@ -178,7 +178,7 @@ class TestControllerRun:
                 "project_name": "numpy",
                 "project_release": "v1.22.1"
             },
-            "virus_scanning": []
+            "virus_scanning": [],
         }
 
         # Run the controller with the input JSON
@@ -252,7 +252,7 @@ class TestControllerData:
             "gh_issue_ratio": 0.6,
             "gh_open_issues_count": 3,
             "gh_user_count": 20,
-            "unknown": None
+            "unknown": None,
         }
 
     # Mock all of the Libraries.io API functions
@@ -302,7 +302,7 @@ class TestControllerData:
             "lib_release_count": 2,
             "lib_release_frequency": 1,
             "lib_sourcerank": 5,
-            "unknown": None
+            "unknown": None,
         }
 
     # Mock all of the CVE spider functions
@@ -332,7 +332,7 @@ class TestControllerData:
             "cve_codes": [1, 2, 3],
             "cve_count": 1,
             "cve_vulnerabilities": [1, 2, 3, 4],
-            "unknown": None
+            "unknown": None,
         }
 
     # Mock all of the Stack Overflow spider functions
@@ -360,7 +360,7 @@ class TestControllerData:
                 "year": 1,
                 "popularity": 2
             },
-            'unknown': None
+            'unknown': None,
         }
 
     # Mock all of the virus scan functions
@@ -388,7 +388,7 @@ class TestControllerData:
         # and that the value of that ratio is equal to the one we specified
         assert result == {
             'virus_ratio': 0.0,
-            'unknown': None
+            'unknown': None,
         }
 
 
