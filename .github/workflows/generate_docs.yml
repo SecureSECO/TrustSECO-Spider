@@ -12,7 +12,6 @@ on:
 # Set an environmental variable for the release tag
 env:
   TAG: ${{ github.ref_name }}
-  TAG_NAME: documentation-${{ github.ref_name }}
 
 # Add the actual jobs
 jobs:
@@ -67,4 +66,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          destination_dir: ${{ env.TAG_NAME }}
+          publish_dir: ./docs
+          destination_dir: ${{ env.TAG }}
+
+      - name: URL
+        run: echo "Documentation was deployed to subdirectory ${{ env.TAG }}"
