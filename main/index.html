@@ -50,7 +50,7 @@
 <p>Our program retrieves most data-points using GitHub's REST API. Sadly, not all of the wanted data-points were accessible this way. In order to still gather this data, spidering had to be used.</p>
 <p>It can currently get the following data-points from GitHub:</p>
 <ul>
-<li>Repository information:</li>
+<li>Repository information:<ul>
 <li>Number of contributors</li>
 <li>Number of users</li>
 <li>Number of downloads<ul>
@@ -58,26 +58,29 @@
 <li>In total</li>
 </ul>
 </li>
-<li>Number of commits per year:<ul>
-<li>In the past year from the current date</li>
-</ul>
-</li>
+<li>Number of commits in the last year</li>
 <li>Repository language</li>
 <li>GitStar ranking</li>
-<li>Issues information:</li>
+</ul>
+</li>
+<li>Issues information:<ul>
 <li>Number of open issues</li>
 <li>Number of issues without a response</li>
 <li>Number of issues of a specific release</li>
 <li>Ratio of open to closed issues</li>
 <li>Average issue resolution time</li>
-<li>Owner information:</li>
+</ul>
+</li>
+<li>Owner information:<ul>
 <li>Number of stargazers</li>
+</ul>
+</li>
 </ul>
 <h2>Libraries.io</h2>
 <p>All of the data-points are gathered using various Libraries.io's APIs.</p>
 <p>The currently available data-points are:</p>
 <ul>
-<li>Project:</li>
+<li>Project:<ul>
 <li>Release frequency</li>
 <li>Number of dependencies</li>
 <li>Number of dependents</li>
@@ -85,8 +88,12 @@
 <li>Latest release date</li>
 <li>First release date</li>
 <li>Sourcerank</li>
-<li>Repository:</li>
+</ul>
+</li>
+<li>Repository:<ul>
 <li>Contributor count</li>
+</ul>
+</li>
 </ul>
 <h2>CVE</h2>
 <p>The spider can currently query the CVE service, and get all the known CVE codes of vulnerabilities of the given package.</p>
@@ -94,10 +101,12 @@
 <ul>
 <li>CVE ID</li>
 <li>Vulnerability score</li>
-<li>Affected versions:</li>
+<li>Affected versions:<ul>
 <li>Start version</li>
 <li>End version</li>
 <li>The type thereof (inclusive or exclusive)</li>
+</ul>
+</li>
 </ul>
 <h2>Stack Overflow</h2>
 <p>The data-points that the spider is currently able to grab from Stack Overflow are:</p>
