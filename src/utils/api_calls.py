@@ -3,9 +3,7 @@
 This file handles all of the logic for actually making API calls.
 This allows the program to be more modular and easier to maintain.
 
-    Typical usage:
-
-    response = make_api_call(api_url, api_type)
+In order to send the HTTP requests to the API endpoints, it uses the [Requests](https://requests.readthedocs.io/en/latest/) library.
 """
 
 # Import for getting the environmental variable values
@@ -23,12 +21,14 @@ import src.utils.constants as constants
 
 
 def make_api_call(api_url: str, api_type: str) -> requests.Response:
-    """
-    Perform a simple GET request, based off the given URL
+    """Function to perform an API call to the given API url and source.
+
+    In order to set the correct headers and/or parameters, this function
+    needs to know which API provider it is sending a request to.
 
     Args:
-        api_url (str): The URL to make the GET request to
-        api_type (str): The type of API to make the request to
+        api_url (str): The URL to make the GET request to.
+        api_type (str): The type of API to make the request to (GitHub or Libraries.io).
 
     Returns:
         response (requests.Response): The response from the GET request
@@ -84,8 +84,7 @@ def make_api_call(api_url: str, api_type: str) -> requests.Response:
 
 
 def get_needed_headers(api_type: str) -> dict:
-    """
-    Gets the needed headers for the given API type
+    """Function for getting the needed headers for the given API type.
 
     Args:
         api_type (str): The type of API to make the request to
@@ -107,8 +106,7 @@ def get_needed_headers(api_type: str) -> dict:
 
 
 def get_needed_params(api_type: str) -> dict:
-    """
-    Gets the needed parameters for the given API type
+    """Function for getting the needed parameters for the given API type.
 
     Args:
         api_type (str): The type of API to make the request to

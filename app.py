@@ -1,6 +1,11 @@
 """File containing the setup for the Flask application.
 
 Running this file will start the Flask application on the localhost at port 5000.
+
+It then exposes the following endpoints:
+- /get_data
+- /set_tokens
+- /get_tokens
 """
 
 # Import for filesystem IO
