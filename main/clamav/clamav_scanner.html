@@ -60,16 +60,8 @@
 
                         <div class="docstring"><p>File containing the communication between the TrustSECO-Spider and the ClamAV virus scanner.</p>
 
-<p>This file contains all the logic for
-scanning a list of urls (that point to files).
-The scanning is done using ClamAV which
-is running in another Docker container.</p>
-
-<pre><code>Typical usage:
-
-foo = ClamAVScanner()
-bar = foo.get_virus_ratio([url1, url2, url3])
-</code></pre>
+<p>This file contains all the logic for scanning a list of urls (that point to files).
+The scanning is done using ClamAV, which runs in a separate Docker container.</p>
 </div>
 
                         <input id="clamav_scanner-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -78,116 +70,116 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;File containing the communication between the TrustSECO-Spider and the ClamAV virus scanner.</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="sd">This file contains all the logic for</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="sd">scanning a list of urls (that point to files).</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="sd">The scanning is done using ClamAV which</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="sd">is running in another Docker container.</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="sd">    Typical usage:</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="sd">    foo = ClamAVScanner()</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">    bar = foo.get_virus_ratio([url1, url2, url3])</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="c1"># Import os to allow for file checking and console usage</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">run</span><span class="p">,</span> <span class="n">TimeoutExpired</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="kn">import</span> <span class="nn">os</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="c1"># Import for improved logging</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="kn">import</span> <span class="nn">logging</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="c1"># Import for setting parameter types</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="sd">This file contains all the logic for scanning a list of urls (that point to files).</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="sd">The scanning is done using ClamAV, which runs in a separate Docker container.</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="c1"># Import os to allow for file checking and console usage</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">run</span><span class="p">,</span> <span class="n">TimeoutExpired</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="c1"># Import for improved logging</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">import</span> <span class="nn">logging</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="c1"># Import for setting parameter types</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="k">class</span> <span class="nc">ClamAVScanner</span><span class="p">:</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>    <span class="sd">&quot;&quot;&quot; Class for scanning web links that direct to files.&quot;&quot;&quot;</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>    <span class="k">def</span> <span class="nf">get_virus_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>        <span class="sd">&quot;&quot;&quot;Function to scan the given list of links for viruses. Return the ratio of viruses found.</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>
-</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="k">class</span> <span class="nc">ClamAVScanner</span><span class="p">:</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>    <span class="sd">&quot;&quot;&quot; Class methods for scanning web links that direct to files for viruses. &quot;&quot;&quot;</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="sd">        This function loops through the given list of links and checks if the link is virus-free.</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="sd">        When it is done, it will divide the number of virus-free links by the total number of links.</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="sd">        It then returns this ratio.</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>
-</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>    <span class="k">def</span> <span class="nf">get_virus_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="sd">        Scans the given links&#39; contents for viruses.</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="sd">        Args:</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">            links (list): List of web links to the files to scan.</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="sd">        Args:</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">            links (list): List of web links to the files to scan.</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="sd">        Returns:</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="sd">            float: Ratio of infected links.</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="sd">        Returns:</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd">            float: Percentage of links that have been scanned for viruses.</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
-</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="c1"># Make sure we have a list of links</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="k">if</span> <span class="n">links</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (None input)&#39;</span><span class="p">)</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (empty list)&#39;</span><span class="p">)</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>        <span class="c1"># Make sure we have a list of links</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>        <span class="k">if</span> <span class="n">links</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (None input)&#39;</span><span class="p">)</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (empty list)&#39;</span><span class="p">)</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>        <span class="c1"># Initialize a counter for the number of infected links found</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>        <span class="n">infected_links</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="c1"># Initialize a counter for the number of infected links found</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="n">infected_links</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="c1"># Iterate through the links</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scanning link </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="c1"># Iterate through the links</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scanning link </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>            <span class="c1"># Scan the link</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>            <span class="c1"># If None was returned, a problem was encountered so we can return None</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>                <span class="k">return</span> <span class="kc">None</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>            <span class="c1"># Else, if the result returned True, then a virus was found, and the counter should be incremented</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>            <span class="k">elif</span> <span class="n">result</span><span class="p">:</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>                <span class="c1"># Increment the counter if a virus has been detected</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>                <span class="n">infected_links</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>            <span class="c1"># Up the counter</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="c1"># Return the percentage of links that have been scanned for viruses</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>        <span class="k">return</span> <span class="n">infected_links</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">def</span> <span class="nf">scan_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        Scans the given link&#39;s contents for viruses.</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        Args:</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">            link (str): Web link to the file to scan.</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">        Returns:</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">            bool: True if a virus has been detected, False otherwise.</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>        <span class="c1"># # Make sure the UNIX socket is available for clamdscan</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_socket_availability</span><span class="p">():</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="c1"># Open a command stream with the clamdscan command</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>            <span class="sa">f</span><span class="s1">&#39;wget -qO- </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s1"> | clamdscan --config-file=clamav/client_clamd.conf -&#39;</span><span class="p">)</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="c1"># Get the output of the scan</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>        <span class="n">feedback</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="c1"># Close the stream</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="c1"># Try to extract the virus count from the output</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="n">virus_count</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">:</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>            <span class="k">if</span> <span class="s1">&#39;Infected files&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>                <span class="n">virus_count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>        <span class="c1"># Return True if a virus has been detected, False otherwise</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>        <span class="k">if</span> <span class="n">virus_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>        <span class="k">elif</span> <span class="n">virus_count</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">check_socket_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">        Checks whether or not the socket file exists, and is accepting connections.</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>            <span class="c1"># Scan the link</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>            <span class="c1"># If None was returned, a problem was encountered so we can return None</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>                <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>            <span class="c1"># Else, if the result returned True, then a virus was found, and the counter should be incremented</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>            <span class="k">elif</span> <span class="n">result</span><span class="p">:</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>                <span class="c1"># Increment the counter if a virus has been detected</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>                <span class="n">infected_links</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>            <span class="c1"># Up the counter</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>        <span class="c1"># Return the percentage of links that have been scanned for viruses</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>        <span class="k">return</span> <span class="n">infected_links</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>    <span class="k">def</span> <span class="nf">scan_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="sd">&quot;&quot;&quot;Function to scan the given link for viruses.</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">        It does this by sending an file-stream to the ClamAV container using the UNIX socket.</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">        The file-stream is created using the `wget` command.</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">        It then reads the output of the command and checks how many viruses were found.</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        Args:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">            link (str): Web link to the file to scan.</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">        Returns:</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">            bool: True if a virus has been detected, False otherwise.</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="c1"># # Make sure the UNIX socket is available for clamdscan</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_socket_availability</span><span class="p">():</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>        <span class="c1"># Open a command stream with the clamdscan command</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>            <span class="sa">f</span><span class="s1">&#39;wget -qO- </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s1"> | clamdscan --config-file=clamav/client_clamd.conf -&#39;</span><span class="p">)</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>        <span class="c1"># Get the output of the scan</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="n">feedback</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>        <span class="c1"># Close the stream</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>        <span class="c1"># Try to extract the virus count from the output</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="n">virus_count</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">:</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>            <span class="k">if</span> <span class="s1">&#39;Infected files&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>                <span class="n">virus_count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="c1"># Return True if a virus has been detected, False otherwise</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>        <span class="k">if</span> <span class="n">virus_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>        <span class="k">elif</span> <span class="n">virus_count</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>            <span class="k">return</span> <span class="kc">True</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">def</span> <span class="nf">check_socket_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="sd">&quot;&quot;&quot;Function for checking if the ClamAV UNIX socket is available and listening.</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">        It does this by using the `socat` command to send a dummy message to the socket.</span>
 </span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">        Returns:</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">            bool: Whether or not the socket exists and is listening</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">            bool: Whether or not the socket exists and is listening.</span>
 </span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>        <span class="c1"># See if the file-path exists</span>
@@ -226,96 +218,103 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 
     </div>
     <a class="headerlink" href="#ClamAVScanner"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner-24"><a href="#ClamAVScanner-24"><span class="linenos"> 24</span></a><span class="k">class</span> <span class="nc">ClamAVScanner</span><span class="p">:</span>
-</span><span id="ClamAVScanner-25"><a href="#ClamAVScanner-25"><span class="linenos"> 25</span></a>    <span class="sd">&quot;&quot;&quot; Class methods for scanning web links that direct to files for viruses. &quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner-17"><a href="#ClamAVScanner-17"><span class="linenos"> 17</span></a><span class="k">class</span> <span class="nc">ClamAVScanner</span><span class="p">:</span>
+</span><span id="ClamAVScanner-18"><a href="#ClamAVScanner-18"><span class="linenos"> 18</span></a>    <span class="sd">&quot;&quot;&quot; Class for scanning web links that direct to files.&quot;&quot;&quot;</span>
+</span><span id="ClamAVScanner-19"><a href="#ClamAVScanner-19"><span class="linenos"> 19</span></a>
+</span><span id="ClamAVScanner-20"><a href="#ClamAVScanner-20"><span class="linenos"> 20</span></a>    <span class="k">def</span> <span class="nf">get_virus_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="ClamAVScanner-21"><a href="#ClamAVScanner-21"><span class="linenos"> 21</span></a>        <span class="sd">&quot;&quot;&quot;Function to scan the given list of links for viruses. Return the ratio of viruses found.</span>
+</span><span id="ClamAVScanner-22"><a href="#ClamAVScanner-22"><span class="linenos"> 22</span></a>
+</span><span id="ClamAVScanner-23"><a href="#ClamAVScanner-23"><span class="linenos"> 23</span></a><span class="sd">        This function loops through the given list of links and checks if the link is virus-free.</span>
+</span><span id="ClamAVScanner-24"><a href="#ClamAVScanner-24"><span class="linenos"> 24</span></a><span class="sd">        When it is done, it will divide the number of virus-free links by the total number of links.</span>
+</span><span id="ClamAVScanner-25"><a href="#ClamAVScanner-25"><span class="linenos"> 25</span></a><span class="sd">        It then returns this ratio.</span>
 </span><span id="ClamAVScanner-26"><a href="#ClamAVScanner-26"><span class="linenos"> 26</span></a>
-</span><span id="ClamAVScanner-27"><a href="#ClamAVScanner-27"><span class="linenos"> 27</span></a>    <span class="k">def</span> <span class="nf">get_virus_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="ClamAVScanner-28"><a href="#ClamAVScanner-28"><span class="linenos"> 28</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner-29"><a href="#ClamAVScanner-29"><span class="linenos"> 29</span></a><span class="sd">        Scans the given links&#39; contents for viruses.</span>
-</span><span id="ClamAVScanner-30"><a href="#ClamAVScanner-30"><span class="linenos"> 30</span></a>
-</span><span id="ClamAVScanner-31"><a href="#ClamAVScanner-31"><span class="linenos"> 31</span></a><span class="sd">        Args:</span>
-</span><span id="ClamAVScanner-32"><a href="#ClamAVScanner-32"><span class="linenos"> 32</span></a><span class="sd">            links (list): List of web links to the files to scan.</span>
+</span><span id="ClamAVScanner-27"><a href="#ClamAVScanner-27"><span class="linenos"> 27</span></a><span class="sd">        Args:</span>
+</span><span id="ClamAVScanner-28"><a href="#ClamAVScanner-28"><span class="linenos"> 28</span></a><span class="sd">            links (list): List of web links to the files to scan.</span>
+</span><span id="ClamAVScanner-29"><a href="#ClamAVScanner-29"><span class="linenos"> 29</span></a>
+</span><span id="ClamAVScanner-30"><a href="#ClamAVScanner-30"><span class="linenos"> 30</span></a><span class="sd">        Returns:</span>
+</span><span id="ClamAVScanner-31"><a href="#ClamAVScanner-31"><span class="linenos"> 31</span></a><span class="sd">            float: Ratio of infected links.</span>
+</span><span id="ClamAVScanner-32"><a href="#ClamAVScanner-32"><span class="linenos"> 32</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="ClamAVScanner-33"><a href="#ClamAVScanner-33"><span class="linenos"> 33</span></a>
-</span><span id="ClamAVScanner-34"><a href="#ClamAVScanner-34"><span class="linenos"> 34</span></a><span class="sd">        Returns:</span>
-</span><span id="ClamAVScanner-35"><a href="#ClamAVScanner-35"><span class="linenos"> 35</span></a><span class="sd">            float: Percentage of links that have been scanned for viruses.</span>
-</span><span id="ClamAVScanner-36"><a href="#ClamAVScanner-36"><span class="linenos"> 36</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner-37"><a href="#ClamAVScanner-37"><span class="linenos"> 37</span></a>
-</span><span id="ClamAVScanner-38"><a href="#ClamAVScanner-38"><span class="linenos"> 38</span></a>        <span class="c1"># Make sure we have a list of links</span>
-</span><span id="ClamAVScanner-39"><a href="#ClamAVScanner-39"><span class="linenos"> 39</span></a>        <span class="k">if</span> <span class="n">links</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ClamAVScanner-40"><a href="#ClamAVScanner-40"><span class="linenos"> 40</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (None input)&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner-41"><a href="#ClamAVScanner-41"><span class="linenos"> 41</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner-42"><a href="#ClamAVScanner-42"><span class="linenos"> 42</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="ClamAVScanner-43"><a href="#ClamAVScanner-43"><span class="linenos"> 43</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (empty list)&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner-44"><a href="#ClamAVScanner-44"><span class="linenos"> 44</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-34"><a href="#ClamAVScanner-34"><span class="linenos"> 34</span></a>        <span class="c1"># Make sure we have a list of links</span>
+</span><span id="ClamAVScanner-35"><a href="#ClamAVScanner-35"><span class="linenos"> 35</span></a>        <span class="k">if</span> <span class="n">links</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ClamAVScanner-36"><a href="#ClamAVScanner-36"><span class="linenos"> 36</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (None input)&#39;</span><span class="p">)</span>
+</span><span id="ClamAVScanner-37"><a href="#ClamAVScanner-37"><span class="linenos"> 37</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-38"><a href="#ClamAVScanner-38"><span class="linenos"> 38</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="ClamAVScanner-39"><a href="#ClamAVScanner-39"><span class="linenos"> 39</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (empty list)&#39;</span><span class="p">)</span>
+</span><span id="ClamAVScanner-40"><a href="#ClamAVScanner-40"><span class="linenos"> 40</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-41"><a href="#ClamAVScanner-41"><span class="linenos"> 41</span></a>
+</span><span id="ClamAVScanner-42"><a href="#ClamAVScanner-42"><span class="linenos"> 42</span></a>        <span class="c1"># Initialize a counter for the number of infected links found</span>
+</span><span id="ClamAVScanner-43"><a href="#ClamAVScanner-43"><span class="linenos"> 43</span></a>        <span class="n">infected_links</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="ClamAVScanner-44"><a href="#ClamAVScanner-44"><span class="linenos"> 44</span></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="ClamAVScanner-45"><a href="#ClamAVScanner-45"><span class="linenos"> 45</span></a>
-</span><span id="ClamAVScanner-46"><a href="#ClamAVScanner-46"><span class="linenos"> 46</span></a>        <span class="c1"># Initialize a counter for the number of infected links found</span>
-</span><span id="ClamAVScanner-47"><a href="#ClamAVScanner-47"><span class="linenos"> 47</span></a>        <span class="n">infected_links</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="ClamAVScanner-48"><a href="#ClamAVScanner-48"><span class="linenos"> 48</span></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="ClamAVScanner-46"><a href="#ClamAVScanner-46"><span class="linenos"> 46</span></a>        <span class="c1"># Iterate through the links</span>
+</span><span id="ClamAVScanner-47"><a href="#ClamAVScanner-47"><span class="linenos"> 47</span></a>        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+</span><span id="ClamAVScanner-48"><a href="#ClamAVScanner-48"><span class="linenos"> 48</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scanning link </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="ClamAVScanner-49"><a href="#ClamAVScanner-49"><span class="linenos"> 49</span></a>
-</span><span id="ClamAVScanner-50"><a href="#ClamAVScanner-50"><span class="linenos"> 50</span></a>        <span class="c1"># Iterate through the links</span>
-</span><span id="ClamAVScanner-51"><a href="#ClamAVScanner-51"><span class="linenos"> 51</span></a>        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
-</span><span id="ClamAVScanner-52"><a href="#ClamAVScanner-52"><span class="linenos"> 52</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scanning link </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner-53"><a href="#ClamAVScanner-53"><span class="linenos"> 53</span></a>
-</span><span id="ClamAVScanner-54"><a href="#ClamAVScanner-54"><span class="linenos"> 54</span></a>            <span class="c1"># Scan the link</span>
-</span><span id="ClamAVScanner-55"><a href="#ClamAVScanner-55"><span class="linenos"> 55</span></a>            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-</span><span id="ClamAVScanner-56"><a href="#ClamAVScanner-56"><span class="linenos"> 56</span></a>
-</span><span id="ClamAVScanner-57"><a href="#ClamAVScanner-57"><span class="linenos"> 57</span></a>            <span class="c1"># If None was returned, a problem was encountered so we can return None</span>
-</span><span id="ClamAVScanner-58"><a href="#ClamAVScanner-58"><span class="linenos"> 58</span></a>            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ClamAVScanner-59"><a href="#ClamAVScanner-59"><span class="linenos"> 59</span></a>                <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner-60"><a href="#ClamAVScanner-60"><span class="linenos"> 60</span></a>            <span class="c1"># Else, if the result returned True, then a virus was found, and the counter should be incremented</span>
-</span><span id="ClamAVScanner-61"><a href="#ClamAVScanner-61"><span class="linenos"> 61</span></a>            <span class="k">elif</span> <span class="n">result</span><span class="p">:</span>
-</span><span id="ClamAVScanner-62"><a href="#ClamAVScanner-62"><span class="linenos"> 62</span></a>                <span class="c1"># Increment the counter if a virus has been detected</span>
-</span><span id="ClamAVScanner-63"><a href="#ClamAVScanner-63"><span class="linenos"> 63</span></a>                <span class="n">infected_links</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span id="ClamAVScanner-64"><a href="#ClamAVScanner-64"><span class="linenos"> 64</span></a>
-</span><span id="ClamAVScanner-65"><a href="#ClamAVScanner-65"><span class="linenos"> 65</span></a>            <span class="c1"># Up the counter</span>
-</span><span id="ClamAVScanner-66"><a href="#ClamAVScanner-66"><span class="linenos"> 66</span></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span id="ClamAVScanner-67"><a href="#ClamAVScanner-67"><span class="linenos"> 67</span></a>
-</span><span id="ClamAVScanner-68"><a href="#ClamAVScanner-68"><span class="linenos"> 68</span></a>        <span class="c1"># Return the percentage of links that have been scanned for viruses</span>
-</span><span id="ClamAVScanner-69"><a href="#ClamAVScanner-69"><span class="linenos"> 69</span></a>        <span class="k">return</span> <span class="n">infected_links</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
-</span><span id="ClamAVScanner-70"><a href="#ClamAVScanner-70"><span class="linenos"> 70</span></a>
-</span><span id="ClamAVScanner-71"><a href="#ClamAVScanner-71"><span class="linenos"> 71</span></a>    <span class="k">def</span> <span class="nf">scan_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="ClamAVScanner-72"><a href="#ClamAVScanner-72"><span class="linenos"> 72</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner-73"><a href="#ClamAVScanner-73"><span class="linenos"> 73</span></a><span class="sd">        Scans the given link&#39;s contents for viruses.</span>
-</span><span id="ClamAVScanner-74"><a href="#ClamAVScanner-74"><span class="linenos"> 74</span></a>
-</span><span id="ClamAVScanner-75"><a href="#ClamAVScanner-75"><span class="linenos"> 75</span></a><span class="sd">        Args:</span>
-</span><span id="ClamAVScanner-76"><a href="#ClamAVScanner-76"><span class="linenos"> 76</span></a><span class="sd">            link (str): Web link to the file to scan.</span>
-</span><span id="ClamAVScanner-77"><a href="#ClamAVScanner-77"><span class="linenos"> 77</span></a>
-</span><span id="ClamAVScanner-78"><a href="#ClamAVScanner-78"><span class="linenos"> 78</span></a><span class="sd">        Returns:</span>
-</span><span id="ClamAVScanner-79"><a href="#ClamAVScanner-79"><span class="linenos"> 79</span></a><span class="sd">            bool: True if a virus has been detected, False otherwise.</span>
-</span><span id="ClamAVScanner-80"><a href="#ClamAVScanner-80"><span class="linenos"> 80</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner-81"><a href="#ClamAVScanner-81"><span class="linenos"> 81</span></a>
-</span><span id="ClamAVScanner-82"><a href="#ClamAVScanner-82"><span class="linenos"> 82</span></a>        <span class="c1"># # Make sure the UNIX socket is available for clamdscan</span>
-</span><span id="ClamAVScanner-83"><a href="#ClamAVScanner-83"><span class="linenos"> 83</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_socket_availability</span><span class="p">():</span>
-</span><span id="ClamAVScanner-84"><a href="#ClamAVScanner-84"><span class="linenos"> 84</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner-85"><a href="#ClamAVScanner-85"><span class="linenos"> 85</span></a>
-</span><span id="ClamAVScanner-86"><a href="#ClamAVScanner-86"><span class="linenos"> 86</span></a>        <span class="c1"># Open a command stream with the clamdscan command</span>
-</span><span id="ClamAVScanner-87"><a href="#ClamAVScanner-87"><span class="linenos"> 87</span></a>        <span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span>
-</span><span id="ClamAVScanner-88"><a href="#ClamAVScanner-88"><span class="linenos"> 88</span></a>            <span class="sa">f</span><span class="s1">&#39;wget -qO- </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s1"> | clamdscan --config-file=clamav/client_clamd.conf -&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner-89"><a href="#ClamAVScanner-89"><span class="linenos"> 89</span></a>        <span class="c1"># Get the output of the scan</span>
-</span><span id="ClamAVScanner-90"><a href="#ClamAVScanner-90"><span class="linenos"> 90</span></a>        <span class="n">feedback</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-</span><span id="ClamAVScanner-91"><a href="#ClamAVScanner-91"><span class="linenos"> 91</span></a>        <span class="c1"># Close the stream</span>
-</span><span id="ClamAVScanner-92"><a href="#ClamAVScanner-92"><span class="linenos"> 92</span></a>        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="ClamAVScanner-93"><a href="#ClamAVScanner-93"><span class="linenos"> 93</span></a>
-</span><span id="ClamAVScanner-94"><a href="#ClamAVScanner-94"><span class="linenos"> 94</span></a>        <span class="c1"># Try to extract the virus count from the output</span>
-</span><span id="ClamAVScanner-95"><a href="#ClamAVScanner-95"><span class="linenos"> 95</span></a>        <span class="n">virus_count</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner-96"><a href="#ClamAVScanner-96"><span class="linenos"> 96</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">:</span>
-</span><span id="ClamAVScanner-97"><a href="#ClamAVScanner-97"><span class="linenos"> 97</span></a>            <span class="k">if</span> <span class="s1">&#39;Infected files&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-</span><span id="ClamAVScanner-98"><a href="#ClamAVScanner-98"><span class="linenos"> 98</span></a>                <span class="n">virus_count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="ClamAVScanner-99"><a href="#ClamAVScanner-99"><span class="linenos"> 99</span></a>
-</span><span id="ClamAVScanner-100"><a href="#ClamAVScanner-100"><span class="linenos">100</span></a>        <span class="c1"># Return True if a virus has been detected, False otherwise</span>
-</span><span id="ClamAVScanner-101"><a href="#ClamAVScanner-101"><span class="linenos">101</span></a>        <span class="k">if</span> <span class="n">virus_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ClamAVScanner-102"><a href="#ClamAVScanner-102"><span class="linenos">102</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner-103"><a href="#ClamAVScanner-103"><span class="linenos">103</span></a>        <span class="k">elif</span> <span class="n">virus_count</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
-</span><span id="ClamAVScanner-104"><a href="#ClamAVScanner-104"><span class="linenos">104</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="ClamAVScanner-105"><a href="#ClamAVScanner-105"><span class="linenos">105</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="ClamAVScanner-106"><a href="#ClamAVScanner-106"><span class="linenos">106</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="ClamAVScanner-107"><a href="#ClamAVScanner-107"><span class="linenos">107</span></a>
-</span><span id="ClamAVScanner-108"><a href="#ClamAVScanner-108"><span class="linenos">108</span></a>    <span class="k">def</span> <span class="nf">check_socket_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="ClamAVScanner-109"><a href="#ClamAVScanner-109"><span class="linenos">109</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner-110"><a href="#ClamAVScanner-110"><span class="linenos">110</span></a><span class="sd">        Checks whether or not the socket file exists, and is accepting connections.</span>
+</span><span id="ClamAVScanner-50"><a href="#ClamAVScanner-50"><span class="linenos"> 50</span></a>            <span class="c1"># Scan the link</span>
+</span><span id="ClamAVScanner-51"><a href="#ClamAVScanner-51"><span class="linenos"> 51</span></a>            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+</span><span id="ClamAVScanner-52"><a href="#ClamAVScanner-52"><span class="linenos"> 52</span></a>
+</span><span id="ClamAVScanner-53"><a href="#ClamAVScanner-53"><span class="linenos"> 53</span></a>            <span class="c1"># If None was returned, a problem was encountered so we can return None</span>
+</span><span id="ClamAVScanner-54"><a href="#ClamAVScanner-54"><span class="linenos"> 54</span></a>            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ClamAVScanner-55"><a href="#ClamAVScanner-55"><span class="linenos"> 55</span></a>                <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-56"><a href="#ClamAVScanner-56"><span class="linenos"> 56</span></a>            <span class="c1"># Else, if the result returned True, then a virus was found, and the counter should be incremented</span>
+</span><span id="ClamAVScanner-57"><a href="#ClamAVScanner-57"><span class="linenos"> 57</span></a>            <span class="k">elif</span> <span class="n">result</span><span class="p">:</span>
+</span><span id="ClamAVScanner-58"><a href="#ClamAVScanner-58"><span class="linenos"> 58</span></a>                <span class="c1"># Increment the counter if a virus has been detected</span>
+</span><span id="ClamAVScanner-59"><a href="#ClamAVScanner-59"><span class="linenos"> 59</span></a>                <span class="n">infected_links</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="ClamAVScanner-60"><a href="#ClamAVScanner-60"><span class="linenos"> 60</span></a>
+</span><span id="ClamAVScanner-61"><a href="#ClamAVScanner-61"><span class="linenos"> 61</span></a>            <span class="c1"># Up the counter</span>
+</span><span id="ClamAVScanner-62"><a href="#ClamAVScanner-62"><span class="linenos"> 62</span></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="ClamAVScanner-63"><a href="#ClamAVScanner-63"><span class="linenos"> 63</span></a>
+</span><span id="ClamAVScanner-64"><a href="#ClamAVScanner-64"><span class="linenos"> 64</span></a>        <span class="c1"># Return the percentage of links that have been scanned for viruses</span>
+</span><span id="ClamAVScanner-65"><a href="#ClamAVScanner-65"><span class="linenos"> 65</span></a>        <span class="k">return</span> <span class="n">infected_links</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
+</span><span id="ClamAVScanner-66"><a href="#ClamAVScanner-66"><span class="linenos"> 66</span></a>
+</span><span id="ClamAVScanner-67"><a href="#ClamAVScanner-67"><span class="linenos"> 67</span></a>    <span class="k">def</span> <span class="nf">scan_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="ClamAVScanner-68"><a href="#ClamAVScanner-68"><span class="linenos"> 68</span></a>        <span class="sd">&quot;&quot;&quot;Function to scan the given link for viruses.</span>
+</span><span id="ClamAVScanner-69"><a href="#ClamAVScanner-69"><span class="linenos"> 69</span></a>
+</span><span id="ClamAVScanner-70"><a href="#ClamAVScanner-70"><span class="linenos"> 70</span></a><span class="sd">        It does this by sending an file-stream to the ClamAV container using the UNIX socket.</span>
+</span><span id="ClamAVScanner-71"><a href="#ClamAVScanner-71"><span class="linenos"> 71</span></a><span class="sd">        The file-stream is created using the `wget` command.</span>
+</span><span id="ClamAVScanner-72"><a href="#ClamAVScanner-72"><span class="linenos"> 72</span></a><span class="sd">        It then reads the output of the command and checks how many viruses were found.</span>
+</span><span id="ClamAVScanner-73"><a href="#ClamAVScanner-73"><span class="linenos"> 73</span></a>
+</span><span id="ClamAVScanner-74"><a href="#ClamAVScanner-74"><span class="linenos"> 74</span></a><span class="sd">        Args:</span>
+</span><span id="ClamAVScanner-75"><a href="#ClamAVScanner-75"><span class="linenos"> 75</span></a><span class="sd">            link (str): Web link to the file to scan.</span>
+</span><span id="ClamAVScanner-76"><a href="#ClamAVScanner-76"><span class="linenos"> 76</span></a>
+</span><span id="ClamAVScanner-77"><a href="#ClamAVScanner-77"><span class="linenos"> 77</span></a><span class="sd">        Returns:</span>
+</span><span id="ClamAVScanner-78"><a href="#ClamAVScanner-78"><span class="linenos"> 78</span></a><span class="sd">            bool: True if a virus has been detected, False otherwise.</span>
+</span><span id="ClamAVScanner-79"><a href="#ClamAVScanner-79"><span class="linenos"> 79</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="ClamAVScanner-80"><a href="#ClamAVScanner-80"><span class="linenos"> 80</span></a>
+</span><span id="ClamAVScanner-81"><a href="#ClamAVScanner-81"><span class="linenos"> 81</span></a>        <span class="c1"># # Make sure the UNIX socket is available for clamdscan</span>
+</span><span id="ClamAVScanner-82"><a href="#ClamAVScanner-82"><span class="linenos"> 82</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_socket_availability</span><span class="p">():</span>
+</span><span id="ClamAVScanner-83"><a href="#ClamAVScanner-83"><span class="linenos"> 83</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-84"><a href="#ClamAVScanner-84"><span class="linenos"> 84</span></a>
+</span><span id="ClamAVScanner-85"><a href="#ClamAVScanner-85"><span class="linenos"> 85</span></a>        <span class="c1"># Open a command stream with the clamdscan command</span>
+</span><span id="ClamAVScanner-86"><a href="#ClamAVScanner-86"><span class="linenos"> 86</span></a>        <span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span>
+</span><span id="ClamAVScanner-87"><a href="#ClamAVScanner-87"><span class="linenos"> 87</span></a>            <span class="sa">f</span><span class="s1">&#39;wget -qO- </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s1"> | clamdscan --config-file=clamav/client_clamd.conf -&#39;</span><span class="p">)</span>
+</span><span id="ClamAVScanner-88"><a href="#ClamAVScanner-88"><span class="linenos"> 88</span></a>        <span class="c1"># Get the output of the scan</span>
+</span><span id="ClamAVScanner-89"><a href="#ClamAVScanner-89"><span class="linenos"> 89</span></a>        <span class="n">feedback</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span><span id="ClamAVScanner-90"><a href="#ClamAVScanner-90"><span class="linenos"> 90</span></a>        <span class="c1"># Close the stream</span>
+</span><span id="ClamAVScanner-91"><a href="#ClamAVScanner-91"><span class="linenos"> 91</span></a>        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="ClamAVScanner-92"><a href="#ClamAVScanner-92"><span class="linenos"> 92</span></a>
+</span><span id="ClamAVScanner-93"><a href="#ClamAVScanner-93"><span class="linenos"> 93</span></a>        <span class="c1"># Try to extract the virus count from the output</span>
+</span><span id="ClamAVScanner-94"><a href="#ClamAVScanner-94"><span class="linenos"> 94</span></a>        <span class="n">virus_count</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-95"><a href="#ClamAVScanner-95"><span class="linenos"> 95</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">:</span>
+</span><span id="ClamAVScanner-96"><a href="#ClamAVScanner-96"><span class="linenos"> 96</span></a>            <span class="k">if</span> <span class="s1">&#39;Infected files&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+</span><span id="ClamAVScanner-97"><a href="#ClamAVScanner-97"><span class="linenos"> 97</span></a>                <span class="n">virus_count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="ClamAVScanner-98"><a href="#ClamAVScanner-98"><span class="linenos"> 98</span></a>
+</span><span id="ClamAVScanner-99"><a href="#ClamAVScanner-99"><span class="linenos"> 99</span></a>        <span class="c1"># Return True if a virus has been detected, False otherwise</span>
+</span><span id="ClamAVScanner-100"><a href="#ClamAVScanner-100"><span class="linenos">100</span></a>        <span class="k">if</span> <span class="n">virus_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ClamAVScanner-101"><a href="#ClamAVScanner-101"><span class="linenos">101</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner-102"><a href="#ClamAVScanner-102"><span class="linenos">102</span></a>        <span class="k">elif</span> <span class="n">virus_count</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+</span><span id="ClamAVScanner-103"><a href="#ClamAVScanner-103"><span class="linenos">103</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="ClamAVScanner-104"><a href="#ClamAVScanner-104"><span class="linenos">104</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="ClamAVScanner-105"><a href="#ClamAVScanner-105"><span class="linenos">105</span></a>            <span class="k">return</span> <span class="kc">True</span>
+</span><span id="ClamAVScanner-106"><a href="#ClamAVScanner-106"><span class="linenos">106</span></a>
+</span><span id="ClamAVScanner-107"><a href="#ClamAVScanner-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">check_socket_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="ClamAVScanner-108"><a href="#ClamAVScanner-108"><span class="linenos">108</span></a>        <span class="sd">&quot;&quot;&quot;Function for checking if the ClamAV UNIX socket is available and listening.</span>
+</span><span id="ClamAVScanner-109"><a href="#ClamAVScanner-109"><span class="linenos">109</span></a>
+</span><span id="ClamAVScanner-110"><a href="#ClamAVScanner-110"><span class="linenos">110</span></a><span class="sd">        It does this by using the `socat` command to send a dummy message to the socket.</span>
 </span><span id="ClamAVScanner-111"><a href="#ClamAVScanner-111"><span class="linenos">111</span></a>
 </span><span id="ClamAVScanner-112"><a href="#ClamAVScanner-112"><span class="linenos">112</span></a><span class="sd">        Returns:</span>
-</span><span id="ClamAVScanner-113"><a href="#ClamAVScanner-113"><span class="linenos">113</span></a><span class="sd">            bool: Whether or not the socket exists and is listening</span>
+</span><span id="ClamAVScanner-113"><a href="#ClamAVScanner-113"><span class="linenos">113</span></a><span class="sd">            bool: Whether or not the socket exists and is listening.</span>
 </span><span id="ClamAVScanner-114"><a href="#ClamAVScanner-114"><span class="linenos">114</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="ClamAVScanner-115"><a href="#ClamAVScanner-115"><span class="linenos">115</span></a>
 </span><span id="ClamAVScanner-116"><a href="#ClamAVScanner-116"><span class="linenos">116</span></a>        <span class="c1"># See if the file-path exists</span>
@@ -336,7 +335,7 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 </span></pre></div>
 
 
-            <div class="docstring"><p>Class methods for scanning web links that direct to files for viruses.</p>
+            <div class="docstring"><p>Class for scanning web links that direct to files.</p>
 </div>
 
 
@@ -363,59 +362,72 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 
     </div>
     <a class="headerlink" href="#ClamAVScanner.get_virus_ratio"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner.get_virus_ratio-27"><a href="#ClamAVScanner.get_virus_ratio-27"><span class="linenos">27</span></a>    <span class="k">def</span> <span class="nf">get_virus_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-28"><a href="#ClamAVScanner.get_virus_ratio-28"><span class="linenos">28</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner.get_virus_ratio-29"><a href="#ClamAVScanner.get_virus_ratio-29"><span class="linenos">29</span></a><span class="sd">        Scans the given links&#39; contents for viruses.</span>
-</span><span id="ClamAVScanner.get_virus_ratio-30"><a href="#ClamAVScanner.get_virus_ratio-30"><span class="linenos">30</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-31"><a href="#ClamAVScanner.get_virus_ratio-31"><span class="linenos">31</span></a><span class="sd">        Args:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-32"><a href="#ClamAVScanner.get_virus_ratio-32"><span class="linenos">32</span></a><span class="sd">            links (list): List of web links to the files to scan.</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner.get_virus_ratio-20"><a href="#ClamAVScanner.get_virus_ratio-20"><span class="linenos">20</span></a>    <span class="k">def</span> <span class="nf">get_virus_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-21"><a href="#ClamAVScanner.get_virus_ratio-21"><span class="linenos">21</span></a>        <span class="sd">&quot;&quot;&quot;Function to scan the given list of links for viruses. Return the ratio of viruses found.</span>
+</span><span id="ClamAVScanner.get_virus_ratio-22"><a href="#ClamAVScanner.get_virus_ratio-22"><span class="linenos">22</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-23"><a href="#ClamAVScanner.get_virus_ratio-23"><span class="linenos">23</span></a><span class="sd">        This function loops through the given list of links and checks if the link is virus-free.</span>
+</span><span id="ClamAVScanner.get_virus_ratio-24"><a href="#ClamAVScanner.get_virus_ratio-24"><span class="linenos">24</span></a><span class="sd">        When it is done, it will divide the number of virus-free links by the total number of links.</span>
+</span><span id="ClamAVScanner.get_virus_ratio-25"><a href="#ClamAVScanner.get_virus_ratio-25"><span class="linenos">25</span></a><span class="sd">        It then returns this ratio.</span>
+</span><span id="ClamAVScanner.get_virus_ratio-26"><a href="#ClamAVScanner.get_virus_ratio-26"><span class="linenos">26</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-27"><a href="#ClamAVScanner.get_virus_ratio-27"><span class="linenos">27</span></a><span class="sd">        Args:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-28"><a href="#ClamAVScanner.get_virus_ratio-28"><span class="linenos">28</span></a><span class="sd">            links (list): List of web links to the files to scan.</span>
+</span><span id="ClamAVScanner.get_virus_ratio-29"><a href="#ClamAVScanner.get_virus_ratio-29"><span class="linenos">29</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-30"><a href="#ClamAVScanner.get_virus_ratio-30"><span class="linenos">30</span></a><span class="sd">        Returns:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-31"><a href="#ClamAVScanner.get_virus_ratio-31"><span class="linenos">31</span></a><span class="sd">            float: Ratio of infected links.</span>
+</span><span id="ClamAVScanner.get_virus_ratio-32"><a href="#ClamAVScanner.get_virus_ratio-32"><span class="linenos">32</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="ClamAVScanner.get_virus_ratio-33"><a href="#ClamAVScanner.get_virus_ratio-33"><span class="linenos">33</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-34"><a href="#ClamAVScanner.get_virus_ratio-34"><span class="linenos">34</span></a><span class="sd">        Returns:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-35"><a href="#ClamAVScanner.get_virus_ratio-35"><span class="linenos">35</span></a><span class="sd">            float: Percentage of links that have been scanned for viruses.</span>
-</span><span id="ClamAVScanner.get_virus_ratio-36"><a href="#ClamAVScanner.get_virus_ratio-36"><span class="linenos">36</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner.get_virus_ratio-37"><a href="#ClamAVScanner.get_virus_ratio-37"><span class="linenos">37</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-38"><a href="#ClamAVScanner.get_virus_ratio-38"><span class="linenos">38</span></a>        <span class="c1"># Make sure we have a list of links</span>
-</span><span id="ClamAVScanner.get_virus_ratio-39"><a href="#ClamAVScanner.get_virus_ratio-39"><span class="linenos">39</span></a>        <span class="k">if</span> <span class="n">links</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-40"><a href="#ClamAVScanner.get_virus_ratio-40"><span class="linenos">40</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (None input)&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner.get_virus_ratio-41"><a href="#ClamAVScanner.get_virus_ratio-41"><span class="linenos">41</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner.get_virus_ratio-42"><a href="#ClamAVScanner.get_virus_ratio-42"><span class="linenos">42</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-43"><a href="#ClamAVScanner.get_virus_ratio-43"><span class="linenos">43</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (empty list)&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner.get_virus_ratio-44"><a href="#ClamAVScanner.get_virus_ratio-44"><span class="linenos">44</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.get_virus_ratio-34"><a href="#ClamAVScanner.get_virus_ratio-34"><span class="linenos">34</span></a>        <span class="c1"># Make sure we have a list of links</span>
+</span><span id="ClamAVScanner.get_virus_ratio-35"><a href="#ClamAVScanner.get_virus_ratio-35"><span class="linenos">35</span></a>        <span class="k">if</span> <span class="n">links</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-36"><a href="#ClamAVScanner.get_virus_ratio-36"><span class="linenos">36</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (None input)&#39;</span><span class="p">)</span>
+</span><span id="ClamAVScanner.get_virus_ratio-37"><a href="#ClamAVScanner.get_virus_ratio-37"><span class="linenos">37</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.get_virus_ratio-38"><a href="#ClamAVScanner.get_virus_ratio-38"><span class="linenos">38</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-39"><a href="#ClamAVScanner.get_virus_ratio-39"><span class="linenos">39</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Virus ratio: No links provided. (empty list)&#39;</span><span class="p">)</span>
+</span><span id="ClamAVScanner.get_virus_ratio-40"><a href="#ClamAVScanner.get_virus_ratio-40"><span class="linenos">40</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.get_virus_ratio-41"><a href="#ClamAVScanner.get_virus_ratio-41"><span class="linenos">41</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-42"><a href="#ClamAVScanner.get_virus_ratio-42"><span class="linenos">42</span></a>        <span class="c1"># Initialize a counter for the number of infected links found</span>
+</span><span id="ClamAVScanner.get_virus_ratio-43"><a href="#ClamAVScanner.get_virus_ratio-43"><span class="linenos">43</span></a>        <span class="n">infected_links</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="ClamAVScanner.get_virus_ratio-44"><a href="#ClamAVScanner.get_virus_ratio-44"><span class="linenos">44</span></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="ClamAVScanner.get_virus_ratio-45"><a href="#ClamAVScanner.get_virus_ratio-45"><span class="linenos">45</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-46"><a href="#ClamAVScanner.get_virus_ratio-46"><span class="linenos">46</span></a>        <span class="c1"># Initialize a counter for the number of infected links found</span>
-</span><span id="ClamAVScanner.get_virus_ratio-47"><a href="#ClamAVScanner.get_virus_ratio-47"><span class="linenos">47</span></a>        <span class="n">infected_links</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="ClamAVScanner.get_virus_ratio-48"><a href="#ClamAVScanner.get_virus_ratio-48"><span class="linenos">48</span></a>        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="ClamAVScanner.get_virus_ratio-46"><a href="#ClamAVScanner.get_virus_ratio-46"><span class="linenos">46</span></a>        <span class="c1"># Iterate through the links</span>
+</span><span id="ClamAVScanner.get_virus_ratio-47"><a href="#ClamAVScanner.get_virus_ratio-47"><span class="linenos">47</span></a>        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-48"><a href="#ClamAVScanner.get_virus_ratio-48"><span class="linenos">48</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scanning link </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="ClamAVScanner.get_virus_ratio-49"><a href="#ClamAVScanner.get_virus_ratio-49"><span class="linenos">49</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-50"><a href="#ClamAVScanner.get_virus_ratio-50"><span class="linenos">50</span></a>        <span class="c1"># Iterate through the links</span>
-</span><span id="ClamAVScanner.get_virus_ratio-51"><a href="#ClamAVScanner.get_virus_ratio-51"><span class="linenos">51</span></a>        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-52"><a href="#ClamAVScanner.get_virus_ratio-52"><span class="linenos">52</span></a>            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scanning link </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner.get_virus_ratio-53"><a href="#ClamAVScanner.get_virus_ratio-53"><span class="linenos">53</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-54"><a href="#ClamAVScanner.get_virus_ratio-54"><span class="linenos">54</span></a>            <span class="c1"># Scan the link</span>
-</span><span id="ClamAVScanner.get_virus_ratio-55"><a href="#ClamAVScanner.get_virus_ratio-55"><span class="linenos">55</span></a>            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-</span><span id="ClamAVScanner.get_virus_ratio-56"><a href="#ClamAVScanner.get_virus_ratio-56"><span class="linenos">56</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-57"><a href="#ClamAVScanner.get_virus_ratio-57"><span class="linenos">57</span></a>            <span class="c1"># If None was returned, a problem was encountered so we can return None</span>
-</span><span id="ClamAVScanner.get_virus_ratio-58"><a href="#ClamAVScanner.get_virus_ratio-58"><span class="linenos">58</span></a>            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-59"><a href="#ClamAVScanner.get_virus_ratio-59"><span class="linenos">59</span></a>                <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner.get_virus_ratio-60"><a href="#ClamAVScanner.get_virus_ratio-60"><span class="linenos">60</span></a>            <span class="c1"># Else, if the result returned True, then a virus was found, and the counter should be incremented</span>
-</span><span id="ClamAVScanner.get_virus_ratio-61"><a href="#ClamAVScanner.get_virus_ratio-61"><span class="linenos">61</span></a>            <span class="k">elif</span> <span class="n">result</span><span class="p">:</span>
-</span><span id="ClamAVScanner.get_virus_ratio-62"><a href="#ClamAVScanner.get_virus_ratio-62"><span class="linenos">62</span></a>                <span class="c1"># Increment the counter if a virus has been detected</span>
-</span><span id="ClamAVScanner.get_virus_ratio-63"><a href="#ClamAVScanner.get_virus_ratio-63"><span class="linenos">63</span></a>                <span class="n">infected_links</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span id="ClamAVScanner.get_virus_ratio-64"><a href="#ClamAVScanner.get_virus_ratio-64"><span class="linenos">64</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-65"><a href="#ClamAVScanner.get_virus_ratio-65"><span class="linenos">65</span></a>            <span class="c1"># Up the counter</span>
-</span><span id="ClamAVScanner.get_virus_ratio-66"><a href="#ClamAVScanner.get_virus_ratio-66"><span class="linenos">66</span></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span id="ClamAVScanner.get_virus_ratio-67"><a href="#ClamAVScanner.get_virus_ratio-67"><span class="linenos">67</span></a>
-</span><span id="ClamAVScanner.get_virus_ratio-68"><a href="#ClamAVScanner.get_virus_ratio-68"><span class="linenos">68</span></a>        <span class="c1"># Return the percentage of links that have been scanned for viruses</span>
-</span><span id="ClamAVScanner.get_virus_ratio-69"><a href="#ClamAVScanner.get_virus_ratio-69"><span class="linenos">69</span></a>        <span class="k">return</span> <span class="n">infected_links</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
+</span><span id="ClamAVScanner.get_virus_ratio-50"><a href="#ClamAVScanner.get_virus_ratio-50"><span class="linenos">50</span></a>            <span class="c1"># Scan the link</span>
+</span><span id="ClamAVScanner.get_virus_ratio-51"><a href="#ClamAVScanner.get_virus_ratio-51"><span class="linenos">51</span></a>            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+</span><span id="ClamAVScanner.get_virus_ratio-52"><a href="#ClamAVScanner.get_virus_ratio-52"><span class="linenos">52</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-53"><a href="#ClamAVScanner.get_virus_ratio-53"><span class="linenos">53</span></a>            <span class="c1"># If None was returned, a problem was encountered so we can return None</span>
+</span><span id="ClamAVScanner.get_virus_ratio-54"><a href="#ClamAVScanner.get_virus_ratio-54"><span class="linenos">54</span></a>            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-55"><a href="#ClamAVScanner.get_virus_ratio-55"><span class="linenos">55</span></a>                <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.get_virus_ratio-56"><a href="#ClamAVScanner.get_virus_ratio-56"><span class="linenos">56</span></a>            <span class="c1"># Else, if the result returned True, then a virus was found, and the counter should be incremented</span>
+</span><span id="ClamAVScanner.get_virus_ratio-57"><a href="#ClamAVScanner.get_virus_ratio-57"><span class="linenos">57</span></a>            <span class="k">elif</span> <span class="n">result</span><span class="p">:</span>
+</span><span id="ClamAVScanner.get_virus_ratio-58"><a href="#ClamAVScanner.get_virus_ratio-58"><span class="linenos">58</span></a>                <span class="c1"># Increment the counter if a virus has been detected</span>
+</span><span id="ClamAVScanner.get_virus_ratio-59"><a href="#ClamAVScanner.get_virus_ratio-59"><span class="linenos">59</span></a>                <span class="n">infected_links</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="ClamAVScanner.get_virus_ratio-60"><a href="#ClamAVScanner.get_virus_ratio-60"><span class="linenos">60</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-61"><a href="#ClamAVScanner.get_virus_ratio-61"><span class="linenos">61</span></a>            <span class="c1"># Up the counter</span>
+</span><span id="ClamAVScanner.get_virus_ratio-62"><a href="#ClamAVScanner.get_virus_ratio-62"><span class="linenos">62</span></a>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="ClamAVScanner.get_virus_ratio-63"><a href="#ClamAVScanner.get_virus_ratio-63"><span class="linenos">63</span></a>
+</span><span id="ClamAVScanner.get_virus_ratio-64"><a href="#ClamAVScanner.get_virus_ratio-64"><span class="linenos">64</span></a>        <span class="c1"># Return the percentage of links that have been scanned for viruses</span>
+</span><span id="ClamAVScanner.get_virus_ratio-65"><a href="#ClamAVScanner.get_virus_ratio-65"><span class="linenos">65</span></a>        <span class="k">return</span> <span class="n">infected_links</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Scans the given links' contents for viruses.</p>
+            <div class="docstring"><p>Function to scan the given list of links for viruses. Return the ratio of viruses found.</p>
 
-<p>Args:
-    links (list): List of web links to the files to scan.</p>
+<p>This function loops through the given list of links and checks if the link is virus-free.
+When it is done, it will divide the number of virus-free links by the total number of links.
+It then returns this ratio.</p>
 
-<p>Returns:
-    float: Percentage of links that have been scanned for viruses.</p>
+<h6 id="args">Args</h6>
+
+<ul>
+<li><strong>links (list):</strong>  List of web links to the files to scan.</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>float: Ratio of infected links.</p>
+</blockquote>
 </div>
 
 
@@ -431,52 +443,65 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 
     </div>
     <a class="headerlink" href="#ClamAVScanner.scan_link"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner.scan_link-71"><a href="#ClamAVScanner.scan_link-71"><span class="linenos"> 71</span></a>    <span class="k">def</span> <span class="nf">scan_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="ClamAVScanner.scan_link-72"><a href="#ClamAVScanner.scan_link-72"><span class="linenos"> 72</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner.scan_link-73"><a href="#ClamAVScanner.scan_link-73"><span class="linenos"> 73</span></a><span class="sd">        Scans the given link&#39;s contents for viruses.</span>
-</span><span id="ClamAVScanner.scan_link-74"><a href="#ClamAVScanner.scan_link-74"><span class="linenos"> 74</span></a>
-</span><span id="ClamAVScanner.scan_link-75"><a href="#ClamAVScanner.scan_link-75"><span class="linenos"> 75</span></a><span class="sd">        Args:</span>
-</span><span id="ClamAVScanner.scan_link-76"><a href="#ClamAVScanner.scan_link-76"><span class="linenos"> 76</span></a><span class="sd">            link (str): Web link to the file to scan.</span>
-</span><span id="ClamAVScanner.scan_link-77"><a href="#ClamAVScanner.scan_link-77"><span class="linenos"> 77</span></a>
-</span><span id="ClamAVScanner.scan_link-78"><a href="#ClamAVScanner.scan_link-78"><span class="linenos"> 78</span></a><span class="sd">        Returns:</span>
-</span><span id="ClamAVScanner.scan_link-79"><a href="#ClamAVScanner.scan_link-79"><span class="linenos"> 79</span></a><span class="sd">            bool: True if a virus has been detected, False otherwise.</span>
-</span><span id="ClamAVScanner.scan_link-80"><a href="#ClamAVScanner.scan_link-80"><span class="linenos"> 80</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner.scan_link-81"><a href="#ClamAVScanner.scan_link-81"><span class="linenos"> 81</span></a>
-</span><span id="ClamAVScanner.scan_link-82"><a href="#ClamAVScanner.scan_link-82"><span class="linenos"> 82</span></a>        <span class="c1"># # Make sure the UNIX socket is available for clamdscan</span>
-</span><span id="ClamAVScanner.scan_link-83"><a href="#ClamAVScanner.scan_link-83"><span class="linenos"> 83</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_socket_availability</span><span class="p">():</span>
-</span><span id="ClamAVScanner.scan_link-84"><a href="#ClamAVScanner.scan_link-84"><span class="linenos"> 84</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner.scan_link-85"><a href="#ClamAVScanner.scan_link-85"><span class="linenos"> 85</span></a>
-</span><span id="ClamAVScanner.scan_link-86"><a href="#ClamAVScanner.scan_link-86"><span class="linenos"> 86</span></a>        <span class="c1"># Open a command stream with the clamdscan command</span>
-</span><span id="ClamAVScanner.scan_link-87"><a href="#ClamAVScanner.scan_link-87"><span class="linenos"> 87</span></a>        <span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span>
-</span><span id="ClamAVScanner.scan_link-88"><a href="#ClamAVScanner.scan_link-88"><span class="linenos"> 88</span></a>            <span class="sa">f</span><span class="s1">&#39;wget -qO- </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s1"> | clamdscan --config-file=clamav/client_clamd.conf -&#39;</span><span class="p">)</span>
-</span><span id="ClamAVScanner.scan_link-89"><a href="#ClamAVScanner.scan_link-89"><span class="linenos"> 89</span></a>        <span class="c1"># Get the output of the scan</span>
-</span><span id="ClamAVScanner.scan_link-90"><a href="#ClamAVScanner.scan_link-90"><span class="linenos"> 90</span></a>        <span class="n">feedback</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-</span><span id="ClamAVScanner.scan_link-91"><a href="#ClamAVScanner.scan_link-91"><span class="linenos"> 91</span></a>        <span class="c1"># Close the stream</span>
-</span><span id="ClamAVScanner.scan_link-92"><a href="#ClamAVScanner.scan_link-92"><span class="linenos"> 92</span></a>        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="ClamAVScanner.scan_link-93"><a href="#ClamAVScanner.scan_link-93"><span class="linenos"> 93</span></a>
-</span><span id="ClamAVScanner.scan_link-94"><a href="#ClamAVScanner.scan_link-94"><span class="linenos"> 94</span></a>        <span class="c1"># Try to extract the virus count from the output</span>
-</span><span id="ClamAVScanner.scan_link-95"><a href="#ClamAVScanner.scan_link-95"><span class="linenos"> 95</span></a>        <span class="n">virus_count</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner.scan_link-96"><a href="#ClamAVScanner.scan_link-96"><span class="linenos"> 96</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">:</span>
-</span><span id="ClamAVScanner.scan_link-97"><a href="#ClamAVScanner.scan_link-97"><span class="linenos"> 97</span></a>            <span class="k">if</span> <span class="s1">&#39;Infected files&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-</span><span id="ClamAVScanner.scan_link-98"><a href="#ClamAVScanner.scan_link-98"><span class="linenos"> 98</span></a>                <span class="n">virus_count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="ClamAVScanner.scan_link-99"><a href="#ClamAVScanner.scan_link-99"><span class="linenos"> 99</span></a>
-</span><span id="ClamAVScanner.scan_link-100"><a href="#ClamAVScanner.scan_link-100"><span class="linenos">100</span></a>        <span class="c1"># Return True if a virus has been detected, False otherwise</span>
-</span><span id="ClamAVScanner.scan_link-101"><a href="#ClamAVScanner.scan_link-101"><span class="linenos">101</span></a>        <span class="k">if</span> <span class="n">virus_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ClamAVScanner.scan_link-102"><a href="#ClamAVScanner.scan_link-102"><span class="linenos">102</span></a>            <span class="k">return</span> <span class="kc">None</span>
-</span><span id="ClamAVScanner.scan_link-103"><a href="#ClamAVScanner.scan_link-103"><span class="linenos">103</span></a>        <span class="k">elif</span> <span class="n">virus_count</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
-</span><span id="ClamAVScanner.scan_link-104"><a href="#ClamAVScanner.scan_link-104"><span class="linenos">104</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="ClamAVScanner.scan_link-105"><a href="#ClamAVScanner.scan_link-105"><span class="linenos">105</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="ClamAVScanner.scan_link-106"><a href="#ClamAVScanner.scan_link-106"><span class="linenos">106</span></a>            <span class="k">return</span> <span class="kc">True</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner.scan_link-67"><a href="#ClamAVScanner.scan_link-67"><span class="linenos"> 67</span></a>    <span class="k">def</span> <span class="nf">scan_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="ClamAVScanner.scan_link-68"><a href="#ClamAVScanner.scan_link-68"><span class="linenos"> 68</span></a>        <span class="sd">&quot;&quot;&quot;Function to scan the given link for viruses.</span>
+</span><span id="ClamAVScanner.scan_link-69"><a href="#ClamAVScanner.scan_link-69"><span class="linenos"> 69</span></a>
+</span><span id="ClamAVScanner.scan_link-70"><a href="#ClamAVScanner.scan_link-70"><span class="linenos"> 70</span></a><span class="sd">        It does this by sending an file-stream to the ClamAV container using the UNIX socket.</span>
+</span><span id="ClamAVScanner.scan_link-71"><a href="#ClamAVScanner.scan_link-71"><span class="linenos"> 71</span></a><span class="sd">        The file-stream is created using the `wget` command.</span>
+</span><span id="ClamAVScanner.scan_link-72"><a href="#ClamAVScanner.scan_link-72"><span class="linenos"> 72</span></a><span class="sd">        It then reads the output of the command and checks how many viruses were found.</span>
+</span><span id="ClamAVScanner.scan_link-73"><a href="#ClamAVScanner.scan_link-73"><span class="linenos"> 73</span></a>
+</span><span id="ClamAVScanner.scan_link-74"><a href="#ClamAVScanner.scan_link-74"><span class="linenos"> 74</span></a><span class="sd">        Args:</span>
+</span><span id="ClamAVScanner.scan_link-75"><a href="#ClamAVScanner.scan_link-75"><span class="linenos"> 75</span></a><span class="sd">            link (str): Web link to the file to scan.</span>
+</span><span id="ClamAVScanner.scan_link-76"><a href="#ClamAVScanner.scan_link-76"><span class="linenos"> 76</span></a>
+</span><span id="ClamAVScanner.scan_link-77"><a href="#ClamAVScanner.scan_link-77"><span class="linenos"> 77</span></a><span class="sd">        Returns:</span>
+</span><span id="ClamAVScanner.scan_link-78"><a href="#ClamAVScanner.scan_link-78"><span class="linenos"> 78</span></a><span class="sd">            bool: True if a virus has been detected, False otherwise.</span>
+</span><span id="ClamAVScanner.scan_link-79"><a href="#ClamAVScanner.scan_link-79"><span class="linenos"> 79</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="ClamAVScanner.scan_link-80"><a href="#ClamAVScanner.scan_link-80"><span class="linenos"> 80</span></a>
+</span><span id="ClamAVScanner.scan_link-81"><a href="#ClamAVScanner.scan_link-81"><span class="linenos"> 81</span></a>        <span class="c1"># # Make sure the UNIX socket is available for clamdscan</span>
+</span><span id="ClamAVScanner.scan_link-82"><a href="#ClamAVScanner.scan_link-82"><span class="linenos"> 82</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_socket_availability</span><span class="p">():</span>
+</span><span id="ClamAVScanner.scan_link-83"><a href="#ClamAVScanner.scan_link-83"><span class="linenos"> 83</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.scan_link-84"><a href="#ClamAVScanner.scan_link-84"><span class="linenos"> 84</span></a>
+</span><span id="ClamAVScanner.scan_link-85"><a href="#ClamAVScanner.scan_link-85"><span class="linenos"> 85</span></a>        <span class="c1"># Open a command stream with the clamdscan command</span>
+</span><span id="ClamAVScanner.scan_link-86"><a href="#ClamAVScanner.scan_link-86"><span class="linenos"> 86</span></a>        <span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span>
+</span><span id="ClamAVScanner.scan_link-87"><a href="#ClamAVScanner.scan_link-87"><span class="linenos"> 87</span></a>            <span class="sa">f</span><span class="s1">&#39;wget -qO- </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s1"> | clamdscan --config-file=clamav/client_clamd.conf -&#39;</span><span class="p">)</span>
+</span><span id="ClamAVScanner.scan_link-88"><a href="#ClamAVScanner.scan_link-88"><span class="linenos"> 88</span></a>        <span class="c1"># Get the output of the scan</span>
+</span><span id="ClamAVScanner.scan_link-89"><a href="#ClamAVScanner.scan_link-89"><span class="linenos"> 89</span></a>        <span class="n">feedback</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span><span id="ClamAVScanner.scan_link-90"><a href="#ClamAVScanner.scan_link-90"><span class="linenos"> 90</span></a>        <span class="c1"># Close the stream</span>
+</span><span id="ClamAVScanner.scan_link-91"><a href="#ClamAVScanner.scan_link-91"><span class="linenos"> 91</span></a>        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="ClamAVScanner.scan_link-92"><a href="#ClamAVScanner.scan_link-92"><span class="linenos"> 92</span></a>
+</span><span id="ClamAVScanner.scan_link-93"><a href="#ClamAVScanner.scan_link-93"><span class="linenos"> 93</span></a>        <span class="c1"># Try to extract the virus count from the output</span>
+</span><span id="ClamAVScanner.scan_link-94"><a href="#ClamAVScanner.scan_link-94"><span class="linenos"> 94</span></a>        <span class="n">virus_count</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.scan_link-95"><a href="#ClamAVScanner.scan_link-95"><span class="linenos"> 95</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">:</span>
+</span><span id="ClamAVScanner.scan_link-96"><a href="#ClamAVScanner.scan_link-96"><span class="linenos"> 96</span></a>            <span class="k">if</span> <span class="s1">&#39;Infected files&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+</span><span id="ClamAVScanner.scan_link-97"><a href="#ClamAVScanner.scan_link-97"><span class="linenos"> 97</span></a>                <span class="n">virus_count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="ClamAVScanner.scan_link-98"><a href="#ClamAVScanner.scan_link-98"><span class="linenos"> 98</span></a>
+</span><span id="ClamAVScanner.scan_link-99"><a href="#ClamAVScanner.scan_link-99"><span class="linenos"> 99</span></a>        <span class="c1"># Return True if a virus has been detected, False otherwise</span>
+</span><span id="ClamAVScanner.scan_link-100"><a href="#ClamAVScanner.scan_link-100"><span class="linenos">100</span></a>        <span class="k">if</span> <span class="n">virus_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ClamAVScanner.scan_link-101"><a href="#ClamAVScanner.scan_link-101"><span class="linenos">101</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="ClamAVScanner.scan_link-102"><a href="#ClamAVScanner.scan_link-102"><span class="linenos">102</span></a>        <span class="k">elif</span> <span class="n">virus_count</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+</span><span id="ClamAVScanner.scan_link-103"><a href="#ClamAVScanner.scan_link-103"><span class="linenos">103</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="ClamAVScanner.scan_link-104"><a href="#ClamAVScanner.scan_link-104"><span class="linenos">104</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="ClamAVScanner.scan_link-105"><a href="#ClamAVScanner.scan_link-105"><span class="linenos">105</span></a>            <span class="k">return</span> <span class="kc">True</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Scans the given link's contents for viruses.</p>
+            <div class="docstring"><p>Function to scan the given link for viruses.</p>
 
-<p>Args:
-    link (str): Web link to the file to scan.</p>
+<p>It does this by sending an file-stream to the ClamAV container using the UNIX socket.
+The file-stream is created using the <code>wget</code> command.
+It then reads the output of the command and checks how many viruses were found.</p>
 
-<p>Returns:
-    bool: True if a virus has been detected, False otherwise.</p>
+<h6 id="args">Args</h6>
+
+<ul>
+<li><strong>link (str):</strong>  Web link to the file to scan.</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>bool: True if a virus has been detected, False otherwise.</p>
+</blockquote>
 </div>
 
 
@@ -492,12 +517,13 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 
     </div>
     <a class="headerlink" href="#ClamAVScanner.check_socket_availability"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner.check_socket_availability-108"><a href="#ClamAVScanner.check_socket_availability-108"><span class="linenos">108</span></a>    <span class="k">def</span> <span class="nf">check_socket_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="ClamAVScanner.check_socket_availability-109"><a href="#ClamAVScanner.check_socket_availability-109"><span class="linenos">109</span></a>        <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ClamAVScanner.check_socket_availability-110"><a href="#ClamAVScanner.check_socket_availability-110"><span class="linenos">110</span></a><span class="sd">        Checks whether or not the socket file exists, and is accepting connections.</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ClamAVScanner.check_socket_availability-107"><a href="#ClamAVScanner.check_socket_availability-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">check_socket_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="ClamAVScanner.check_socket_availability-108"><a href="#ClamAVScanner.check_socket_availability-108"><span class="linenos">108</span></a>        <span class="sd">&quot;&quot;&quot;Function for checking if the ClamAV UNIX socket is available and listening.</span>
+</span><span id="ClamAVScanner.check_socket_availability-109"><a href="#ClamAVScanner.check_socket_availability-109"><span class="linenos">109</span></a>
+</span><span id="ClamAVScanner.check_socket_availability-110"><a href="#ClamAVScanner.check_socket_availability-110"><span class="linenos">110</span></a><span class="sd">        It does this by using the `socat` command to send a dummy message to the socket.</span>
 </span><span id="ClamAVScanner.check_socket_availability-111"><a href="#ClamAVScanner.check_socket_availability-111"><span class="linenos">111</span></a>
 </span><span id="ClamAVScanner.check_socket_availability-112"><a href="#ClamAVScanner.check_socket_availability-112"><span class="linenos">112</span></a><span class="sd">        Returns:</span>
-</span><span id="ClamAVScanner.check_socket_availability-113"><a href="#ClamAVScanner.check_socket_availability-113"><span class="linenos">113</span></a><span class="sd">            bool: Whether or not the socket exists and is listening</span>
+</span><span id="ClamAVScanner.check_socket_availability-113"><a href="#ClamAVScanner.check_socket_availability-113"><span class="linenos">113</span></a><span class="sd">            bool: Whether or not the socket exists and is listening.</span>
 </span><span id="ClamAVScanner.check_socket_availability-114"><a href="#ClamAVScanner.check_socket_availability-114"><span class="linenos">114</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="ClamAVScanner.check_socket_availability-115"><a href="#ClamAVScanner.check_socket_availability-115"><span class="linenos">115</span></a>
 </span><span id="ClamAVScanner.check_socket_availability-116"><a href="#ClamAVScanner.check_socket_availability-116"><span class="linenos">116</span></a>        <span class="c1"># See if the file-path exists</span>
@@ -518,10 +544,15 @@ bar = foo.get_virus_ratio([url1, url2, url3])
 </span></pre></div>
 
 
-            <div class="docstring"><p>Checks whether or not the socket file exists, and is accepting connections.</p>
+            <div class="docstring"><p>Function for checking if the ClamAV UNIX socket is available and listening.</p>
 
-<p>Returns:
-    bool: Whether or not the socket exists and is listening</p>
+<p>It does this by using the <code>socat</code> command to send a dummy message to the socket.</p>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>bool: Whether or not the socket exists and is listening.</p>
+</blockquote>
 </div>
 
 
