@@ -54,6 +54,8 @@ def get_package_data(name: str, platform: str) -> dict | None:
         logging.warning(f"name not same as repo name {name} {name_git}")
         return None
     version = get_most_recent_version(name_git, owner, platform)
+    if version is None or version == "":
+        return None
     return {
         "name": name,
         "platform": platform,
