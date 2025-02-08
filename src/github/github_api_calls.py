@@ -860,6 +860,76 @@ class GitHubAPICall:
         else:
             return False
 
+    def get_repository_issue_state_count(self, owner: str, repo: str, state: str) -> int | None:
+        """Function to get the amount of issues of a specific state given repository.
+
+        Args:
+            owner (str): The owner of the repository.
+            repo (str): The repository.
+            state (str): "open" or "closed" determines what type of issue to retreive count of
+
+        Returns:
+            int | None: The number of open issues of the repository.
+        """
+        data = self.try_perform_api_call(
+            f'{constants.BASE_URL_SEARCH}/issues?q=repo:{owner}/{repo}+type:issue+state:{state}',
+            constants.SEARCH
+        )
+
+        # Return the data, if it exists
+        if data is not None:
+            return data.json()['total_count']
+        else:
+            logging.error('Error occurred while getting issue count.')
+            return None
+
+    def get_repository_open_issue_count(self, owner: str, repo: str) -> int | None:
+        """Function to get the amount of open issues of a given repository.
+
+        Args:
+            owner (str): The owner of the repository.
+            repo (str): The repository.
+
+        Returns:
+            int: The number of open issues of the repository.
+        """
+        return self.get_repository_issue_state_count(owner, repo, "open")
+
+    def get_repository_closed_issue_count(self, owner: str, repo: str) -> int | None:
+        """Function to get the amount of closed issues of a given repository.
+
+        Args:
+            owner (str): The owner of the repository.
+            repo (str): The repository.
+
+        Returns:
+            int: The number of closed issues of the repository.
+        """
+        return self.get_repository_issue_state_count(owner, repo, "closed")
+
+    def get_repository_issue_ratio(self, owner: str, repo: str) -> float | None:
+        """Function to get the issue ratio of a given repository.
+
+        Args:
+            owner (str): The owner of the repository.
+            repo (str): The repository.
+
+        Returns:
+            float: The issue ratio of the repository.
+        """
+
+        # Get the issue counts
+        open_issues = self.get_repository_open_issue_count(owner, repo)
+        closed_issues = self.get_repository_closed_issue_count(owner, repo)
+
+        # If we could not find both numbers,
+        # or if the closed issue count is 0,
+        # return None
+        if open_issues is None or closed_issues is None or closed_issues == 0:
+            return None
+        # Else return the ratio
+        else:
+            return open_issues / closed_issues
 
 """
 This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
