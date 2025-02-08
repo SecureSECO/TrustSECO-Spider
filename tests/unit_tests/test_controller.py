@@ -178,7 +178,6 @@ class TestControllerRun:
 
 class TestControllerData:
 
-    # Mock all of the GitHub API functions
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_average_issue_resolution_time', new=mock.Mock(return_value=300))
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_gitstar_ranking', new=mock.Mock(return_value=4))
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_issue_count_per_release', new=mock.Mock(return_value=5))
@@ -189,9 +188,8 @@ class TestControllerData:
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_total_download_count', new=mock.Mock(return_value=23))
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_yearly_commit_count', new=mock.Mock(return_value=50))
     @mock.patch('src.github.github_api_calls.GitHubAPICall.get_zero_responses_issue_count', new=mock.Mock(return_value=2))
-    # Mock all of the GitHub spider functions
-    @mock.patch('src.github.github_spider.GitHubSpider.get_repository_issue_ratio', new=mock.Mock(return_value=0.6))
-    @mock.patch('src.github.github_spider.GitHubSpider.get_repository_open_issue_count', new=mock.Mock(return_value=3))
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_repository_issue_ratio', new=mock.Mock(return_value=0.6))
+    @mock.patch('src.github.github_api_calls.GitHubAPICall.get_repository_open_issue_count', new=mock.Mock(return_value=3))
     @mock.patch('src.github.github_spider.GitHubSpider.get_repository_user_count', new=mock.Mock(return_value=20))
     def test_get_github_data(self) -> None:
         """Test for making sure that the GitHub data-requests are made correctly."""
