@@ -27,7 +27,9 @@ gh_dict = {
         "gh_zero_response_issues_count",
         "gh_issue_ratio",
         "gh_average_resolution_time",
-        "gh_owner_stargazer_count"
+        "gh_owner_stargazer_count",
+        "gh_gitstar_ranking",
+        "gh_release_issues_count",
     ]
 }
 
@@ -79,6 +81,41 @@ def numpy_demo(wanted_data_points: dict) -> None:
             "project_owner": "numpy",
             "project_name": "numpy",
             "project_release": "v1.22.1",
+        }
+    }
+
+    # Add the wanted data points to the input JSON
+    input_json.update(wanted_data_points)
+
+    try:
+        # Get the data
+        response_data = requests.post('http://localhost:5000/get_data',
+                                      headers={'Content-type': 'application/json'}, json=input_json).json()
+
+        # Print the data
+        if response_data is not None:
+            print(json.dumps(response_data, indent=4))
+        else:
+            print("No data found, perhaps you did not set your API tokens?")
+    except Exception:
+        print('Error: Could not connect to the TrustSECO-Spider API.')
+        print('Make sure the API is running and the API tokens are set.')
+
+
+def pyyaml_demo(wanted_data_points: dict) -> None:
+    """Function for testing the TrustSECO-Spider on the numpy repository.
+
+    Args:
+        wanted_data_points (dict): Dictionary containing the wanted data-points.
+    """
+
+    # Set the input JSON
+    input_json = {
+        "project_info": {
+            "project_platform": "pypi",
+            "project_owner": "yaml",
+            "project_name": "pyyaml",
+            "project_release": "6.0.2",
         }
     }
 
@@ -202,6 +239,10 @@ if __name__ == '__main__':
         # If afnetworking is specified, run the afnetworking demo
         if 'afnetworking' in sys.argv or 'all' in sys.argv:
             afnetworking_demo(wanted_data_points)
+
+        # If afnetworking is specified, run the afnetworking demo
+        if 'pyyaml' in sys.argv or 'all' in sys.argv:
+            pyyaml_demo(wanted_data_points)
 
         # If virus_s is specified, run the safe virus demo
         if 'virus_s' in sys.argv:

@@ -37,57 +37,6 @@ class FileIOForGHSpiderTests:
         with open('tests/unit_tests/spider_tests/spider_files/gh_user_count/no_title_attribute.txt', 'r', encoding='iso-8859-15') as no_title:
             return no_title.read()
 
-    # Test issues
-    def get_regular_body_issues() -> str:
-        """Gets the regular page for the GitHub issues tests.
-
-        Returns:
-            str: The regular page for the GitHub issues tests.
-        """
-
-        with open('tests/unit_tests/spider_tests/spider_files/gh_issue_ratio/regular.txt', 'r', encoding='iso-8859-15') as regular:
-            return regular.read()
-
-    def get_no_open_body_issues() -> str:
-        """Gets the no-open issues page for the GitHub issues tests.
-
-        Returns:
-            str: The no-open issues page for the GitHub issues tests.
-        """
-
-        with open('tests/unit_tests/spider_tests/spider_files/gh_issue_ratio/no_open_issues.txt', 'r', encoding='iso-8859-15') as no_open:
-            return no_open.read()
-
-    def get_zero_open_body_issues() -> str:
-        """Gets the zero-open issues page for the GitHub issues tests.
-
-        Returns:
-            str: The zero-open issues page for the GitHub issues tests.
-        """
-
-        with open('tests/unit_tests/spider_tests/spider_files/gh_issue_ratio/zero_open_issues.txt', 'r', encoding='iso-8859-15') as zero_open:
-            return zero_open.read()
-
-    def get_no_closed_body_issues() -> str:
-        """Gets the no-closed issues page for the GitHub issues tests.
-
-        Returns:
-            str: The no-closed issues page for the GitHub issues tests.
-        """
-
-        with open('tests/unit_tests/spider_tests/spider_files/gh_issue_ratio/no_closed_issues.txt', 'r', encoding='iso-8859-15') as no_closed:
-            return no_closed.read()
-
-    def get_zero_closed_body_issues() -> str:
-        """Gets the zero-closed issues page for the GitHub issues tests.
-
-        Returns:
-            str: The zero-closed issues page for the GitHub issues tests.
-        """
-
-        with open('tests/unit_tests/spider_tests/spider_files/gh_issue_ratio/zero_closed_issues.txt', 'r', encoding='iso-8859-15') as zero_closed:
-            return zero_closed.read()
-
 
 class FileIOForCVETests:
     """Class containing all of the IO functions for the CVE tests."""

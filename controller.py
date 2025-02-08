@@ -205,11 +205,11 @@ class Controller:
                     owner, repo_name
                 )
             elif data_point == "gh_issue_ratio":
-                value = self.gh_spider.get_repository_issue_ratio(
+                value = self.gh_api.get_repository_issue_ratio(
                     owner, repo_name
                 )
             elif data_point == "gh_open_issues_count":
-                value = self.gh_spider.get_repository_open_issue_count(
+                value = self.gh_api.get_repository_open_issue_count(
                     owner, repo_name
                 )
             elif data_point == "gh_owner_stargazer_count":

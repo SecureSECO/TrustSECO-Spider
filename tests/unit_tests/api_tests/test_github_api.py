@@ -264,6 +264,25 @@ class TestTryAPICall:
         assert g.search_remaining == 5000
 
 
+class TestOpenIssues:
+    owner = 'numpy'
+    repo = 'numpy'
+    url = f'https://api.github.com/search/issues?q=repo:{owner}/{repo}+type:issue+state:open'
+
+    @ responses.activate
+    def test_invalid_response_code(self) -> None:
+        responses.add(responses.GET, self.url, status=404)
+        g = api_caller.GitHubAPICall()
+        result = g.get_repository_open_issue_count(self.owner, self.repo)
+        assert result is None
+
+    @ responses.activate
+    def test_empty_response_body(self) -> None:
+        responses.add(responses.GET, self.url, body='', status=200)
+        g = api_caller.GitHubAPICall()
+        result = g.get_repository_open_issue_count(self.owner, self.repo)
+        assert result is None
+
 """
 This program has been developed by students from the bachelor Computer Science at Utrecht University within the Software Project course.
 © Copyright Utrecht University (Department of Information and Computing Sciences)
