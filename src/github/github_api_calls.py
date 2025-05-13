@@ -225,7 +225,7 @@ class GitHubAPICall:
         # Return the total contributor count
         return (page_count - 1) * 100 + final_page_contributor_count
 
-    def get_gitstar_ranking(self, owner: str, repo: str) -> int:
+    def get_gitstar_ranking(self, owner: str, repo: str) -> int | None:
         """Function to get the GitStar ranking of the given repository.
 
         Uses the `GitHubAPICall.get_basic_repository_data` function to get the basic repository data.
@@ -249,6 +249,7 @@ class GitHubAPICall:
 
         # Make sure we got a valid response
         if repository_data is None:
+            logging.warning('Didnt get valid response')
             return None
 
         # Get the language of the repository
@@ -281,11 +282,13 @@ class GitHubAPICall:
                     'Error occurred while getting the final ranking page.')
                 return None
 
-            # Get the stargazer count of the lsat entry on the last page
+            # Get the stargazer count of the last entry on the last page
             final_repo_star_count = final_page_data.json()[
                 'items'][-1]['stargazers_count']
             # If the our count is lower, return none
             if final_repo_star_count > stargazer_count:
+                logging.warning(final_page_data.json()['items'][-1])
+                logging.warning("repo star count to low")
                 return None
 
             # Perform binary searching to find the correct page
@@ -319,6 +322,7 @@ class GitHubAPICall:
                         if page_data['items'][index]['full_name'].lower() == owner + '/' + repo:
                             return index + (middle_page_number - 1) * 100
                     # Repo wasn't found in the correct bounds, return none
+                    logging.warning("Repo wasn't found in the correct bounds")
                     return None
 
                 # If we didn't find the correct page, update the bounds
@@ -329,6 +333,7 @@ class GitHubAPICall:
 
                 # See if we have reached the end of the pages
                 if upper_bound - lower_bound <= 1:
+                    logging.warning("Reached end of binary search without result")
                     return None
         # Else, the repository should be on the first page
         else:
@@ -338,6 +343,7 @@ class GitHubAPICall:
                     return current_repo['stargazers_count']
 
             # If we didn't find the repository, return None
+            logging.warning("Didn't find response on first page")
             return None
 
     def get_yearly_commit_count(self, owner: str, repo: str) -> int:
@@ -448,7 +454,7 @@ class GitHubAPICall:
         if release_data is None:
             logging.error(
                 'Error occurred while getting the download count of the release.')
-            return None
+            return 0
 
         # Get the download count per non-text released asset
         total_release_download_count = 0
@@ -515,7 +521,7 @@ class GitHubAPICall:
                 # Return the total number of seen issues + the index of the last 0-response issue
                 return (last_full_no_responses_page * 100) + last_no_response_index
 
-    def get_average_issue_resolution_time(self, owner: str, repo: str) -> int:
+    def get_average_issue_resolution_time(self, owner: str, repo: str) -> float | None:
         """Function to get the average resolution time of the last 200 issues.
 
         This is done using the [GitHub issues API](https://docs.github.com/en/rest/issues/issues#list-repository-issues).
@@ -578,7 +584,7 @@ class GitHubAPICall:
         # Return the average resolution time
         return total_resolution_time / len(all_issues)
 
-    def get_issue_count_per_release(self, owner: str, repo: str, release: str) -> int:
+    def get_issue_count_per_release(self, owner: str, repo: str, release: str) -> int | None:
         """Function to get the amount of issues for a given release.
 
         As GitHub does not enforce a release per issue, this function will
@@ -630,10 +636,8 @@ class GitHubAPICall:
         # Return this count
         return issues_data.json()['total_count']
 
-    def get_release_dates(self, owner: str, repo: str, release: str) -> tuple:
+    def get_release_dates(self, owner: str, repo: str, release: str) -> tuple | None:
         """Function to get the publish date of the given release and the release after it (if it exists)
-
-        This is done using the [GitHub releases API](https://docs.github.com/en/rest/releases/releases#list-releases).
 
         Args:
             owner (str): The owner of the repository

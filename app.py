@@ -14,11 +14,9 @@ import sys
 # Import for improved logging
 import logging
 # Import Flask
-from flask import Flask, make_response, request
+from flask import Flask, make_response, request, Response
 # Import JSON for pretty printing
 import json
-# Import for setting return-type
-from responses import Response
 # Import for setting parameter types
 from typing import Tuple
 # Import the controller of the TrustSECO-Spider
@@ -50,9 +48,9 @@ def get_data() -> Response:
     # Try to get the input json
     (is_valid, data) = try_get_json_input()
     if not is_valid:
-        return data
-    else:
-        input_json = data
+        return make_response(data, 400)
+
+    input_json = data
 
     # Inform the user of what is happening
     logging.info('Received the following JSON:')
