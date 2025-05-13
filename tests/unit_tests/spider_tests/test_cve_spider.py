@@ -7,9 +7,6 @@ from unittest import mock
 # Import for sending and handling HTTP requests
 import responses
 
-# Import for parsing and searching through HTML
-from bs4 import BeautifulSoup
-
 # Import for setting parameter types
 from typing import List
 

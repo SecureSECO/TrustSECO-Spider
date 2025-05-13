@@ -1,7 +1,7 @@
-requests
-bs4
-python-dotenv
-flask
-flask-cors
-packaging
-responses
+requests==2.*
+beautifulsoup4==4.*
+python-dotenv==1.*
+Flask==3.*
+flask-cors==5.*
+packaging==25.*
+responses==0.25.*
