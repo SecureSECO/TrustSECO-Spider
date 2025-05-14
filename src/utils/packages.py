@@ -12,7 +12,7 @@ import src.utils.constants as constants
 github_regex = re.compile(r"https://github\.com/([^/]+)/([^/]+)")
 
 
-def get_most_popular_packages(platform: str, count: int) -> list[dict]:
+def get_most_popular_packages(platform: str, count: int, from_: int) -> list[dict]:
     """Gets the most popular packages packages for a particular platform
 
     Example data:
@@ -25,7 +25,7 @@ def get_most_popular_packages(platform: str, count: int) -> list[dict]:
         }
     ]
     """
-    packages = itertools.islice(get_most_popular_packages_pypi(), count)
+    packages = itertools.islice(get_most_popular_packages_pypi(), from_, from_ + count)
     return list(filter(None, map(lambda p: get_package_data(p, platform), packages)))
 
 

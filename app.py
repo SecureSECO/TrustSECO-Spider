@@ -157,7 +157,8 @@ def get_most_popular_packages():
     """
     platform = request.args.get('platform', 'pypi')
     amount = int(request.args.get('count', '5'))
-    response = make_response(p.get_most_popular_packages(platform, amount))
+    from_ = int(request.args.get('from', '5'))
+    response = make_response(p.get_most_popular_packages(platform, amount, from_))
     response.headers.set('Content-Type', 'application/json')
     return response
 
