@@ -25,8 +25,8 @@ def get_most_popular_packages(platform: str, count: int, from_: int) -> list[dic
         }
     ]
     """
-    packages = itertools.islice(get_most_popular_packages_pypi(), from_, from_ + count)
-    return list(filter(None, map(lambda p: get_package_data(p, platform), packages)))
+    packages = filter(None, map(lambda p: get_package_data(p, platform), get_most_popular_packages_pypi()))
+    return list(itertools.islice(packages, from_, from_ + count))
 
 
 def get_most_popular_packages_pypi() -> Iterable[str]:
