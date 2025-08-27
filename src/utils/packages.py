@@ -2,6 +2,7 @@ from typing import Iterable
 import itertools
 import re
 import logging
+from string import ascii_lowercase
 
 import requests
 
@@ -25,8 +26,13 @@ def get_most_popular_packages(platform: str, count: int, from_: int) -> list[dic
         }
     ]
     """
-    packages = filter(None, map(lambda p: get_package_data(p, platform), get_most_popular_packages_pypi()))
-    return list(itertools.islice(packages, from_, from_ + count))
+    if platform == "npm":
+        packages = get_most_popular_packages_npm()
+    else:
+        packages = get_most_popular_packages_pypi()
+
+    packages_with_data = filter(None, map(lambda p: get_package_data(p, platform), packages))
+    return list(itertools.islice(packages_with_data, from_, from_ + count))
 
 
 def get_most_popular_packages_pypi() -> Iterable[str]:
@@ -37,6 +43,38 @@ def get_most_popular_packages_pypi() -> Iterable[str]:
     )
     resp.json()
     return (row["project"] for row in resp.json()["rows"])
+
+
+def get_most_popular_packages_npm() -> Iterable[str]:
+    """Get a list of the most popular packages of the last 30 days from the
+    npms api."""
+    accumulator: set[tuple[str, float]] = set()
+
+    request_size = 250
+
+    for from_ in range(0, 5000, request_size):
+        # somewhat cursed what we are doing here, but there is no endpoint
+        # where we can just get the most popular packages, instead we search
+        # for each letter where the result are sorted by popularity, and add
+        # the results
+        for letter in ascii_lowercase:
+            resp = requests.get(
+                "https://api.npms.io/v2/search",
+                params=
+                    f"q={letter}+boost-exact:false+score-effect:25+popularity-weight:50"
+                    "&size=250"
+                    f"&from={from_}",
+            )
+            resp.raise_for_status()
+            json_resp = resp.json()
+            for package in json_resp["results"]:
+                accumulator.add(
+                    (package["package"]["name"], package["score"]["detail"]["popularity"])
+                )
+
+        sorted = list(accumulator)
+        sorted.sort(key=lambda x: x[1], reverse=True)
+        yield from map(lambda x: x[0], sorted[from_: from_ + len(accumulator) / 4])
 
 
 def get_package_data(name: str, platform: str) -> dict | None:
