@@ -74,7 +74,7 @@ def get_most_popular_packages_npm() -> Iterable[str]:
 
         sorted = list(accumulator)
         sorted.sort(key=lambda x: x[1], reverse=True)
-        yield from map(lambda x: x[0], sorted[from_: from_ + len(accumulator) / 4])
+        yield from map(lambda x: x[0], sorted[from_: from_ + round(len(accumulator) / 4)])
 
 
 def get_package_data(name: str, platform: str) -> dict | None:
