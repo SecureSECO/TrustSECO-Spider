@@ -23,7 +23,7 @@ class LibrariesAPICall:
     If needed, it performs calculations to get the data.
     """
 
-    def get_release_frequency(self, platform: str, name: str) -> int:
+    def get_release_frequency(self, platform: str, name: str) -> float | None:
         """Function to get the average time per release.
 
         This is done using `LibrariesAPICall.get_release_count` function.
@@ -61,7 +61,7 @@ class LibrariesAPICall:
                 'Error occurred while getting the average release frequency')
             return None
 
-    def get_contributors_count(self, owner: str, name: str) -> int:
+    def get_contributors_count(self, owner: str, name: str) -> int | None:
         """Function to get the project repository's contributor count.
 
         This is done using the `LibrariesAPICall.get_project_repository` function.
@@ -88,7 +88,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's repository contributor count")
             return None
 
-    def get_dependency_count(self, platform: str, name: str, release: str) -> int:
+    def get_dependency_count(self, platform: str, name: str, release: str) -> int | None:
         """Function to get the project's dependency count.
 
         This is done using the `LibrariesAPICall.get_project_dependencies` function.
@@ -123,7 +123,7 @@ class LibrariesAPICall:
                 'Error occurred while getting the project dependency count')
             return None
 
-    def get_dependent_count(self, platform: str, name: str) -> int:
+    def get_dependent_count(self, platform: str, name: str) -> int | None:
         """Function to get the amount of dependents the project has.
 
         This is done using the `LibrariesAPICall.get_project_information` function.
@@ -150,7 +150,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's dependent count")
             return None
 
-    def get_latest_release_date(self, platform: str, name: str) -> str:
+    def get_latest_release_date(self, platform: str, name: str) -> str | None:
         """Function to get the time of the project's latest release.
 
         This is done using the `LibrariesAPICall.get_project_information` function.
@@ -177,7 +177,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's latest release date")
             return None
 
-    def get_first_release_date(self, platform: str, name: str) -> str:
+    def get_first_release_date(self, platform: str, name: str) -> str | None:
         """Function to get the time of the project's latest release.
 
         This is done using the `LibrariesAPICall.get_project_information` function.
@@ -220,7 +220,7 @@ class LibrariesAPICall:
             "Error occurred while getting the project's first release date")
         return None
 
-    def get_release_count(self, platform: str, name: str) -> int:
+    def get_release_count(self, platform: str, name: str) -> int | None:
         """Function to get the amount of releases the project has.
 
         This is done using the `LibrariesAPICall.get_project_information` function.
@@ -247,7 +247,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's release count")
             return None
 
-    def get_sourcerank(self, platform: str, name: str) -> int:
+    def get_sourcerank(self, platform: str, name: str) -> int | None:
         """Function to get the project's source rank.
 
         This is done using the `LibrariesAPICall.get_project_information` function.
@@ -274,7 +274,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's source rank")
             return None
 
-    def get_project_repository(self, owner: str, name: str) -> dict:
+    def get_project_repository(self, owner: str, name: str) -> dict | None:
         """Function to get the project's repository information from Libraries.io.
 
         This is done by using the [Libraries.io repository API](https://libraries.io/api#repository).
@@ -302,7 +302,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's repository information")
             return None
 
-    def get_project_dependencies(self, platform: str, name: str, release: str) -> dict:
+    def get_project_dependencies(self, platform: str, name: str, release: str) -> dict | None:
         """Function to get the project's dependencies from Libraries.io.
 
         This is done using the [Libraries.io project dependencies API](https://libraries.io/api#project-dependencies).
@@ -331,7 +331,7 @@ class LibrariesAPICall:
                 "Error occurred while getting the project's dependency information")
             return None
 
-    def get_project_information(self, platform: str, name: str) -> dict:
+    def get_project_information(self, platform: str, name: str) -> dict | None:
         """Function to get the project information from Libraries.io.
 
         This is done using the [Libraries.io project API](https://libraries.io/api#project).

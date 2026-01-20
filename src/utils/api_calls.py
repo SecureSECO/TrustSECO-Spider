@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 import src.utils.constants as constants
 
 
-def make_api_call(api_url: str, api_type: str) -> requests.Response:
+def make_api_call(api_url: str, api_type: str) -> requests.Response | None:
     """Function to perform an API call to the given API url and source.
 
     In order to set the correct headers and/or parameters, this function
@@ -83,6 +83,12 @@ def make_api_call(api_url: str, api_type: str) -> requests.Response:
     elif data_response.status_code == 202 and api_type == constants.API_GITHUB:
         # Background job has been created, wait and request again
         time.sleep(30)
+        return make_api_call(api_url, api_type)
+    elif data_response.status_code == 403 and api_type == constants.API_LIBRARIES:
+        # Not sure why but spider kept getting 403 statuses at some point
+        # It isn't mentioned in the documentation, but might be rate limit
+        # related so wait for a while an try again
+        time.sleep(120)
         return make_api_call(api_url, api_type)
 
     # Else, we got an unknown error so return None
